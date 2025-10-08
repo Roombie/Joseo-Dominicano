@@ -35,10 +35,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        LookForward();
+
         //Note: Animator should create a blend tree for the 8 directions and set motion values according to values on DefineLastDirection()
         animator.SetFloat("Blend", lastDirection);
-        animator.SetFloat("X", rb.linearVelocity.x);
-        animator.SetFloat("Y", rb.linearVelocity.y);
+        animator.SetFloat("X", rb.linearVelocity.x/currentSpeed);
+        animator.SetFloat("Y", rb.linearVelocity.y/currentSpeed);
         animator.SetFloat("Speed", rb.linearVelocity.magnitude);
 
 
@@ -65,13 +67,13 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputValue value)
     {
         //Debug.Log("InputValue: " + value);
-        //Debug.Log("X: " + animator.GetFloat("X"));
+        Debug.Log("X: " + animator.GetFloat("X"));
         //Debug.Log("Y: " + animator.GetFloat("Y"));
         //Debug.Log("Blend: " + animator.GetFloat("Blend"));
         //Debug.Log("Speed: " + animator.GetFloat("Speed"));
 
         movement = value.Get<Vector2>();
-        //Debug.Log("movement: " + movement);
+        Debug.Log("movement: " + movement);
         //Debug.Log("X: " + animator.GetFloat("X"));
         //Debug.Log("Y: " + animator.GetFloat("Y"));
         //Debug.Log("Blend: " + animator.GetFloat("Blend"));
@@ -92,6 +94,11 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("Sprint canceled");
         }
         
+    }
+
+    void LookForward()
+    {
+        transform.right = movement.normalized;
     }
 
     void DefineLastDirection()
