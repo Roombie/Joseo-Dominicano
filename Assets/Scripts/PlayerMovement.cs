@@ -1,9 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
+using static UnityEngine.Rendering.DebugUI;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private GameObject mobileControls;
+
     public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
     private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
 
@@ -16,6 +19,17 @@ public class PlayerMovement : MonoBehaviour
     private float currentSpeed;
     public float walkSpeed = 5f;
     public float runSpeed = 10f;
+
+    void Awake()
+    {
+        
+#if UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID
+        gameObject.SetActive(true);
+#else
+        gameObject.SetActive(false);
+#endif
+        
+    }
 
     private void Start()
     {
@@ -81,8 +95,13 @@ public class PlayerMovement : MonoBehaviour
 
     //NOTE: needs a Press and release interaction on the action map button to work
     public void OnSprint(InputValue value)
+    {        
+        Sprint();
+    }
+
+    public void Sprint()
     {
-        if (value.isPressed)
+        if (currentSpeed == walkSpeed)
         {
             currentSpeed = runSpeed;
             //Debug.Log("Sprint started");
@@ -92,7 +111,6 @@ public class PlayerMovement : MonoBehaviour
             currentSpeed = walkSpeed;
             //Debug.Log("Sprint canceled");
         }
-        
     }
 
     void LookForward()
