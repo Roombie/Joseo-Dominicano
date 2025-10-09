@@ -209,6 +209,9 @@ public class GameManager : MonoBehaviour
     void OnGameplayEnd()
     {
         inShift = false;
+        _playerSack.Clear();
+        _playerCurrentWeight = 0;
+        _playerSackCarrySpaceUsed = 0;
         _playerMoney += _currentShiftPayment;
         _currentShiftPayment = 0;
         _testGameplayScreen.SetActive(false);
