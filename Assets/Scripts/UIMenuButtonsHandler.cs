@@ -1,5 +1,7 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIMenuButtonsHandler : MonoBehaviour
@@ -8,7 +10,7 @@ public class UIMenuButtonsHandler : MonoBehaviour
 
     private void OnValidate()
     {
-        InjectButtonActions();
+        UpdateButtonLabel();
     }
 
     private void Start()
@@ -25,17 +27,44 @@ public class UIMenuButtonsHandler : MonoBehaviour
         for (int i = 0; i < _buttonActions.Length; i++)
         {
             var buttonAction = _buttonActions[i];
-            if (buttonAction.button == null) 
+            if (buttonAction.button == null)
+            {
+                continue;
+            }
+            buttonAction.FetchButtonActions();
+        }
+    }
+
+    private void UpdateButtonLabel()
+    {
+        if (_buttonActions == null) return;
+        for (int i = 0; i < _buttonActions.Length; i++)
+        {
+            var buttonAction = _buttonActions[i];
+            if (buttonAction.button == null)
             {
                 buttonAction.name = "Button " + i;
                 continue;
             }
             buttonAction.name = buttonAction.button.name;
-            buttonAction.button.interactable = !buttonAction.locked;
+            // buttonAction.button.interactable = !buttonAction.locked;
             var label = buttonAction.button.GetComponentInChildren<TMP_Text>();
-            label.text = buttonAction.name;
-            buttonAction.button.image.enabled = label.enabled = !buttonAction.hided;
+            label.text = buttonAction.button.name;
+            // buttonAction.button.image.enabled = label.enabled = !buttonAction.hided;
             buttonAction.FetchButtonActions();
+        }
+    }
+
+    [ContextMenu("Reset Buttons Listeners")]
+    void RefreshButtons()
+    {
+        if (_buttonActions == null) return;
+        for (int i = 0; i < _buttonActions.Length; i++)
+        {
+            var buttonAction = _buttonActions[i];
+            if (buttonAction.button == null) continue;
+            buttonAction.button.onClick.RemoveAllListeners();
+            buttonAction.ForceCleanActions();
         }
     }
 }
@@ -52,7 +81,12 @@ public struct UIMenuButton
     public bool locked => _locked;
     [SerializeField] private Button.ButtonClickedEvent _actions;
     public Button.ButtonClickedEvent actions => _actions;
-    private Button.ButtonClickedEvent _registeredActions;
+    private UnityAction _registeredActions;
+    public void ForceCleanActions()
+    {
+        _button.onClick.RemoveAllListeners();
+        _registeredActions = null; 
+    }
 
     public void FetchButtonActions()
     {
@@ -65,8 +99,8 @@ public struct UIMenuButton
         // REGISTER
         if (actions != null)
         {
-            _registeredActions = actions;
             _button.onClick.AddListener(actions.Invoke);
+            _registeredActions += actions.Invoke;
         }
     }
 }
