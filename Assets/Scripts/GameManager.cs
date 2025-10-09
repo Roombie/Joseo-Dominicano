@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     #region General
     [Header("General")]
     float _playerMoney;
+    int _currentDay = 0;
     // [SerializeField] int _dayCount = 5;
     [System.Serializable]
     struct Level
@@ -34,6 +35,13 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
 
+    }
+
+    public void ResetGame()
+    {
+        // RESET
+        _currentDay = 0;
+        _playerMoney = 0;
     }
 
     #endregion
@@ -64,7 +72,6 @@ public class GameManager : MonoBehaviour
     [Header("Gameplay")]
     [SerializeField] GameObject _testGameplayScreen;
     [SerializeField] TMP_Text _testGameplayStateText;
-    int _currentDay = 0;
     float _shiftTimeDuration = 30;
     [SerializeField] float _displayHurryUpOn = 10;
     float _shiftTimeLeft;
@@ -256,8 +263,10 @@ public class GameManager : MonoBehaviour
     public void _Home_EndDay()
     {
         _testHomeScreen.SetActive(false);
-        if (_playerMoney > _days[_currentDay].dayQuota)
+        var quota = _days[_currentDay].dayQuota;
+        if (_playerMoney > quota)
         {
+            _playerMoney -= quota;
             if (_currentDay >= _days.Length)
             {
                 _gameOverDisplay.Set("Good Ending", "Gimme some beer for the man! whooo");
@@ -318,7 +327,6 @@ public class GameManager : MonoBehaviour
     
     public void _GameOver_Display()
     {
-        _currentDay = 0;
         _gameOverDisplay.SetEndingLabels(_gameOverTitle, _gameOverContext);
         _testGameOverScreen.SetActive(true);
     }
@@ -326,6 +334,7 @@ public class GameManager : MonoBehaviour
     public void _GameOver_GoToMainMenu()
     {
         _testGameOverScreen.SetActive(false);
+        ResetGame();
         _MainMenu_Display();
     }
     
