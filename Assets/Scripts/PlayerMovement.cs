@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
-using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -67,13 +66,13 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputValue value)
     {
         //Debug.Log("InputValue: " + value);
-        Debug.Log("X: " + animator.GetFloat("X"));
+        //Debug.Log("X: " + animator.GetFloat("X"));
         //Debug.Log("Y: " + animator.GetFloat("Y"));
         //Debug.Log("Blend: " + animator.GetFloat("Blend"));
         //Debug.Log("Speed: " + animator.GetFloat("Speed"));
 
         movement = value.Get<Vector2>();
-        Debug.Log("movement: " + movement);
+        //Debug.Log("movement: " + movement);
         //Debug.Log("X: " + animator.GetFloat("X"));
         //Debug.Log("Y: " + animator.GetFloat("Y"));
         //Debug.Log("Blend: " + animator.GetFloat("Blend"));
