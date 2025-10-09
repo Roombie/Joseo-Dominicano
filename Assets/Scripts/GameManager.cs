@@ -256,7 +256,7 @@ public class GameManager : MonoBehaviour
     public void _Home_EndDay()
     {
         _testHomeScreen.SetActive(false);
-        if (_playerMoney > _days[_currentDay-1].dayQuota)
+        if (_playerMoney > _days[_currentDay].dayQuota)
         {
             if (_currentDay >= _days.Length)
             {
@@ -284,7 +284,7 @@ public class GameManager : MonoBehaviour
         homeDebugText.AppendLine("───────────────────────────");
         homeDebugText.AppendLine("Current Money: " + _playerMoney);
         homeDebugText.AppendLine("───────────────────────────");
-        homeDebugText.AppendLine("Day Quota: " + _days[_currentDay-1].dayQuota);
+        homeDebugText.AppendLine("Day Quota: " + _days[_currentDay].dayQuota);
         
         _testHomeText.text = homeDebugText.ToString();
     }
