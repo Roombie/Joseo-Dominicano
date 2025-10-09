@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
-using static UnityEngine.Rendering.DebugUI;
+
 
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private GameObject mobileControls;
-
+    
     public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
     private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
 
@@ -35,8 +35,8 @@ public class PlayerMovement : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-
-        currentSpeed = walkSpeed; // Set initial speed
+        
+        currentSpeed = walkSpeed; // Set initial speed               
     }
 
     private void FixedUpdate()
@@ -65,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-        
+           
     private IEnumerator DelayDirectionChange()
     {
         isUpdatingLastDirection = true;
