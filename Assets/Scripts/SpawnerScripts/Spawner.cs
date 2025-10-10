@@ -124,10 +124,10 @@ public class Spawner : MonoBehaviour
 
     void Update()
     {
-        if (!levelReached && currentLevel == activeLevel)
+        if (!levelReached && currentLevel == activeLevel && isLevelDependant)
         {
-            levelReached = true;
             LaunchSpawner();
+            levelReached = true;
         }
 
         playerPosition = player.transform.position;
@@ -138,13 +138,13 @@ public class Spawner : MonoBehaviour
     }
 
     public void LaunchSpawner()
-    {        
+    {
         //Loads all children gameobjects as prefabs to spawn
         //Different for area mode
-       //Debug.Log("Launch called");
+       Debug.Log("Launch called");
         if (!levelReached)
         {
-       //Debug.Log("Level not reached");
+       Debug.Log("Level not reached");
             if (spawnLocationFocus == SpawnLocationFocus.area)
             {
                 PopulateSpawnListFromAreas();
@@ -156,25 +156,27 @@ public class Spawner : MonoBehaviour
         }
         if (levelReached || !isLevelDependant)
         {
-       //Debug.Log("Level reached");
+       Debug.Log("Level reached or not dependant");
 
-            if (!isSpawning)
-            {
-                if (spawnLocationFocus == SpawnLocationFocus.area)
-                {
-                    PopulateSpawnListFromAreas();
-                }
-                else
-                {
-                    PopulateSpawnList(); // None area mode: direct children of spawner
-                }
-            }
+       //     if (!isSpawning)
+       //     {
+       //Debug.Log("Is not spawning");
+       //         if (spawnLocationFocus == SpawnLocationFocus.area)
+       //         {
+       //             PopulateSpawnListFromAreas();
+       //         }
+       //         else
+       //         {
+       //             PopulateSpawnList(); // None area mode: direct children of spawner
+       //         }
+       //     }
 
             foreach (var spawnPrefab in spawnPrefabs)
             {
                 if (maxNumberIndicator == MaxNumberIndicator.childObject)
                 {
                     instantiatedPrefabs[spawnPrefab] = new List<GameObject>(); // Initialize a dictionary of listsfor each prefab
+                    Debug.Log("Instantiated list created");
                 }
                 else
                 {
@@ -183,11 +185,12 @@ public class Spawner : MonoBehaviour
 
                 if (continousSpawn)
                 {
+                    Debug.Log("COntinuous spawn");
 
                     switch (spawnLocationFocus)
                     {
                         case SpawnLocationFocus.player:
-                           //Debug.Log("Start corroutine started");
+                           Debug.Log("Start corroutine called");
                             StartCoroutine(SpawnCoroutine(spawnPrefab));
                             break;
 
@@ -220,7 +223,7 @@ public class Spawner : MonoBehaviour
 
     void PopulateSpawnList()
     {
-       //Debug.Log("Populate list called");
+       Debug.Log("Populate list called");
         spawnPrefabs.Clear();
 
         foreach (Transform child in transform)
@@ -232,7 +235,7 @@ public class Spawner : MonoBehaviour
             child.gameObject.SetActive(false); //Inactive object to avoid changes on the reference for spawning
         }
 
-        //Debug.Log("Spawn list populated with " + spawnPrefabs.Count + " prefabs.");
+        Debug.Log("Spawn list populated with " + spawnPrefabs.Count + " prefabs.");
     }
 
     // -------------------------------------------------------------------------
@@ -309,6 +312,7 @@ public class Spawner : MonoBehaviour
 
     IEnumerator SpawnCoroutine(GameObject spawnPrefab)
     {
+        Debug.Log("Spawn courrutinne started");
         while (spawnPrefab != null)
         {
             SpawnObject(spawnPrefab, GetRandomLocation());
@@ -524,8 +528,18 @@ public class Spawner : MonoBehaviour
 
     public void StopSpawning()
     {
-        levelReached = false;
+        foreach (Transform child in transform)
+        {
+            if (child.gameObject.activeSelf) // Only store active children
+            {
+                spawnPrefabs.Add(child.gameObject); // Store child as prefab reference
+            }
+            child.gameObject.SetActive(true); //Inactive object to avoid changes on the reference for spawning
+        }
+
         StopAllCoroutines();
+        levelReached = false;
         isSpawning = false;
+        spawnPrefabs.Clear();
     }
 }
