@@ -116,13 +116,13 @@ public class OxygenManager : MonoBehaviour
     {
         if (ismoving)
         {
-            Debug.Log("isMoving detected");
+           //Debug.Log("isMoving detected");
             TemporaryChangeOxygenDepletionRate(currentMoveDepletionModifier);
         }
         else 
         {
             currentDepletionRate = oxygenDepletionRate.value;         
-            Debug.Log("stop Moving detected, currentDepletionRate set to: " + currentDepletionRate);
+           //Debug.Log("stop Moving detected, currentDepletionRate set to: " + currentDepletionRate);
         }
     }
     public void ChangeDepletionRateIfSprinting(bool isSprinting)
@@ -130,12 +130,12 @@ public class OxygenManager : MonoBehaviour
         if(isSprinting)
         {
             currentMoveDepletionModifier = sprintingDepletionChange;
-            Debug.Log("isSprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
+           //Debug.Log("isSprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
         }
         else
         {
             currentMoveDepletionModifier = movingDepletionChange;
-            Debug.Log("stopped Sprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
+           //Debug.Log("stopped Sprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
 
         }
 
@@ -146,6 +146,6 @@ public class OxygenManager : MonoBehaviour
     void TemporaryChangeOxygenDepletionRate(float value)
     {
         currentDepletionRate = oxygenDepletionRate.value * value;
-        Debug.Log("currentDepletionRate changed to: " + currentDepletionRate);
+       //Debug.Log("currentDepletionRate changed to: " + currentDepletionRate);
     }
 }

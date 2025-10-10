@@ -90,6 +90,7 @@ public class Spawner : MonoBehaviour
     private RoomTracker playerCurrentRoom;
 
     private bool levelReached = false;
+    private bool isSpawning = false;
 
 
     // In non-area modes, spawnPrefabs are the direct children of the spawner.
@@ -121,7 +122,6 @@ public class Spawner : MonoBehaviour
         playerCurrentRoom = player.GetComponent<PlayerRoomTracker>().playerCurrentRoom;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!levelReached && currentLevel == activeLevel)
@@ -138,12 +138,13 @@ public class Spawner : MonoBehaviour
     }
 
     public void LaunchSpawner()
-    {
+    {        
         //Loads all children gameobjects as prefabs to spawn
         //Different for area mode
-
+       //Debug.Log("Launch called");
         if (!levelReached)
         {
+       //Debug.Log("Level not reached");
             if (spawnLocationFocus == SpawnLocationFocus.area)
             {
                 PopulateSpawnListFromAreas();
@@ -153,8 +154,22 @@ public class Spawner : MonoBehaviour
                 PopulateSpawnList(); // None area mode: direct children of spawner
             }
         }
-        if (levelReached)
+        if (levelReached || !isLevelDependant)
         {
+       //Debug.Log("Level reached");
+
+            if (!isSpawning)
+            {
+                if (spawnLocationFocus == SpawnLocationFocus.area)
+                {
+                    PopulateSpawnListFromAreas();
+                }
+                else
+                {
+                    PopulateSpawnList(); // None area mode: direct children of spawner
+                }
+            }
+
             foreach (var spawnPrefab in spawnPrefabs)
             {
                 if (maxNumberIndicator == MaxNumberIndicator.childObject)
@@ -172,6 +187,7 @@ public class Spawner : MonoBehaviour
                     switch (spawnLocationFocus)
                     {
                         case SpawnLocationFocus.player:
+                           //Debug.Log("Start corroutine started");
                             StartCoroutine(SpawnCoroutine(spawnPrefab));
                             break;
 
@@ -199,10 +215,12 @@ public class Spawner : MonoBehaviour
             }
         }
 
+        isSpawning = true;
     }
 
     void PopulateSpawnList()
     {
+       //Debug.Log("Populate list called");
         spawnPrefabs.Clear();
 
         foreach (Transform child in transform)
@@ -508,5 +526,6 @@ public class Spawner : MonoBehaviour
     {
         levelReached = false;
         StopAllCoroutines();
+        isSpawning = false;
     }
 }
