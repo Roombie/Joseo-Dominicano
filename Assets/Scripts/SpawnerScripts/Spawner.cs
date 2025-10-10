@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 public class Spawner : MonoBehaviour
 {
     [Header("Spawner instructions")]
-    [TextArea(3, 5)] // Define el área de texto con mínimo 3 y máximo 5 líneas
+    [TextArea(3, 5)] // Define el ï¿½rea de texto con mï¿½nimo 3 y mï¿½ximo 5 lï¿½neas
     public string Instructions = "- Add spawn prefabs as children of spawner. \n" +
                                 "Some functionality depends on the player having the script PlayerRoomTracker which detects triggers on the 'RoomsID' layermask, remember to assign a Scriptable Object RoomTracker to PlayerRoomTracker \n" +
                                 "- If set to point, position each cildren in desired spawn position in scene \n" +
@@ -16,19 +17,19 @@ public class Spawner : MonoBehaviour
                                 "  -- Add spawns as children of these areas.\r\n";
 
     [Header("Pro Tips")]
-    [TextArea(3, 5)] // Define el área de texto con mínimo 3 y máximo 5 líneas
+    [TextArea(3, 5)] // Define el ï¿½rea de texto con mï¿½nimo 3 y mï¿½ximo 5 lï¿½neas
     public string proTips = "- Drag prefabs to hierarchy outside of any parents first and then drag them to Spawnareas. \n" +
                             "- Any direct child of Spawner will act as a SpawnArea and their children will spawn normally.";
 
 
 
     [Header("Caution")]
-    [TextArea(3, 5)] // Define el área de texto con mínimo 3 y máximo 5 líneas
+    [TextArea(3, 5)] // Define el ï¿½rea de texto con mï¿½nimo 3 y mï¿½ximo 5 lï¿½neas
     public string Caution = "- If child obj is destroyed spawning of this obj stops. \n" +
-                            "  Check your code to avoid this error. But you can use it on purpose. \n" + 
+                            "  Check your code to avoid this error. But you can use it on purpose. \n" +
                             "- Layers must be properly setup to use this component \n" +
                             "- Setting Spawn range too wide on a scene with few available room to spawn may lead to crashes";
-    
+
     [Tooltip("Only spawns while current level is same as Active Level")]
     public bool isLevelDependant = false;
 
@@ -41,6 +42,7 @@ public class Spawner : MonoBehaviour
 
     [Tooltip("Deactivate to stop spawning, to reactivate script must be disabled and reenabled")]
     public bool continousSpawn = true;
+    public bool launchInStart = true;
 
     [Tooltip("In seconds")]
     public float spawnFrecuency = 1f;
@@ -83,6 +85,7 @@ public class Spawner : MonoBehaviour
 
     [Tooltip("Defines the objects that the spawner can't collide with or spawn on top of them")]
     public LayerMask obstacleLayer;
+    public UnityEvent<GameObject> onSpawn;
 
     private RoomTracker playerCurrentRoom;
 
@@ -91,9 +94,9 @@ public class Spawner : MonoBehaviour
 
     // In non-area modes, spawnPrefabs are the direct children of the spawner.
     // In area mode, they come from inside spawn area objects.
-    private List <GameObject> spawnPrefabs = new List<GameObject>();
+    private List<GameObject> spawnPrefabs = new List<GameObject>();
 
-    private Dictionary<GameObject, List<GameObject>> instantiatedPrefabs = new Dictionary<GameObject, List<GameObject>>(); 
+    private Dictionary<GameObject, List<GameObject>> instantiatedPrefabs = new Dictionary<GameObject, List<GameObject>>();
 
     // -------- For area mode only ----------
     // Mapping each spawnable prefab to the spawn area (its parent) that determines its random bounds.
@@ -103,6 +106,7 @@ public class Spawner : MonoBehaviour
     private Dictionary<GameObject, Vector3> compensatedScales = new Dictionary<GameObject, Vector3>();
     private Vector2 playerPosition;
     private int spawnCounter;
+    private Collider2D roomCollider;
 
     const int randomMaxAttempts = 50; // Limit attempts to avoid infinite loops
 
@@ -110,8 +114,9 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         playerPosition = player.transform.position;
-        LaunchSpawner();
         
+        if (launchInStart) LaunchSpawner();
+
         //Use to locate the current room/area the player is in:
         playerCurrentRoom = player.GetComponent<PlayerRoomTracker>().playerCurrentRoom;
     }
@@ -126,13 +131,13 @@ public class Spawner : MonoBehaviour
         }
 
         playerPosition = player.transform.position;
-        if(!continousSpawn || currentLevel > activeLevel && isLevelDependant)
+        if (!continousSpawn || currentLevel > activeLevel && isLevelDependant)
         {
             StopAllCoroutines();
         }
     }
 
-    void LaunchSpawner()
+    public void LaunchSpawner()
     {
         //Loads all children gameobjects as prefabs to spawn
         //Different for area mode
@@ -148,8 +153,7 @@ public class Spawner : MonoBehaviour
                 PopulateSpawnList(); // None area mode: direct children of spawner
             }
         }
-        
-        if(levelReached)
+        if (levelReached)
         {
             foreach (var spawnPrefab in spawnPrefabs)
             {
@@ -194,7 +198,7 @@ public class Spawner : MonoBehaviour
 
             }
         }
-        
+
     }
 
     void PopulateSpawnList()
@@ -214,7 +218,7 @@ public class Spawner : MonoBehaviour
     }
 
     // -------------------------------------------------------------------------
-    // For area mode: the spawner’s children are the spawn areas.
+    // For area mode: the spawnerï¿½s children are the spawn areas.
     // Loop through each spawn area and then add its children (the spawnable prefabs).
     // Also map each prefab to its parent spawn area.
     void PopulateSpawnListFromAreas()
@@ -243,10 +247,10 @@ public class Spawner : MonoBehaviour
                     spawnable.localScale.x * spawnAreaScale.x,
                     spawnable.localScale.y * spawnAreaScale.y,
                     spawnable.localScale.z * spawnAreaScale.z);
-            
+
                 // Disable the object that serves as model for spawns to avoid it being destroyed or modify.
                 //Any changes to this object would change the spawns
-                            spawnable.gameObject.SetActive(false);
+                spawnable.gameObject.SetActive(false);
             }
             // Optionally, leave the spawn area active if you need to see its area in the scene.
         }
@@ -282,7 +286,7 @@ public class Spawner : MonoBehaviour
                 break;
         }
 
-            
+
     }
 
     IEnumerator SpawnCoroutine(GameObject spawnPrefab)
@@ -298,7 +302,7 @@ public class Spawner : MonoBehaviour
     IEnumerator SpawnCoroutine(GameObject spawnPrefab, Vector2 prefabPosition)
     {
         while (spawnPrefab != null)
-        {   
+        {
             SpawnObject(spawnPrefab, prefabPosition);
 
             yield return new WaitForSeconds(spawnFrecuency);
@@ -307,7 +311,7 @@ public class Spawner : MonoBehaviour
     IEnumerator SpawnCoroutine(GameObject spawnPrefab, Transform spawnAreaTransform, Vector3 compensatedScale)
     {
         while (spawnPrefab != null)
-        {   
+        {
             SpawnObject(spawnPrefab, GetRandomLocation(spawnAreaTransform), compensatedScale);
 
             yield return new WaitForSeconds(spawnFrecuency);
@@ -327,20 +331,21 @@ public class Spawner : MonoBehaviour
                 if (!CheckValidPosition(position))
                     return; // Avoids spawning more than one item on same spot when using focus on point spawning
 
-                        ////Only one object with Item component can exist in the same position at a time
-                        //if(spawnPrefab.GetComponent<Item>() != null)
-                        //{
-                        //    if(spawnCounter > 0)
-                        //    {
-                        //        return; // Avoids spawning more than one item
-                        //    }
-                        //}
+                ////Only one object with Item component can exist in the same position at a time
+                //if(spawnPrefab.GetComponent<Item>() != null)
+                //{
+                //    if(spawnCounter > 0)
+                //    {
+                //        return; // Avoids spawning more than one item
+                //    }
+                //}
 
                 GameObject spawn = Instantiate(spawnPrefab, position, Quaternion.identity, null);
                 spawn.transform.localScale = Vector3.one;
 
                 //Set prefab to active
                 spawn.gameObject.SetActive(true);
+                onSpawn?.Invoke(spawn);
 
                 if (instantiatedPrefabs.ContainsKey(spawnPrefab))
                 {
@@ -363,6 +368,7 @@ public class Spawner : MonoBehaviour
                 // Set the spawn object's scale to the original (as stored earlier).
                 spawn.transform.localScale = new Vector3(compensatedScale.x, compensatedScale.y, compensatedScale.z);
                 spawn.SetActive(true);
+                onSpawn?.Invoke(spawn);
 
                 if (instantiatedPrefabs.ContainsKey(spawnPrefab))
                 {
@@ -371,70 +377,72 @@ public class Spawner : MonoBehaviour
             }
         }
     }
-
-     Vector2 GetRandomLocation()
-{
+    
+    Vector2 GetRandomLocation()
+    {
         Vector2 randomPosition;
 
         //Calculates intersection between spawnRange and current room bounds
 
-        if(playerCurrentRoom.currentRoom != null)
+        if (playerCurrentRoom.currentRoom != null && roomCollider == null)
         {
-            //Debug.Log("Spawner calling randomLocation, playerCurrentRoom.currentRoom not null, name: " + playerCurrentRoom.currentRoom.name);
-
-            // Get the room's collider and its bounds
-            Collider2D roomCollider = playerCurrentRoom.currentRoom.GetComponent<Collider2D>();
-            //Debug.Log("Room collider found: " + roomCollider);
-
-
-            if (roomCollider == null)
-            {
-
-                Debug.LogError("The playerCurrentRoom GameObject does not have a Collider2D");
-                return new Vector2(-500, -500);
-            }
-            Bounds roomBounds = roomCollider.bounds;
-            //Debug.Log("Room bounds: " + roomBounds);
-
-            // Define the spawn area relative to the player's position:
-            float spawnMinX = playerPosition.x - spawnRange;
-            float spawnMaxX = playerPosition.x + spawnRange;
-            float spawnMinY = playerPosition.y - spawnRange;
-            float spawnMaxY = playerPosition.y + spawnRange;
-
-            // Now, calculate the intersection between the room bounds
-            float intersectMinX = Mathf.Max(roomBounds.min.x, spawnMinX);
-            float intersectMaxX = Mathf.Min(roomBounds.max.x, spawnMaxX);
-            float intersectMinY = Mathf.Max(roomBounds.min.y, spawnMinY);
-            float intersectMaxY = Mathf.Min(roomBounds.max.y, spawnMaxY);
-
-            //Debug.Log("Intersection bounds: " + intersectMinX + ", " + intersectMaxX + ", " + intersectMinY + ", " + intersectMaxY);
-
-            if (intersectMinX > intersectMaxX || intersectMinY > intersectMaxY)
-            {
-                Debug.LogWarning("The spawn range and the room bounds do not overlap.");
-                return new Vector2(-500, -500);
-            }
-
-            //Debug.Log("Spawn range and room bounds overlap. Attempting Random location");
-            for (int attempt = 0; attempt < randomMaxAttempts; attempt++)
-                {
-                    float x = Random.Range(intersectMinX, intersectMaxX);
-                    float y = Random.Range(intersectMinY, intersectMaxY);
-
-                    randomPosition = new Vector2(x, y);
-                //Debug.Log("Random position generated: " + randomPosition);
-
-                if (CheckValidPosition(randomPosition))
-                    {
-                        return randomPosition; // Return a valid position immediately
-                    }
-                }
+            roomCollider = playerCurrentRoom.currentRoom.GetComponent<Collider2D>();
         }
+        //Debug.Log("Spawner calling randomLocation, playerCurrentRoom.currentRoom not null, name: " + playerCurrentRoom.currentRoom.name);
+
+        // Get the room's collider and its bounds
+
+        //Debug.Log("Room collider found: " + roomCollider);
+
+
+        if (roomCollider == null)
+        {
+
+            Debug.LogError("The playerCurrentRoom GameObject does not have a Collider2D");
+            return new Vector2(-500, -500);
+        }
+        Bounds roomBounds = roomCollider.bounds;
+        //Debug.Log("Room bounds: " + roomBounds);
+
+        // Define the spawn area relative to the player's position:
+        float spawnMinX = playerPosition.x - spawnRange;
+        float spawnMaxX = playerPosition.x + spawnRange;
+        float spawnMinY = playerPosition.y - spawnRange;
+        float spawnMaxY = playerPosition.y + spawnRange;
+
+        // Now, calculate the intersection between the room bounds
+        float intersectMinX = Mathf.Max(roomBounds.min.x, spawnMinX);
+        float intersectMaxX = Mathf.Min(roomBounds.max.x, spawnMaxX);
+        float intersectMinY = Mathf.Max(roomBounds.min.y, spawnMinY);
+        float intersectMaxY = Mathf.Min(roomBounds.max.y, spawnMaxY);
+
+        //Debug.Log("Intersection bounds: " + intersectMinX + ", " + intersectMaxX + ", " + intersectMinY + ", " + intersectMaxY);
+
+        if (intersectMinX > intersectMaxX || intersectMinY > intersectMaxY)
+        {
+            Debug.LogWarning("The spawn range and the room bounds do not overlap.");
+            return new Vector2(-500, -500);
+        }
+
+        //Debug.Log("Spawn range and room bounds overlap. Attempting Random location");
+        for (int attempt = 0; attempt < randomMaxAttempts; attempt++)
+        {
+            float x = Random.Range(intersectMinX, intersectMaxX);
+            float y = Random.Range(intersectMinY, intersectMaxY);
+
+            randomPosition = new Vector2(x, y);
+            //Debug.Log("Random position generated: " + randomPosition);
+
+            if (CheckValidPosition(randomPosition))
+            {
+                return randomPosition; // Return a valid position immediately
+            }
+        }
+
 
         Debug.LogWarning("No valid spawn position found.");
         return new Vector2(-500, -500); // Sends a default error vector to be ignored by SpawnEnemy();
-     }
+    }
 
 
     //OVERLOAD to generate random on a spawnArea
@@ -456,8 +464,8 @@ public class Spawner : MonoBehaviour
                 return randomPosition; // Return a valid position immediately
             }
         }
-            Debug.LogWarning("No valid spawn position found.");
-            return new Vector2(-500, -500); // Sends a default error vector to be ignored by SpawnEnemy();
+        Debug.LogWarning("No valid spawn position found.");
+        return new Vector2(-500, -500); // Sends a default error vector to be ignored by SpawnEnemy();
 
     }
 
@@ -468,7 +476,7 @@ public class Spawner : MonoBehaviour
         //Debug.Log("Too close: " + (Vector2.Distance(playerPosition, position) < closestSpawnFromEnemies));
         if (!IsPositionOnGround(position) || IsPositionColliding(position) || Vector2.Distance(playerPosition, position) < closestSpawnFromEnemies)
         {
-            return  false;
+            return false;
         }
         else
         {
@@ -487,7 +495,7 @@ public class Spawner : MonoBehaviour
     }
 
     void RemoveDestroyedObjects()
-    {        
+    {
         foreach (var key in instantiatedPrefabs.Keys.ToList())  // Use ToList() to iterate safely.
         {
             instantiatedPrefabs[key].RemoveAll(obj => obj == null);
@@ -496,8 +504,9 @@ public class Spawner : MonoBehaviour
 
     }
 
-    void StopSpawning()
+    public void StopSpawning()
     {
+        levelReached = false;
         StopAllCoroutines();
     }
 }

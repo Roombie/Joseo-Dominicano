@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
         public float dayDuration;
     }
     [SerializeField] Level[] _days;
+    [Header("References")]
+    [SerializeField] PlayerCollect _playerCollect;
+    [SerializeField] Spawner _spawner;
 
     void Awake()
     {
@@ -24,6 +27,8 @@ public class GameManager : MonoBehaviour
         _testGameplayScreen.SetActive(false);
         _testHomeScreen.SetActive(false);
         _testGameOverScreen.SetActive(false);
+        _playerCollect?.onCollect.AddListener(OnValuableCollected);
+        _spawner?.onSpawn.AddListener(AddSpawnedValuable);
     }
 
     void Update()
@@ -34,7 +39,8 @@ public class GameManager : MonoBehaviour
 
     void OnDestroy()
     {
-
+        _playerCollect?.onCollect.RemoveListener(OnValuableCollected);
+        _spawner?.onSpawn.RemoveListener(AddSpawnedValuable);
     }
 
     public void ResetGame()
@@ -79,14 +85,25 @@ public class GameManager : MonoBehaviour
     int _playerCurrentWeight = 0;
     [SerializeField] int _playerSackCarrySpaceLimit = 10;
     int _playerSackCarrySpaceUsed;
-    [SerializeField] TestValuable[] _testLevelValuables;
-    List<TestValuable> _playerSack = new List<TestValuable>();
+    [SerializeField] TestValuableData[] _testLevelValuables;
+    List<TestValuableData> _playerSack = new List<TestValuableData>();
+    List<GameObject> _spawnedValuables = new List<GameObject>();
+    void AddSpawnedValuable(GameObject valuable) => _spawnedValuables.Add(valuable);
+    public void DestroyAllSpawnedValuables()
+    {
+        foreach (var item in _spawnedValuables)
+        {
+            if (item == null) continue;
+            Destroy(item.gameObject);
+        }
+        _spawnedValuables.Clear();
+    }
     Coroutine dayTimeRoutine;
     bool inShift;
     bool isInHurry;
     string _playerSackDebugOutput;
     [System.Serializable]
-    struct TestValuable
+    public struct TestValuableData
     {
         public string name;
         public int value;
@@ -106,14 +123,47 @@ public class GameManager : MonoBehaviour
         ResetDayTimer();
         RunDayTimer();
         _currentDay++;
+        // _spawner.currentLevel = _currentDay;
+        // _spawner.currentLevel = 0;
+        // _spawner.LaunchSpawner();
+        // _spawner.currentLevel = 1;
+        _spawner.LaunchSpawner();
         _playerSackDebugOutput = "Clear";
         _currentShiftPayment = 0;
+    }
+
+    void OnValuableCollected(TestValuable valuableComponent)
+    {
+        if (!inShift) return;
+        var valuable = valuableComponent.valuable;
+        if (valuable.carrySpace <= _playerSackCarrySpaceLimit - _playerSackCarrySpaceUsed)
+        {
+            _playerSack.Add(valuable);
+            _playerCurrentWeight += valuable.weight;
+            _playerSackCarrySpaceUsed += valuable.carrySpace;
+            _playerSackDebugOutput = "\"" + valuable.name + "\" added ";
+            if (_playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit)
+            {
+                _playerSackDebugOutput += "(FULL)";
+            }
+            else
+            {
+                _playerSackDebugOutput += "(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ")";
+            }
+            Destroy(valuableComponent.gameObject);
+        }
+        else
+        {
+            _playerSackDebugOutput = "Not enough space to collect \"" + valuable.name + "\" (" 
+            + valuable.carrySpace + " in (" + _playerSackCarrySpaceUsed + "/" 
+            + _playerSackCarrySpaceLimit + ")";
+        }
     }
 
     public void _Gameplay_CollectValuable()
     {
         if (!inShift) return;
-        TestValuable randomCollectable = _testLevelValuables[Random.Range(0, _testLevelValuables.Length)];
+        TestValuableData randomCollectable = _testLevelValuables[Random.Range(0, _testLevelValuables.Length)];
         if (randomCollectable.carrySpace <= _playerSackCarrySpaceLimit - _playerSackCarrySpaceUsed)
         {
             _playerSack.Add(randomCollectable);
@@ -195,8 +245,9 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift) return;
         OnGameplayEnd();
-        _gameOverDisplay.Set("Game Over", "The truck left you behind");
-        _GameOver_Display();
+        _Home_Display();
+        // _gameOverDisplay.Set("Game Over", "The truck left you behind");
+        // _GameOver_Display();
     }
 
     public void _Gameplay_End()
@@ -214,6 +265,8 @@ public class GameManager : MonoBehaviour
         _playerSackCarrySpaceUsed = 0;
         _playerMoney += _currentShiftPayment;
         _currentShiftPayment = 0;
+        _spawner.StopSpawning();
+        DestroyAllSpawnedValuables();
         _testGameplayScreen.SetActive(false);
     }
 
@@ -256,17 +309,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _testHomeScreen;
     [SerializeField] TMP_Text _testHomeText;
     // [SerializeField] float _dayCost = 1200;
-    
+    bool isInHome;
 
     public void _Home_Display()
     {
+        isInHome = true;
         _testHomeScreen.SetActive(true);
     }
 
     public void _Home_EndDay()
     {
         _testHomeScreen.SetActive(false);
-        var quota = _days[_currentDay].dayQuota;
+        var quota = _days[_currentDay-1].dayQuota;
         if (_playerMoney > quota)
         {
             _playerMoney -= quota;
@@ -286,23 +340,23 @@ public class GameManager : MonoBehaviour
             _gameOverDisplay.Set("Bad Ending", "Your family starved...");
             _GameOver_Display();
         }
-        
+        isInHome = false;
     }
     
     public void _Home_UpdateDebugText()
     {
+        if (!isInHome) return;
         var homeDebugText = new System.Text.StringBuilder();
         homeDebugText.AppendLine("HOME DEBUG TEXT");
         homeDebugText.AppendLine("───────────────────────────");
         homeDebugText.AppendLine("Current Money: " + _playerMoney);
         homeDebugText.AppendLine("───────────────────────────");
-        homeDebugText.AppendLine("Day Quota: " + _days[_currentDay].dayQuota);
+        homeDebugText.AppendLine("Day Quota: " + _days[_currentDay-1].dayQuota);
         
         _testHomeText.text = homeDebugText.ToString();
     }
 
     #endregion
-
     #region Game Over
     [Header("Game Over")]
     [SerializeField] GameObject _testGameOverScreen;

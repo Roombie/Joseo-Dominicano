@@ -90,17 +90,23 @@ public struct UIMenuButton
 
     public void FetchButtonActions()
     {
-        // CLEAN
-        if (_registeredActions != null)
-        {
-            _button.onClick.RemoveListener(_registeredActions.Invoke);
-        }
+        // // CLEAN
+        // if (_registeredActions != null)
+        // {
+        //     _button.onClick.RemoveListener(_registeredActions.Invoke);
+        // }
+
+        // // REGISTER
+        // if (actions != null)
+        // {
+        //     _button.onClick.AddListener(actions.Invoke);
+        //     _registeredActions += actions.Invoke;
+        // }
 
         // REGISTER
         if (actions != null)
         {
-            _button.onClick.AddListener(actions.Invoke);
-            _registeredActions += actions.Invoke;
+            _button.onClick = actions;
         }
     }
 }
