@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Level[] _days;
     [Header("References")]
     [SerializeField] PlayerCollect _playerCollect;
-    [SerializeField] Spawner _spawner;
+    [SerializeField] List<Spawner> _spawners;
 
     void Awake()
     {
@@ -28,7 +28,11 @@ public class GameManager : MonoBehaviour
         _testHomeScreen.SetActive(false);
         _testGameOverScreen.SetActive(false);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
-        _spawner?.onSpawn.AddListener(AddSpawnedValuable);
+        
+        foreach (Spawner spawner in _spawners)
+        {
+            spawner?.onSpawn.AddListener(AddSpawnedValuable);
+        }
     }
 
     void Update()
@@ -40,7 +44,11 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         _playerCollect?.onCollect.RemoveListener(OnValuableCollected);
-        _spawner?.onSpawn.RemoveListener(AddSpawnedValuable);
+
+        foreach (Spawner spawner in _spawners)
+        {
+            spawner?.onSpawn.RemoveListener(AddSpawnedValuable);
+        }
     }
 
     public void ResetGame()
@@ -127,7 +135,11 @@ public class GameManager : MonoBehaviour
         // _spawner.currentLevel = 0;
         // _spawner.LaunchSpawner();
         // _spawner.currentLevel = 1;
-        _spawner.LaunchSpawner();
+        foreach (Spawner spawner in _spawners)
+        {
+            spawner.LaunchSpawner();
+        }
+
         _playerSackDebugOutput = "Clear";
         _currentShiftPayment = 0;
     }
@@ -265,7 +277,11 @@ public class GameManager : MonoBehaviour
         _playerSackCarrySpaceUsed = 0;
         _playerMoney += _currentShiftPayment;
         _currentShiftPayment = 0;
-        _spawner.StopSpawning();
+
+        foreach (Spawner spawner in _spawners)
+        {
+            spawner.StopSpawning();
+        }
         DestroyAllSpawnedValuables();
         _testGameplayScreen.SetActive(false);
     }
