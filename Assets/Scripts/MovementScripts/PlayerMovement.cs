@@ -3,8 +3,11 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using System;
 
+
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private GameObject mobileControls;
+    
     public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
     private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
 
@@ -18,12 +21,29 @@ public class PlayerMovement : MonoBehaviour
     public float walkSpeed = 5f;
     public float runSpeed = 10f;
 
+    //Events
+    public event Action<bool> isMovingEvent;
+    public event Action<bool> isSprintingEvent;
+
+    void Awake()
+    {
+        
+#if UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID
+        gameObject.SetActive(true);
+#else
+        gameObject.SetActive(false);
+#endif
+      
+
+        
+    }
+
     private void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-
-        currentSpeed = walkSpeed; // Set initial speed
+        
+        currentSpeed = walkSpeed; // Set initial speed               
     }
 
     private void FixedUpdate()
@@ -35,10 +55,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        LookForward();
+
         //Note: Animator should create a blend tree for the 8 directions and set motion values according to values on DefineLastDirection()
         animator.SetFloat("Blend", lastDirection);
-        animator.SetFloat("X", rb.linearVelocity.x);
-        animator.SetFloat("Y", rb.linearVelocity.y);
+        animator.SetFloat("X", rb.linearVelocity.x/currentSpeed);
+        animator.SetFloat("Y", rb.linearVelocity.y/currentSpeed);
         animator.SetFloat("Speed", rb.linearVelocity.magnitude);
 
 
@@ -50,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-        
+           
     private IEnumerator DelayDirectionChange()
     {
         isUpdatingLastDirection = true;
@@ -76,22 +98,44 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log("Y: " + animator.GetFloat("Y"));
         //Debug.Log("Blend: " + animator.GetFloat("Blend"));
         //Debug.Log("Speed: " + animator.GetFloat("Speed"));
+
+        if(movement != Vector2.zero)
+        {
+            isMovingEvent?.Invoke(true); // Tell listeners moving changed
+        }
+        else
+        {
+            isMovingEvent?.Invoke(false); // Tell listeners moving changed
+        }
     }
 
     //NOTE: needs a Press and release interaction on the action map button to work
     public void OnSprint(InputValue value)
+    {        
+        Sprint();
+    }
+
+    public void Sprint()
     {
-        if (value.isPressed)
+        if (currentSpeed == walkSpeed)
         {
             currentSpeed = runSpeed;
             //Debug.Log("Sprint started");
+
+            isSprintingEvent?.Invoke(true); // Tell listeners sprinting changed
         }
         else
         {
             currentSpeed = walkSpeed;
             //Debug.Log("Sprint canceled");
+
+            isSprintingEvent?.Invoke(false); // Tell listeners sprinting changed
         }
-        
+    }
+
+    void LookForward()
+    {
+        transform.right = movement.normalized;
     }
 
     void DefineLastDirection()
