@@ -22,6 +22,8 @@ public class OxygenManager : MonoBehaviour
 
 
     [SerializeField] private bool consumingOxygen = false;
+    
+    bool ismoving = false;
 
     private float currentDepletionRate = 1;
 
@@ -40,8 +42,17 @@ public class OxygenManager : MonoBehaviour
     {
         if(playerMovement != null)
         {
-            playerMovement.isMovingEvent += ChangeDepletionRateIfMoving;
-            playerMovement.isMovingEvent += ChangeDepletionRateIfSprinting;
+            playerMovement.isMovingEvent += UpdateBoolIfMoving;
+            playerMovement.isSprintingEvent += ChangeDepletionRateIfSprinting;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (playerMovement != null)
+        {
+            playerMovement.isMovingEvent -= UpdateBoolIfMoving;
+            playerMovement.isMovingEvent -= ChangeDepletionRateIfSprinting;
         }
     }
 
@@ -94,22 +105,24 @@ public class OxygenManager : MonoBehaviour
         oxygenBar.value = oxygenLevel.value / maxTotalOxygen.value;
     }
 
-    void TemporaryChangeOxygenDepletionRate(float value)
-    {
-        currentDepletionRate = oxygenDepletionRate.value * value;
+    void UpdateBoolIfMoving(bool movingState)
+    { 
+        ismoving = movingState;
+        ChangeDepletionRateIfMoving();
     }
 
-    public void ChangeDepletionRateIfMoving(bool ismoving)
-    {
 
+    public void ChangeDepletionRateIfMoving()
+    {
         if (ismoving)
         {
+            Debug.Log("isMoving detected");
             TemporaryChangeOxygenDepletionRate(currentMoveDepletionModifier);
         }
         else 
         {
-            currentDepletionRate = oxygenDepletionRate.value;
-            
+            currentDepletionRate = oxygenDepletionRate.value;         
+            Debug.Log("stop Moving detected, currentDepletionRate set to: " + currentDepletionRate);
         }
     }
     public void ChangeDepletionRateIfSprinting(bool isSprinting)
@@ -117,13 +130,22 @@ public class OxygenManager : MonoBehaviour
         if(isSprinting)
         {
             currentMoveDepletionModifier = sprintingDepletionChange;
+            Debug.Log("isSprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
         }
         else
         {
             currentMoveDepletionModifier = movingDepletionChange;
+            Debug.Log("stopped Sprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
 
         }
 
-            TemporaryChangeOxygenDepletionRate(currentMoveDepletionModifier);
+            ChangeDepletionRateIfMoving();
+
+
+    }
+    void TemporaryChangeOxygenDepletionRate(float value)
+    {
+        currentDepletionRate = oxygenDepletionRate.value * value;
+        Debug.Log("currentDepletionRate changed to: " + currentDepletionRate);
     }
 }

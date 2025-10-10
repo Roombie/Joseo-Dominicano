@@ -496,7 +496,7 @@ public class Spawner : MonoBehaviour
 
     }
 
-    void StopSpawning()
+    public void StopSpawning()
     {
         StopAllCoroutines();
     }
