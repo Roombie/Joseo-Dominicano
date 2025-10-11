@@ -4692,7 +4692,7 @@ MonoBehaviour:
   currentLevel: 1
   continousSpawn: 1
   launchInStart: 0
-  spawnFrecuency: 5
+  spawnFrecuency: 10
   spawnLocationFocus: 0
   maxNumberIndicator: 1
   player: {fileID: 1476481356}
