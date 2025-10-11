@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_Heat Haze Overlay
+  m_Name: Water Distotion
   m_Shader: {fileID: -6465566751694194690, guid: d998ed87b8a50b94e9341cb87eec3387, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -56,7 +56,7 @@ Material:
     m_Floats: []
     m_Colors:
     - Noise_Scale: {r: 0, g: 1, b: 0, a: 0}
-    - Strength: {r: 0, g: 1, b: 0, a: 0}
+    - Strength: {r: 0, g: 2, b: 0, a: 0}
     - Velocity: {r: 0, g: -1, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
