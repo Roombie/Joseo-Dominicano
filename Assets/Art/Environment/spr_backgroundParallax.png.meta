@@ -376,7 +376,7 @@ TextureImporter:
       name: spr_backgroundParallax_10
       rect:
         serializedVersion: 2
-        x: 4163
+        x: 4160
         y: 0
         width: 416
         height: 512
@@ -425,7 +425,7 @@ TextureImporter:
         width: 416
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -434,6 +434,50 @@ TextureImporter:
       bones: []
       spriteID: 1411c507d6e399a429fc75097a81eff1
       internalID: -2078707539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_backgroundParallax_13
+      rect:
+        serializedVersion: 2
+        x: 5408
+        y: 0
+        width: 416
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03926834ba539e34c9192b37308b01c7
+      internalID: 1159258276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_backgroundParallax_14
+      rect:
+        serializedVersion: 2
+        x: 5824
+        y: 0
+        width: 416
+        height: 512
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbcaf6a8a427ae34db350c2f90d8128d
+      internalID: -1286705525
       vertices: []
       indices: 
       edges: []
@@ -459,6 +503,8 @@ TextureImporter:
       spr_backgroundParallax_10: 1123534323
       spr_backgroundParallax_11: 1595918015
       spr_backgroundParallax_12: -2078707539
+      spr_backgroundParallax_13: 1159258276
+      spr_backgroundParallax_14: -1286705525
       spr_backgroundParallax_2: 5966154406950721002
       spr_backgroundParallax_3: -2199064480652110804
       spr_backgroundParallax_4: 3935376834559018262
