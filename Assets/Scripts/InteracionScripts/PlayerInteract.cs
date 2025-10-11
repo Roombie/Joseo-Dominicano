@@ -41,7 +41,7 @@ public class PlayerInteract : MonoBehaviour
             inRange = true;
             InteractSign(true); //Activates object interaction sign
             player.onInteractEvent += Interact;
-            Debug.Log("inrange " + inRange);
+            //Debug.Log("inrange " + inRange);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
@@ -57,7 +57,6 @@ public class PlayerInteract : MonoBehaviour
     }
     public void Interact()
     {
-        Debug.Log("Interact called)");
         if (inRange) interact.Interact();
         
     }

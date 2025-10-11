@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Level[] _days;
     [Header("References")]
     [SerializeField] DeliverInteraction _depositValuables; //rafamaster3
+    [SerializeField] PlayerWallet _playerWallet; //rafamaster3
     [SerializeField] PlayerCollect _playerCollect; 
     [SerializeField] OxygenManager _oxygenManager; //rafamaster3
     [SerializeField] List<Spawner> _spawners; //rafamaster3-modified
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
     {
         // RESET
         _currentDay = 0;
+        _playerWallet.TrySpend(_playerWallet.Balance);
         _playerMoney = 0;
     }
 
@@ -92,8 +94,10 @@ public class GameManager : MonoBehaviour
     [Header("Gameplay")]
     [SerializeField] GameObject _testGameplayScreen;
     [SerializeField] TMP_Text _testGameplayStateText;
+    [SerializeField] TMP_Text _testGameplayTimer; //rafamaster3
     [SerializeField] TMP_Text _testGameplayShiftMoney; //rafamaster3
     [SerializeField] TMP_Text _testGameplayCollectedItemInfo; //rafamaster3
+    [SerializeField] TMP_Text _testGameplayTotalMoney; //rafamaster3
     [SerializeField] int collectedInfoDuration = 3; //rafamaster3
     float _shiftTimeDuration = 30;
     [SerializeField] float _displayHurryUpOn = 10;
@@ -140,6 +144,7 @@ public class GameManager : MonoBehaviour
         ResetDayTimer();
         RunDayTimer();
         _currentDay++;
+        _oxygenManager.ResetOxygen();
         // _spawner.currentLevel = _currentDay;
         // _spawner.currentLevel = 0;
         // _spawner.LaunchSpawner();
@@ -225,7 +230,6 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_DepositValuables()
     {
-        Debug.Log("GameMaager called");
         if (!inShift) return;
         for (int i = 0; i < _playerSack.Count; i++)
         {
@@ -267,7 +271,9 @@ public class GameManager : MonoBehaviour
         }
         
         _testGameplayStateText.text = gameplayDebugText.ToString();
-        _testGameplayShiftMoney.text = "$" + _currentShiftPayment.ToString(); //rafamaster3
+        _testGameplayTimer.text = Mathf.Ceil(_shiftTimeLeft).ToString(); //rafamaster3
+        _testGameplayShiftMoney.text = "Hoy: $" + _currentShiftPayment.ToString(); //rafamaster3
+        _testGameplayTotalMoney.text = "Ahorrado: $" + _playerWallet.Balance.ToString(); //rafamaster3
     }
     
     public void _Gameplay_OnPlayerDeath()
@@ -301,7 +307,9 @@ public class GameManager : MonoBehaviour
         _playerCurrentWeight = 0;
         _playerSackCarrySpaceUsed = 0;
         _playerMoney += _currentShiftPayment;
+        _playerWallet.AddMoney(_currentShiftPayment);
         _currentShiftPayment = 0;
+        _oxygenManager.ResetOxygen(); //rafamaster3
 
         foreach (Spawner spawner in _spawners)
         {
@@ -365,6 +373,9 @@ public class GameManager : MonoBehaviour
         if (_playerMoney > quota)
         {
             _playerMoney -= quota;
+            _playerWallet.TrySpend(quota); //rafamaster3
+            _testGameplayTotalMoney.text = _playerWallet.Balance.ToString(); //rafamaster3
+
             if (_currentDay >= _days.Length)
             {
                 _gameOverDisplay.Set("Good Ending", "Gimme some beer for the man! whooo");
