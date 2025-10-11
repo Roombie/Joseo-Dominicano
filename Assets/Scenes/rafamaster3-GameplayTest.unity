@@ -3772,6 +3772,7 @@ GameObject:
   - component: {fileID: 750352137}
   - component: {fileID: 750352136}
   - component: {fileID: 750352135}
+  - component: {fileID: 750352138}
   m_Layer: 5
   m_Name: rafamaster3- Test UI
   m_TagString: Untagged
@@ -3815,7 +3816,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!114 &750352136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3862,6 +3863,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &750352138
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750352133}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &770169978
 GameObject:
   m_ObjectHideFlags: 0
@@ -7429,7 +7442,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476481356}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 56645344f27fd374b8c4ff790c323e80, type: 2}
   m_CullingMode: 0
