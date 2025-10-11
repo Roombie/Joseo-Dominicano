@@ -911,7 +911,7 @@ MonoBehaviour:
   - dayQuota: 5000
     dayDuration: 40
   _playerCollect: {fileID: 1476481363}
-  _oxygenManager: {fileID: 605959773}
+  _oxygenManager: {fileID: 0}
   _spawners:
   - {fileID: 2094711113}
   - {fileID: 1853464587}
@@ -1006,14 +1006,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 127945448249554369, guid: 22a4dac98096a424dbc632d2483ff178, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4002492807553023099, guid: 22a4dac98096a424dbc632d2483ff178, type: 3}
-      propertyPath: m_Value
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4002492807553023099, guid: 22a4dac98096a424dbc632d2483ff178, type: 3}
-      propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4776060464554074340, guid: 22a4dac98096a424dbc632d2483ff178, type: 3}
@@ -2276,18 +2268,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 605959773}
-        m_TargetAssemblyTypeName: OxygenManager, Assembly-CSharp
-        m_MethodName: ConsumeOxygen
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &505687905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2575,7 +2555,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 40
-    OrthographicSize: 7.3
+    OrthographicSize: 7.31
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -4170,6 +4150,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 605959773}
+          m_TargetAssemblyTypeName: OxygenManager, Assembly-CSharp
+          m_MethodName: ConsumeOxygen
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - name: 
     _button: {fileID: 1719666226}
     _hided: 0
@@ -5099,7 +5091,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.14901961, g: 0.08026525, b: 0, a: 0.9137255}
+  m_Color: {r: 0.14901961, g: 0.08026525, b: 0, a: 0.95686275}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -5210,18 +5202,6 @@ MonoBehaviour:
         - m_Target: {fileID: 243968365}
           m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
           m_MethodName: _Gameplay_StartDay
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 605959773}
-          m_TargetAssemblyTypeName: OxygenManager, Assembly-CSharp
-          m_MethodName: ConsumeOxygen
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -5470,7 +5450,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 1
-  orthographic size: 7.3
+  orthographic size: 7.31
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

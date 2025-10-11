@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Level[] _days;
     [Header("References")]
     [SerializeField] PlayerCollect _playerCollect;
+    [SerializeField] OxygenManager _oxygenManager;
     [SerializeField] List<Spawner> _spawners;
 
     void Awake()
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
         _testHomeScreen.SetActive(false);
         _testGameOverScreen.SetActive(false);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
+        _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
         
         foreach (Spawner spawner in _spawners)
         {
@@ -44,6 +46,7 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         _playerCollect?.onCollect.RemoveListener(OnValuableCollected);
+        _oxygenManager?.onOxygenDepleted.RemoveListener(_Gameplay_OnPlayerDeath);
 
         foreach (Spawner spawner in _spawners)
         {

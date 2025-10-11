@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class OxygenManager : MonoBehaviour
 {
@@ -23,9 +24,10 @@ public class OxygenManager : MonoBehaviour
 
     [SerializeField] private bool consumingOxygen = false;
     
-    bool ismoving = false;
+    public UnityEvent onOxygenDepleted;
 
-    private float currentDepletionRate = 1;
+    bool ismoving = false;
+    float currentDepletionRate = 1;
 
     void Start()
     {
@@ -78,40 +80,39 @@ public class OxygenManager : MonoBehaviour
         while (consumingOxygen)
         {
             yield return new WaitForSecondsRealtime(currentDepletionRate); //Consume 1% oxygen every x seconds defined in the depletion rate
-            oxygenLevel.value -= 1;
-            oxygenLvlText.text = oxygenLevel.value.ToString();
-
-            UpdateOxygenBar();
+                ChangeOxygenLevel(-1);
         }
     }
-
     public void BoostOxygenTotal(float increment)
     {
         oxygenLevel.value += increment;
         oxygenLvlText.text = oxygenLevel.value.ToString();
         maxTotalOxygen.value += increment;
     }
-
     public void ChangeOxygenLevel(float value)
     {        
-        oxygenLevel.value += value;
-        
-        
-        oxygenLvlText.text = oxygenLevel.value.ToString();
+            if (oxygenLevel.value > 0)
+            { 
+                oxygenLevel.value = oxygenLevel.value + value > maxTotalOxygen.value ? maxTotalOxygen.value : oxygenLevel.value += value;        
+                oxygenLvlText.text = oxygenLevel.value.ToString();
+                UpdateOxygenBar();
+            }
+            else
+            {
+                StopAllCoroutines();
+                consumingOxygen = false;
+                onOxygenDepleted.Invoke();
+            }
     }
-
     void UpdateOxygenBar()
     {
         oxygenBar.value = oxygenLevel.value / maxTotalOxygen.value;
     }
-
     void UpdateBoolIfMoving(bool movingState)
     { 
         ismoving = movingState;
         ChangeDepletionRateIfMoving();
     }
-
-
     public void ChangeDepletionRateIfMoving()
     {
         if (ismoving)
@@ -148,4 +149,6 @@ public class OxygenManager : MonoBehaviour
         currentDepletionRate = oxygenDepletionRate.value * value;
        //Debug.Log("currentDepletionRate changed to: " + currentDepletionRate);
     }
+
+    
 }
