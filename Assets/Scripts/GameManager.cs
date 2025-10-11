@@ -225,6 +225,7 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_DepositValuables()
     {
+        Debug.Log("GameMaager called");
         if (!inShift) return;
         for (int i = 0; i < _playerSack.Count; i++)
         {
