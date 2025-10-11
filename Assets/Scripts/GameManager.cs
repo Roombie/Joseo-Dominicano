@@ -18,9 +18,10 @@ public class GameManager : MonoBehaviour
     }
     [SerializeField] Level[] _days;
     [Header("References")]
-    [SerializeField] PlayerCollect _playerCollect;
-    [SerializeField] OxygenManager _oxygenManager;
-    [SerializeField] List<Spawner> _spawners;
+    [SerializeField] DeliverInteraction _depositValuables; //rafamaster3
+    [SerializeField] PlayerCollect _playerCollect; 
+    [SerializeField] OxygenManager _oxygenManager; //rafamaster3
+    [SerializeField] List<Spawner> _spawners; //rafamaster3-modified
 
     void Awake()
     {
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
         _testGameplayScreen.SetActive(false);
         _testHomeScreen.SetActive(false);
         _testGameOverScreen.SetActive(false);
+        _depositValuables?.onDepositValuables.AddListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
         _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
         
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
 
     void OnDestroy()
     {
+        _depositValuables?.onDepositValuables.RemoveListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.RemoveListener(OnValuableCollected);
         _oxygenManager?.onOxygenDepleted.RemoveListener(_Gameplay_OnPlayerDeath);
 
@@ -89,6 +92,9 @@ public class GameManager : MonoBehaviour
     [Header("Gameplay")]
     [SerializeField] GameObject _testGameplayScreen;
     [SerializeField] TMP_Text _testGameplayStateText;
+    [SerializeField] TMP_Text _testGameplayShiftMoney; //rafamaster3
+    [SerializeField] TMP_Text _testGameplayCollectedItemInfo; //rafamaster3
+    [SerializeField] int collectedInfoDuration = 3; //rafamaster3
     float _shiftTimeDuration = 30;
     [SerializeField] float _displayHurryUpOn = 10;
     float _shiftTimeLeft;
@@ -159,10 +165,21 @@ public class GameManager : MonoBehaviour
             _playerSackDebugOutput = "\"" + valuable.name + "\" added ";
             if (_playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit)
             {
+                { //rafamaster3: Display collectible info text for short time 
+                    _testGameplayCollectedItemInfo.text = "FULL"; //rafamaster3
+                    _testGameplayCollectedItemInfo.gameObject.SetActive(true); //rafamaster3
+                    Invoke(nameof(HideInfoText), collectedInfoDuration); //rafamaster3
+                }
                 _playerSackDebugOutput += "(FULL)";
             }
             else
             {
+                { //rafamaster3: Display collectible info text for short time
+                    _testGameplayCollectedItemInfo.text = valuable.name + " $" + valuable.value + " " +valuable.weight + "g " + valuable.carrySpace + "L".ToString(); //rafamaster3
+                    _testGameplayCollectedItemInfo.gameObject.SetActive(true); //rafamaster3
+                    Invoke(nameof(HideInfoText), collectedInfoDuration); //rafamaster3
+                }
+
                 _playerSackDebugOutput += "(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ")";
             }
             Destroy(valuableComponent.gameObject);
@@ -174,6 +191,9 @@ public class GameManager : MonoBehaviour
             + _playerSackCarrySpaceLimit + ")";
         }
     }
+
+    void HideInfoText() => _testGameplayCollectedItemInfo.gameObject.SetActive(false); //rafamaster3
+
 
     public void _Gameplay_CollectValuable()
     {
@@ -246,6 +266,7 @@ public class GameManager : MonoBehaviour
         }
         
         _testGameplayStateText.text = gameplayDebugText.ToString();
+        _testGameplayShiftMoney.text = "$" + _currentShiftPayment.ToString(); //rafamaster3
     }
     
     public void _Gameplay_OnPlayerDeath()

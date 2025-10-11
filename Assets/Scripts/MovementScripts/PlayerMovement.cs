@@ -24,18 +24,17 @@ public class PlayerMovement : MonoBehaviour
     //Events
     public event Action<bool> isMovingEvent;
     public event Action<bool> isSprintingEvent;
+    public event Action onInteractEvent;
 
     void Awake()
     {
         
 #if UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID
-        gameObject.SetActive(true);
+        mobileControls.gameObject.SetActive(true);
 #else
-        gameObject.SetActive(false);
+        mobileControls.gameObject.SetActive(false);
 #endif
-      
 
-        
     }
 
     private void Start()
@@ -83,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log("lastDirection changed to: " + lastDirection);
         isUpdatingLastDirection = false;
     }
-
+    public void OnInteract() => onInteractEvent.Invoke();
     public void OnMove(InputValue value)
     {
         //Debug.Log("InputValue: " + value);
