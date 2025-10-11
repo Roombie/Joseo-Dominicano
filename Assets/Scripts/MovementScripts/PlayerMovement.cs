@@ -30,9 +30,15 @@ public class PlayerMovement : MonoBehaviour
     {
         
 #if UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID
-        mobileControls.gameObject.SetActive(true);
+        if (mobileControls != null)
+        {
+            mobileControls.gameObject.SetActive(true);
+        }
 #else
-        mobileControls.gameObject.SetActive(false);
+        if (mobileControls != null)
+        {
+            mobileControls.gameObject.SetActive(false);
+        }
 #endif
 
     }
