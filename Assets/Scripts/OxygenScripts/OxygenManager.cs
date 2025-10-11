@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class OxygenManager : MonoBehaviour
 {
@@ -23,9 +24,10 @@ public class OxygenManager : MonoBehaviour
 
     [SerializeField] private bool consumingOxygen = false;
     
-    bool ismoving = false;
+    public UnityEvent onOxygenDepleted;
 
-    private float currentDepletionRate = 1;
+    bool ismoving = false;
+    float currentDepletionRate = 1;
 
     void Start()
     {
@@ -78,51 +80,50 @@ public class OxygenManager : MonoBehaviour
         while (consumingOxygen)
         {
             yield return new WaitForSecondsRealtime(currentDepletionRate); //Consume 1% oxygen every x seconds defined in the depletion rate
-            oxygenLevel.value -= 1;
-            oxygenLvlText.text = oxygenLevel.value.ToString();
-
-            UpdateOxygenBar();
+                ChangeOxygenLevel(-1);
         }
     }
-
     public void BoostOxygenTotal(float increment)
     {
         oxygenLevel.value += increment;
         oxygenLvlText.text = oxygenLevel.value.ToString();
         maxTotalOxygen.value += increment;
     }
-
     public void ChangeOxygenLevel(float value)
     {        
-        oxygenLevel.value += value;
-        
-        
-        oxygenLvlText.text = oxygenLevel.value.ToString();
+            if (oxygenLevel.value > 0)
+            { 
+                oxygenLevel.value = oxygenLevel.value + value > maxTotalOxygen.value ? maxTotalOxygen.value : oxygenLevel.value += value;        
+                oxygenLvlText.text = oxygenLevel.value.ToString();
+                UpdateOxygenBar();
+            }
+            else
+            {
+                StopAllCoroutines();
+                consumingOxygen = false;
+                onOxygenDepleted.Invoke();
+            }
     }
-
     void UpdateOxygenBar()
     {
         oxygenBar.value = oxygenLevel.value / maxTotalOxygen.value;
     }
-
     void UpdateBoolIfMoving(bool movingState)
     { 
         ismoving = movingState;
         ChangeDepletionRateIfMoving();
     }
-
-
     public void ChangeDepletionRateIfMoving()
     {
         if (ismoving)
         {
-            Debug.Log("isMoving detected");
+           //Debug.Log("isMoving detected");
             TemporaryChangeOxygenDepletionRate(currentMoveDepletionModifier);
         }
         else 
         {
             currentDepletionRate = oxygenDepletionRate.value;         
-            Debug.Log("stop Moving detected, currentDepletionRate set to: " + currentDepletionRate);
+           //Debug.Log("stop Moving detected, currentDepletionRate set to: " + currentDepletionRate);
         }
     }
     public void ChangeDepletionRateIfSprinting(bool isSprinting)
@@ -130,12 +131,12 @@ public class OxygenManager : MonoBehaviour
         if(isSprinting)
         {
             currentMoveDepletionModifier = sprintingDepletionChange;
-            Debug.Log("isSprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
+           //Debug.Log("isSprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
         }
         else
         {
             currentMoveDepletionModifier = movingDepletionChange;
-            Debug.Log("stopped Sprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
+           //Debug.Log("stopped Sprinting detected, currentMoveDepletionModifier set to: " + currentMoveDepletionModifier);
 
         }
 
@@ -146,6 +147,8 @@ public class OxygenManager : MonoBehaviour
     void TemporaryChangeOxygenDepletionRate(float value)
     {
         currentDepletionRate = oxygenDepletionRate.value * value;
-        Debug.Log("currentDepletionRate changed to: " + currentDepletionRate);
+       //Debug.Log("currentDepletionRate changed to: " + currentDepletionRate);
     }
+
+    
 }
