@@ -18,8 +18,11 @@ public class GameManager : MonoBehaviour
     }
     [SerializeField] Level[] _days;
     [Header("References")]
-    [SerializeField] PlayerCollect _playerCollect;
-    [SerializeField] Spawner _spawner;
+    [SerializeField] DeliverInteraction _depositValuables; //rafamaster3
+    [SerializeField] PlayerWallet _playerWallet; //rafamaster3
+    [SerializeField] PlayerCollect _playerCollect; 
+    [SerializeField] OxygenManager _oxygenManager; //rafamaster3
+    [SerializeField] List<Spawner> _spawners; //rafamaster3-modified
 
     void Awake()
     {
@@ -27,8 +30,14 @@ public class GameManager : MonoBehaviour
         _testGameplayScreen.SetActive(false);
         _testHomeScreen.SetActive(false);
         _testGameOverScreen.SetActive(false);
+        _depositValuables?.onDepositValuables.AddListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
-        _spawner?.onSpawn.AddListener(AddSpawnedValuable);
+        _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
+        
+        foreach (Spawner spawner in _spawners)
+        {
+            spawner?.onSpawn.AddListener(AddSpawnedValuable);
+        }
     }
 
     void Update()
@@ -39,14 +48,21 @@ public class GameManager : MonoBehaviour
 
     void OnDestroy()
     {
+        _depositValuables?.onDepositValuables.RemoveListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.RemoveListener(OnValuableCollected);
-        _spawner?.onSpawn.RemoveListener(AddSpawnedValuable);
+        _oxygenManager?.onOxygenDepleted.RemoveListener(_Gameplay_OnPlayerDeath);
+
+        foreach (Spawner spawner in _spawners)
+        {
+            spawner?.onSpawn.RemoveListener(AddSpawnedValuable);
+        }
     }
 
     public void ResetGame()
     {
         // RESET
         _currentDay = 0;
+        _playerWallet.TrySpend(_playerWallet.Balance);
         _playerMoney = 0;
     }
 
@@ -78,6 +94,11 @@ public class GameManager : MonoBehaviour
     [Header("Gameplay")]
     [SerializeField] GameObject _testGameplayScreen;
     [SerializeField] TMP_Text _testGameplayStateText;
+    [SerializeField] TMP_Text _testGameplayTimer; //rafamaster3
+    [SerializeField] TMP_Text _testGameplayShiftMoney; //rafamaster3
+    [SerializeField] TMP_Text _testGameplayCollectedItemInfo; //rafamaster3
+    [SerializeField] TMP_Text _testGameplayTotalMoney; //rafamaster3
+    [SerializeField] int collectedInfoDuration = 3; //rafamaster3
     float _shiftTimeDuration = 30;
     [SerializeField] float _displayHurryUpOn = 10;
     float _shiftTimeLeft;
@@ -123,11 +144,17 @@ public class GameManager : MonoBehaviour
         ResetDayTimer();
         RunDayTimer();
         _currentDay++;
+        _oxygenManager.ResetOxygen();
         // _spawner.currentLevel = _currentDay;
         // _spawner.currentLevel = 0;
         // _spawner.LaunchSpawner();
         // _spawner.currentLevel = 1;
-        _spawner?.LaunchSpawner();
+
+        foreach (Spawner spawner in _spawners)
+        {
+            spawner.LaunchSpawner();
+        }
+
         _playerSackDebugOutput = "Clear";
         _currentShiftPayment = 0;
     }
@@ -144,10 +171,21 @@ public class GameManager : MonoBehaviour
             _playerSackDebugOutput = "\"" + valuable.name + "\" added ";
             if (_playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit)
             {
+                { //rafamaster3: Display collectible info text for short time 
+                    _testGameplayCollectedItemInfo.text = "FULL"; //rafamaster3
+                    _testGameplayCollectedItemInfo.gameObject.SetActive(true); //rafamaster3
+                    Invoke(nameof(HideInfoText), collectedInfoDuration); //rafamaster3
+                }
                 _playerSackDebugOutput += "(FULL)";
             }
             else
             {
+                { //rafamaster3: Display collectible info text for short time
+                    _testGameplayCollectedItemInfo.text = valuable.name + " $" + valuable.value + " " +valuable.weight + "g " + valuable.carrySpace + "L".ToString(); //rafamaster3
+                    _testGameplayCollectedItemInfo.gameObject.SetActive(true); //rafamaster3
+                    Invoke(nameof(HideInfoText), collectedInfoDuration); //rafamaster3
+                }
+
                 _playerSackDebugOutput += "(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ")";
             }
             Destroy(valuableComponent.gameObject);
@@ -159,6 +197,9 @@ public class GameManager : MonoBehaviour
             + _playerSackCarrySpaceLimit + ")";
         }
     }
+
+    void HideInfoText() => _testGameplayCollectedItemInfo.gameObject.SetActive(false); //rafamaster3
+
 
     public void _Gameplay_CollectValuable()
     {
@@ -231,6 +272,9 @@ public class GameManager : MonoBehaviour
         }
         
         _testGameplayStateText.text = gameplayDebugText.ToString();
+        _testGameplayTimer.text = Mathf.Ceil(_shiftTimeLeft).ToString(); //rafamaster3
+        _testGameplayShiftMoney.text = "Hoy: $" + _currentShiftPayment.ToString(); //rafamaster3
+        _testGameplayTotalMoney.text = "Ahorrado: $" + _playerWallet.Balance.ToString(); //rafamaster3
     }
     
     public void _Gameplay_OnPlayerDeath()
@@ -264,8 +308,15 @@ public class GameManager : MonoBehaviour
         _playerCurrentWeight = 0;
         _playerSackCarrySpaceUsed = 0;
         _playerMoney += _currentShiftPayment;
+        _playerWallet.AddMoney(_currentShiftPayment);
         _currentShiftPayment = 0;
-        _spawner?.StopSpawning();
+        _oxygenManager.ResetOxygen(); //rafamaster3
+
+        foreach (Spawner spawner in _spawners)
+        {
+            spawner.StopSpawning();
+        }
+
         DestroyAllSpawnedValuables();
         _testGameplayScreen.SetActive(false);
     }
@@ -324,6 +375,9 @@ public class GameManager : MonoBehaviour
         if (_playerMoney > quota)
         {
             _playerMoney -= quota;
+            _playerWallet.TrySpend(quota); //rafamaster3
+            _testGameplayTotalMoney.text = _playerWallet.Balance.ToString(); //rafamaster3
+
             if (_currentDay >= _days.Length)
             {
                 _gameOverDisplay.Set("Good Ending", "Gimme some beer for the man! whooo");
