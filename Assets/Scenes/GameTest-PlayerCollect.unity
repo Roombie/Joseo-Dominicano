@@ -186,7 +186,7 @@ MonoBehaviour:
     weight: 1
     carrySpace: 1
   _testHomeScreen: {fileID: 794971400}
-  _testHomeText: {fileID: 671104429}
+  _testHomeStateText: {fileID: 671104429}
   _testGameOverScreen: {fileID: 1815614385}
   _gameOverTitle: {fileID: 229510812}
   _gameOverContext: {fileID: 143203678}
@@ -5878,7 +5878,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 0.44313726, g: 0.35028386, b: 0.32941177, a: 1}
   m_FlipX: 0

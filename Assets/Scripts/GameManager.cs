@@ -42,8 +42,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        _Gameplay_UpdateDebugText();
-        _Home_UpdateDebugText();
+        if (_testGameplayStateText != null) _Gameplay_UpdateDebugText();
+        if (_testHomeStateText != null) _Home_UpdateDebugText();
     }
 
     void OnDestroy()
@@ -149,6 +149,7 @@ public class GameManager : MonoBehaviour
         // _spawner.currentLevel = 0;
         // _spawner.LaunchSpawner();
         // _spawner.currentLevel = 1;
+
         foreach (Spawner spawner in _spawners)
         {
             spawner.LaunchSpawner();
@@ -315,6 +316,7 @@ public class GameManager : MonoBehaviour
         {
             spawner.StopSpawning();
         }
+
         DestroyAllSpawnedValuables();
         _testGameplayScreen.SetActive(false);
     }
@@ -356,7 +358,7 @@ public class GameManager : MonoBehaviour
     #region Home
     [Header("Home")]
     [SerializeField] GameObject _testHomeScreen;
-    [SerializeField] TMP_Text _testHomeText;
+    [SerializeField] TMP_Text _testHomeStateText;
     // [SerializeField] float _dayCost = 1200;
     bool isInHome;
 
@@ -405,7 +407,7 @@ public class GameManager : MonoBehaviour
         homeDebugText.AppendLine("───────────────────────────");
         homeDebugText.AppendLine("Day Quota: " + _days[_currentDay-1].dayQuota);
         
-        _testHomeText.text = homeDebugText.ToString();
+        _testHomeStateText.text = homeDebugText.ToString();
     }
 
     #endregion
