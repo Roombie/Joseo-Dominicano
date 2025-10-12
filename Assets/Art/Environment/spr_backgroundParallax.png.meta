@@ -159,7 +159,7 @@ TextureImporter:
         x: 0
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,7 +181,7 @@ TextureImporter:
         x: 416
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -203,7 +203,7 @@ TextureImporter:
         x: 832
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -225,7 +225,7 @@ TextureImporter:
         x: 1248
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -247,7 +247,7 @@ TextureImporter:
         x: 1664
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -269,7 +269,7 @@ TextureImporter:
         x: 2080
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -291,7 +291,7 @@ TextureImporter:
         x: 2496
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -313,7 +313,7 @@ TextureImporter:
         x: 2912
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -335,7 +335,7 @@ TextureImporter:
         x: 3328
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -357,7 +357,7 @@ TextureImporter:
         x: 3744
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -379,7 +379,7 @@ TextureImporter:
         x: 4160
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -401,7 +401,7 @@ TextureImporter:
         x: 4576
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -423,7 +423,7 @@ TextureImporter:
         x: 4992
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -445,7 +445,7 @@ TextureImporter:
         x: 5408
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -467,7 +467,7 @@ TextureImporter:
         x: 5824
         y: 0
         width: 416
-        height: 512
+        height: 736
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -478,6 +478,28 @@ TextureImporter:
       bones: []
       spriteID: dbcaf6a8a427ae34db350c2f90d8128d
       internalID: -1286705525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_backgroundParallax_15
+      rect:
+        serializedVersion: 2
+        x: 6240
+        y: 0
+        width: 416
+        height: 736
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 785cb30c6c97c5646abfec66a33beafb
+      internalID: 17559017
       vertices: []
       indices: 
       edges: []
@@ -496,7 +518,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":416.0,"y":512.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":416.0,"y":736.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       spr_backgroundParallax_0: 3980825071058719131
       spr_backgroundParallax_1: -8420324392857119076
@@ -505,6 +527,7 @@ TextureImporter:
       spr_backgroundParallax_12: -2078707539
       spr_backgroundParallax_13: 1159258276
       spr_backgroundParallax_14: -1286705525
+      spr_backgroundParallax_15: 17559017
       spr_backgroundParallax_2: 5966154406950721002
       spr_backgroundParallax_3: -2199064480652110804
       spr_backgroundParallax_4: 3935376834559018262

@@ -55,14 +55,7 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
         currentSpeed = walkSpeed; // Set initial speed               
     }
-
-    public void GetToDefaultStateValues()
-    {
-        sprite.flipY = false;
-        rb.linearVelocity = 0;
-        rb.rotation = 0;
-    }
-
+    
     private void FixedUpdate()
     {
         if (rb == null) return;
