@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     public void _MainMenu_PlayGame()
     {
-        _testMainMenu.SetActive(false);
+        // _testMainMenu.SetActive(false);
         _Gameplay_Display();
     }
 
@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
     #endregion
     #region Gameplay
     [Header("Gameplay")]
+    [SerializeField] Vector3 _playerInitialPosition;
     [SerializeField] GameObject _testGameplayScreen;
     [SerializeField] TMP_Text _testGameplayStateText;
     [SerializeField] TMP_Text _testGameplayTimer; //rafamaster3
@@ -137,10 +138,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text _dayLabel;
     [SerializeField] UnityEvent _onPlay;
     [SerializeField] UnityEvent _onStartDay;
+    [SerializeField] UnityEvent _onEndGameplay;
 
     public void _Gameplay_Display()
     {
         _testGameplayScreen.SetActive(true);
+        _playerCollect.transform.position = _playerInitialPosition;
+        _playerCollect.transform.rotation = Quaternion.identity;
         if (_dayLabel != null) _dayLabel.text = _dayLabelText + " " + (_currentDay + 1);
         _onPlay?.Invoke();
     }
@@ -152,9 +156,9 @@ public class GameManager : MonoBehaviour
 
     IEnumerator GameplayStartDayDelay()
     {
-        Debug.Log("Waiting");
+        // Debug.Log("Waiting");
         yield return new WaitForSecondsRealtime(_startDayDelay);
-        Debug.Log("START");
+        // Debug.Log("START");
         _Gameplay_StartDay();
     }
 
@@ -173,6 +177,7 @@ public class GameManager : MonoBehaviour
 
         foreach (Spawner spawner in _spawners)
         {
+            if (spawner.enabled == false) continue;
             spawner.currentLevel = _currentDay;
             spawner.LaunchSpawner();
         }
@@ -342,6 +347,7 @@ public class GameManager : MonoBehaviour
 
         DestroyAllSpawnedValuables();
         _testGameplayScreen.SetActive(false);
+        _onEndGameplay?.Invoke();
     }
 
     IEnumerator Internal_RunDayTimer()
@@ -382,6 +388,7 @@ public class GameManager : MonoBehaviour
     [Header("Home")]
     [SerializeField] GameObject _testHomeScreen;
     [SerializeField] TMP_Text _testHomeStateText;
+    [SerializeField] UnityEvent _onHomeGoToNextDay;
     // [SerializeField] float _dayCost = 1200;
     bool isInHome;
 
@@ -410,6 +417,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 _Gameplay_Display();
+                _onHomeGoToNextDay?.Invoke();
             }
         }
         else

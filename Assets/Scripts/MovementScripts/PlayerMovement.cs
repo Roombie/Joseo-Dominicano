@@ -88,7 +88,7 @@ public class PlayerMovement : OxygenableBehaviour
         //Debug.Log("lastDirection changed to: " + lastDirection);
         isUpdatingLastDirection = false;
     }
-    public void OnInteract() => onInteractEvent.Invoke();
+    public void OnInteract() => onInteractEvent?.Invoke();
     public void OnMove(InputValue value)
     {
         //Debug.Log("InputValue: " + value);

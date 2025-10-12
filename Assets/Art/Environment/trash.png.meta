@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 8a90b96674070004f8c86998dc60252a
+guid: af5619adb85115043b32995a569465d7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1455096403836856330
-    second: image (2)_0
-  - first:
-      213: 616537745857468549
-    second: image (2)_1
-  - first:
-      213: -5629001499573330436
-    second: image (2)_2
-  - first:
-      213: 2839647524442722846
-    second: image (2)_3
+      213: 7858980336673299937
+    second: trash_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -81,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -94,19 +85,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -135,45 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: image (2)_1
+      name: trash_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 20
-        width: 85
-        height: 8
+        y: 0
+        width: 20
+        height: 13
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 588547430d16e8800800000000000000
-      internalID: 616537745857468549
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: image (2)_3
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 1
-        width: 83
-        height: 6
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e12d9bdd064786720800000000000000
-      internalID: 2839647524442722846
+      spriteID: 1ed11304af4b01d60800000000000000
+      internalID: 7858980336673299937
       vertices: []
       indices: 
       edges: []
@@ -182,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1ba2ae8d51b259c4b8883a3099424b40
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -192,10 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      image (2)_0: -1455096403836856330
-      image (2)_1: 616537745857468549
-      image (2)_2: -5629001499573330436
-      image (2)_3: 2839647524442722846
+      trash_0: 7858980336673299937
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

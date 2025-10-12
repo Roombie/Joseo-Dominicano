@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 8a90b96674070004f8c86998dc60252a
+guid: 80b981c0a4c4a904886359f32df0a1d2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1455096403836856330
-    second: image (2)_0
-  - first:
-      213: 616537745857468549
-    second: image (2)_1
-  - first:
-      213: -5629001499573330436
-    second: image (2)_2
-  - first:
-      213: 2839647524442722846
-    second: image (2)_3
+      213: 1208040086343421634
+    second: image_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,10 +48,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -81,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 128
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -94,19 +85,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -135,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: image (2)_1
+      name: image_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 20
-        width: 85
-        height: 8
+        y: 0
+        width: 63
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,30 +128,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 588547430d16e8800800000000000000
-      internalID: 616537745857468549
+      spriteID: 2ce8eecde02d3c010800000000000000
+      internalID: 1208040086343421634
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: image (2)_3
+      name: image_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 83
-        height: 6
+        x: 63
+        y: 0
+        width: 63
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e12d9bdd064786720800000000000000
-      internalID: 2839647524442722846
+      spriteID: 6bc7239a15a1d204e90619e2b3f3651a
+      internalID: 898228770
       vertices: []
       indices: 
       edges: []
@@ -182,7 +160,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1ba2ae8d51b259c4b8883a3099424b40
+    spriteID: 881935a5eb7b1fc4bbaef57fe62cdd8e
     internalID: 0
     vertices: []
     indices: 
@@ -190,12 +168,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceOnImport
+        value: False
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":63.0,"y":26.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      image (2)_0: -1455096403836856330
-      image (2)_1: 616537745857468549
-      image (2)_2: -5629001499573330436
-      image (2)_3: 2839647524442722846
+      image_0: 1208040086343421634
+      image_1: 898228770
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

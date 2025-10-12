@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 8a90b96674070004f8c86998dc60252a
+guid: c69b6dbdf793a0f4bab00a36e6ffb441
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1455096403836856330
-    second: image (2)_0
-  - first:
-      213: 616537745857468549
-    second: image (2)_1
-  - first:
-      213: -5629001499573330436
-    second: image (2)_2
-  - first:
-      213: 2839647524442722846
-    second: image (2)_3
+      213: -6461785809725244843
+    second: Truck_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -81,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -94,19 +85,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -135,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: image (2)_1
+      name: Truck_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 20
-        width: 85
-        height: 8
+        y: 0
+        width: 61
+        height: 52
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,30 +128,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 588547430d16e8800800000000000000
-      internalID: 616537745857468549
+      spriteID: 55abaa4ca002356a0800000000000000
+      internalID: -6461785809725244843
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: image (2)_3
+      name: Truck_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 83
-        height: 6
+        x: 61
+        y: 0
+        width: 61
+        height: 52
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e12d9bdd064786720800000000000000
-      internalID: 2839647524442722846
+      spriteID: 8440470211300814d906ba2ea2ba41c1
+      internalID: 1641425714
       vertices: []
       indices: 
       edges: []
@@ -182,7 +160,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1ba2ae8d51b259c4b8883a3099424b40
+    spriteID: 329876dfd553b4144a089c265419a4c8
     internalID: 0
     vertices: []
     indices: 
@@ -190,12 +168,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":61.0,"y":52.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      image (2)_0: -1455096403836856330
-      image (2)_1: 616537745857468549
-      image (2)_2: -5629001499573330436
-      image (2)_3: 2839647524442722846
+      Truck_0: -6461785809725244843
+      Truck_1: 1641425714
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

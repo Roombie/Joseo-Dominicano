@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: 8a90b96674070004f8c86998dc60252a
+guid: 3e054839b4025e047b97625bcb220114
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1455096403836856330
-    second: image (2)_0
-  - first:
-      213: 616537745857468549
-    second: image (2)_1
-  - first:
-      213: -5629001499573330436
-    second: image (2)_2
-  - first:
-      213: 2839647524442722846
-    second: image (2)_3
+      213: -6679127377732573450
+    second: image212_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -57,10 +48,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -81,7 +72,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -94,19 +85,6 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
     buildTarget: Standalone
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -135,45 +113,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: image (2)_1
+      name: ui-credits-button_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 20
-        width: 85
-        height: 8
+        y: 0
+        width: 90
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 588547430d16e8800800000000000000
-      internalID: 616537745857468549
+      spriteID: 6cef8d1ea3acac74d8b9cea3dc48e844
+      internalID: -1577767080
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: image (2)_3
+      name: ui-credits-button_1
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 83
-        height: 6
+        x: 90
+        y: 0
+        width: 90
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e12d9bdd064786720800000000000000
-      internalID: 2839647524442722846
+      spriteID: 6a5ce284515cc0945b1a7c5a05917fd2
+      internalID: 590102226
       vertices: []
       indices: 
       edges: []
@@ -182,7 +160,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1ba2ae8d51b259c4b8883a3099424b40
+    spriteID: 2fc66b2e41cf226428b939a5b8d885e9
     internalID: 0
     vertices: []
     indices: 
@@ -190,12 +168,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":90.0,"y":26.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      image (2)_0: -1455096403836856330
-      image (2)_1: 616537745857468549
-      image (2)_2: -5629001499573330436
-      image (2)_3: 2839647524442722846
+      ui-credits-button_0: -1577767080
+      ui-credits-button_1: 590102226
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

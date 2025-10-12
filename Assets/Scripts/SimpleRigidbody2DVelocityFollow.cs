@@ -10,20 +10,20 @@ public class SimpleRigidbody2DVelocityFollow : MonoBehaviour
 
     void Start()
     {
-        follow = _body.transform.position;
+        SnapToBody();
     }
-    
+
     void Update()
     {
-        if (_body.gameObject.activeSelf == false)
-        {
-            transform.position = follow = _body.transform.position;
-            return;
-        }
         Vector3 center = _body.transform.position;
         Vector3 velocity = _time * _body.linearVelocity;
         velocity = Vector3.ClampMagnitude(velocity, _maxSpeed);
-        follow = Vector3.Lerp(follow, center + velocity, (velocity.magnitude / Mathf.Max(0.00000001f, _maxSpeed * _threshold)) * Time.deltaTime );
+        follow = Vector3.Lerp(follow, center + velocity, (velocity.magnitude / Mathf.Max(0.00000001f, _maxSpeed * _threshold)) * Time.deltaTime);
         transform.position = follow;
+    }
+
+    public void SnapToBody()
+    {
+        follow = _body.transform.position;
     }
 }
