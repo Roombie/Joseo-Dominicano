@@ -12,12 +12,12 @@ public class GameManager : MonoBehaviour
     int _currentDay = 0;
     // [SerializeField] int _dayCount = 5;
     [System.Serializable]
-    struct Level
+    public struct Level
     {
         public int dayQuota;
         public float dayDuration;
     }
-    [SerializeField] Level[] _days;
+    public Level[] days;
     [Header("References")]
     [SerializeField] DeliverInteraction _depositValuables; //rafamaster3
     [SerializeField] PlayerWallet _playerWallet; //rafamaster3
@@ -96,11 +96,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] Vector3 _playerInitialPosition;
     [SerializeField] GameObject _testGameplayScreen;
     [SerializeField] TMP_Text _testGameplayStateText;
+    [SerializeField] TMP_Text _playerSackLabel;
+    [SerializeField] CanvasGroup _playerSackUI;
     [SerializeField] TMP_Text _testGameplayTimer; //rafamaster3
     [SerializeField] TMP_Text _testGameplayShiftMoney; //rafamaster3
     [SerializeField] TMP_Text _testGameplayCollectedItemInfo; //rafamaster3
     [SerializeField] TMP_Text _testGameplayTotalMoney; //rafamaster3
     [SerializeField] int collectedInfoDuration = 3; //rafamaster3
+    [SerializeField] float _onCollectedItemTotalDuration = 3;
+    [SerializeField] float _onCollectedItemHold = 2;
     float _shiftTimeDuration = 30;
     [SerializeField] float _displayHurryUpOn = 10;
     float _shiftTimeLeft;
@@ -208,6 +212,13 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                {
+                    _playerSackLabel.text = _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit;
+                    // Invoke("HidePlayerSack", collectedInfoDuration);
+                    if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
+                    WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
+                }
+
                 { //rafamaster3: Display collectible info text for short time
                     _testGameplayCollectedItemInfo.text = valuable.name + " $" + valuable.value + " " +valuable.weight + "g " + valuable.carrySpace + "L".ToString(); //rafamaster3
                     _testGameplayCollectedItemInfo.gameObject.SetActive(true); //rafamaster3
@@ -227,6 +238,33 @@ public class GameManager : MonoBehaviour
     }
 
     void HideInfoText() => _testGameplayCollectedItemInfo.gameObject.SetActive(false); //rafamaster3
+    // void HidePlayerSack() => _playerSackUI.SetActive(false);
+
+    Coroutine WhenItemCollectedRoutine;
+    IEnumerator playerSackWhenItemCollectedRoutine()
+    {
+        
+        float t = 0;
+        float deltaDuration = 1 / (collectedInfoDuration - _onCollectedItemHold);
+        while (t < 1)
+        {
+            _playerSackUI.alpha = Mathf.Lerp(0, 1, t);
+            t += 2 * deltaDuration * Time.deltaTime;
+            yield return null;
+        }
+        t = 1;
+
+        yield return new WaitForSeconds(_onCollectedItemHold);
+
+        while (t > 0)
+        {
+            _playerSackUI.alpha = Mathf.Lerp(0, 1, t);
+            t -= 2 * deltaDuration * Time.deltaTime;
+            yield return null;
+        }
+
+        _playerSackUI.alpha = 0;
+    }
 
 
     public void _Gameplay_CollectValuable()
@@ -401,14 +439,19 @@ public class GameManager : MonoBehaviour
     public void _Home_EndDay()
     {
         _testHomeScreen.SetActive(false);
+<<<<<<< Updated upstream
         var quota = _days[_currentDay-1].dayQuota;
         if (_playerMoney >= quota)
+=======
+        var quota = days[_currentDay-1].dayQuota;
+        if (_playerMoney > quota)
+>>>>>>> Stashed changes
         {
             _playerMoney -= quota;
             _playerWallet.TrySpend(quota); //rafamaster3
             _testGameplayTotalMoney.text = _playerWallet.Balance.ToString(); //rafamaster3
 
-            if (_currentDay >= _days.Length)
+            if (_currentDay >= days.Length)
             {
                 _gameOverDisplay.Set("Good Ending", "Gimme some beer for the man! whooo");
                 _GameOver_Display();
@@ -436,7 +479,7 @@ public class GameManager : MonoBehaviour
         homeDebugText.AppendLine("───────────────────────────");
         homeDebugText.AppendLine("Current Money: " + _playerMoney);
         homeDebugText.AppendLine("───────────────────────────");
-        homeDebugText.AppendLine("Day Quota: " + _days[_currentDay-1].dayQuota);
+        homeDebugText.AppendLine("Day Quota: " + days[_currentDay-1].dayQuota);
         
         if (_testHomeStateText != null) _testHomeStateText.text = homeDebugText.ToString();
     }
