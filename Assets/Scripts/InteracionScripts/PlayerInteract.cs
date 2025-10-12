@@ -23,7 +23,8 @@ public class PlayerInteract : MonoBehaviour
     /// On action map of the player input remove the Hold interaction from Interact action, or reduce the hold time to achieve desired effects 
     /// </summary>
 
-    [SerializeField] private PlayerMovement player; //To Get the Script that defines the specific interaction of the interaction-object
+    [SerializeField] private PlayerMovement playerMovement; //To Get the Script that defines the specific interaction of the interaction-object
+    [SerializeField] private PlayerSmoothMovement playerSmoothMovement; //To Get the Script that defines the specific interaction of the interaction-object
     [SerializeField] private MonoBehaviour interactionScript; //To Get the Script that defines the specific interaction of the interaction-object
     [SerializeField] private SpriteRenderer interactSign;
     IPlayerInteract interact;
@@ -31,7 +32,14 @@ public class PlayerInteract : MonoBehaviour
     private bool inRange;
     //-----------------------------------------------------------
     private void Awake() => interact = interactionScript as IPlayerInteract;
-    private void OnDisable() => player.onInteractEvent -= Interact;
+    private void OnDisable() 
+        {
+        if(playerMovement != null) 
+            playerMovement.onInteractEvent -= Interact;
+
+        if (playerSmoothMovement != null) 
+            playerSmoothMovement.onInteractEvent -= Interact;
+        }
     private void Start() => interactSign.enabled = false;        
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -40,7 +48,10 @@ public class PlayerInteract : MonoBehaviour
         {
             inRange = true;
             InteractSign(true); //Activates object interaction sign
-            player.onInteractEvent += Interact;
+            if (playerMovement != null)
+                playerMovement.onInteractEvent += Interact;
+            if (playerSmoothMovement != null)
+                playerSmoothMovement.onInteractEvent += Interact;
             //Debug.Log("inrange " + inRange);
         }
     }
@@ -51,7 +62,10 @@ public class PlayerInteract : MonoBehaviour
         {
             inRange = false;
             InteractSign(false); //Dectivates player interaction sign
-            player.onInteractEvent -= Interact;
+            if (playerMovement != null)
+                playerMovement.onInteractEvent -= Interact;
+            if (playerSmoothMovement != null)
+                playerSmoothMovement.onInteractEvent -= Interact;
             //Debug.Log("inrange " + inRange);
         }
     }

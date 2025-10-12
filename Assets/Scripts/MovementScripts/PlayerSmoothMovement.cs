@@ -6,6 +6,8 @@ using System;
 public class PlayerSmoothMovement : OxygenableBehaviour
 {
     [SerializeField] private GameObject mobileControls;
+    [SerializeField] private bool nonRotationMovement;
+    [SerializeField] private Collider2D rotationPivotCollider;
 
     public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
     private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
@@ -124,6 +126,9 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
     private void Update()
     {
+        //Set if player rotates or not
+        SetNonRotation(nonRotationMovement);
+
         // LookForward();
 
         //Note: Animator should create a blend tree for the 8 directions and set motion values according to values on DefineLastDirection()
@@ -145,6 +150,8 @@ public class PlayerSmoothMovement : OxygenableBehaviour
             }
 
     }
+
+    public void SetNonRotation(bool value) => rotationPivotCollider.isTrigger = value;
 
     private IEnumerator DelayDirectionChange()
     {

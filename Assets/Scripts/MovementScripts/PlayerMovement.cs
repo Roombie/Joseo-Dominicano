@@ -7,6 +7,7 @@ using System;
 public class PlayerMovement : OxygenableBehaviour
 {
     [SerializeField] private GameObject mobileControls;
+    [SerializeField] private float rotationSpeed;
     
     public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
     private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
@@ -140,8 +141,23 @@ public class PlayerMovement : OxygenableBehaviour
 
     void LookForward()
     {
-        transform.right = movement.normalized;
+        if (movement.sqrMagnitude > 0.01f) // only rotate if moving
+        {
+            // Calculate target angle from movement vector
+            float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+
+            // Convert to Quaternion (Z axis rotation for 2D)
+            Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+
+            // Smoothly rotate toward target
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation,
+                targetRotation,
+                Time.deltaTime * rotationSpeed
+            );
+        }
     }
+
 
     void DefineLastDirection()
     {
