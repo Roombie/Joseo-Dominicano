@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -366,7 +367,7 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift) return;
         OnGameplayEnd();
-        _gameOverDisplay.Set("Game Over", "You died...");
+        _gameOverDisplay.Set(_gameOverTitleText, _gameOverContextText);
         _GameOver_Display();
     }
 
@@ -471,7 +472,7 @@ public class GameManager : MonoBehaviour
 
             if (_currentDay >= days.Length)
             {
-                _gameOverDisplay.Set("Good Ending", "Gimme some beer for the man! whooo");
+                _gameOverDisplay.Set(_winTitleText, _winContextText);
                 _GameOver_Display();
 
             }
@@ -483,7 +484,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _gameOverDisplay.Set("Bad Ending", "Your family starved...");
+            _gameOverDisplay.Set(_badEndingTitleText, _badEndingContextText);
             _GameOver_Display();
         }
         isInHome = false;
@@ -506,8 +507,15 @@ public class GameManager : MonoBehaviour
     #region Game Over
     [Header("Game Over")]
     [SerializeField] GameObject _testGameOverScreen;
+    [SerializeField] string _winTitleText = "Good Ending";
+    [SerializeField] string _winContextText = "Gimme some beer for the man! whooo";
+    [SerializeField] string _gameOverTitleText = "Game Over";
+    [SerializeField] string _gameOverContextText = "You died...";
+    [SerializeField] string _badEndingTitleText = "Bad Ending";
+    [SerializeField] string _badEndingContextText = "Your family starved...";
     [SerializeField] TMP_Text _gameOverTitle;
     [SerializeField] TMP_Text _gameOverContext;
+    [SerializeField] Image _gameOverBackground;
 
     struct GameEndDisplay
     {
