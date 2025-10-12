@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System;
+using Unity.VisualScripting;
 
 
 public class PlayerMovement : OxygenableBehaviour
 {
     [SerializeField] private GameObject mobileControls;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private float accelerationSpeed = 0.2f;
     
     public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
     private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
@@ -17,12 +19,11 @@ public class PlayerMovement : OxygenableBehaviour
     Animator animator;
     private Rigidbody2D rb;
     private Vector2 movement;
-    private float currentVelocity;
-    private float newVelocity;
     private float lastDirection;
     private float currentSpeed;
     public float walkSpeed = 5f;
     public float runSpeed = 10f;
+    private Vector2 velocityRef; //To use with SmoothDamp to soften acceleration
 
     //Events
     // public event Action<bool> isMovingEvent;
@@ -57,9 +58,9 @@ public class PlayerMovement : OxygenableBehaviour
     private void FixedUpdate()
     {
         //Controls movement
-        rb.linearVelocity =  
-            
-            movement * currentSpeed;
+        rb.linearVelocity = Vector2.SmoothDamp(rb.linearVelocity, movement * currentSpeed, ref velocityRef, accelerationSpeed);
+
+        
 
     }
 
