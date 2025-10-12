@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     [SerializeField] DeliverInteraction _depositValuables; //rafamaster3
     [SerializeField] PlayerWallet _playerWallet; //rafamaster3
-    [SerializeField] PlayerCollect _playerCollect; 
+    [SerializeField] PlayerCollect _playerCollect;
     [SerializeField] OxygenManager _oxygenManager; //rafamaster3
     [SerializeField] List<Spawner> _spawners; //rafamaster3-modified
 
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         _depositValuables?.onDepositValuables.AddListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
         _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
-        
+
         foreach (Spawner spawner in _spawners)
         {
             spawner?.onSpawn.AddListener(AddSpawnedValuable);
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
     float _shiftTimeLeft;
     int _currentShiftPayment = 0;
     int _playerCurrentWeight = 0;
-    [SerializeField] int _playerSackCarrySpaceLimit = 10;
+    public int _playerSackCarrySpaceLimit = 10;
     int _playerSackCarrySpaceUsed;
     [SerializeField] TestValuableData[] _testLevelValuables;
     List<TestValuableData> _playerSack = new List<TestValuableData>();
@@ -140,6 +140,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _startDayDelay = 2;
     [SerializeField] string _dayLabelText = "Dia";
     [SerializeField] TMP_Text _dayLabel;
+    [SerializeField] TMP_Text _dayGoalLabel;
+    [SerializeField] string _dayGoalText = "Meta diaria";
+    [SerializeField] TMP_Text _dayTimerLabel;
+    [SerializeField] string _dayTimerText = "Tiempo";
     [SerializeField] UnityEvent _onPlay;
     [SerializeField] UnityEvent _onStartDay;
     [SerializeField] UnityEvent _onEndGameplay;
@@ -170,9 +174,9 @@ public class GameManager : MonoBehaviour
     {
         if (inShift) return;
         inShift = true;
+        _currentDay++;
         ResetDayTimer();
         RunDayTimer();
-        _currentDay++;
         _oxygenManager.ResetOxygen();
         // _spawner.currentLevel = _currentDay;
         // _spawner.currentLevel = 0;
@@ -188,6 +192,7 @@ public class GameManager : MonoBehaviour
 
         _playerSackDebugOutput = "Clear";
         _currentShiftPayment = 0;
+        _dayGoalLabel.text = _dayGoalText + ": $" + _currentShiftPayment + "/$" + days[_currentDay - 1].dayQuota;
         _onStartDay?.Invoke();
     }
 
@@ -195,6 +200,12 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift) return;
         var valuable = valuableComponent.valuable;
+        if (valuable.value == 0 && valuable.carrySpace == 0)
+        {
+            Destroy(valuableComponent.gameObject);
+            return;
+        }
+
         if (valuable.carrySpace <= _playerSackCarrySpaceLimit - _playerSackCarrySpaceUsed)
         {
             _playerSack.Add(valuable);
@@ -220,7 +231,7 @@ public class GameManager : MonoBehaviour
                 }
 
                 { //rafamaster3: Display collectible info text for short time
-                    _testGameplayCollectedItemInfo.text = valuable.name + " $" + valuable.value + " " +valuable.weight + "g " + valuable.carrySpace + "L".ToString(); //rafamaster3
+                    _testGameplayCollectedItemInfo.text = valuable.name + " $" + valuable.value + " " + valuable.weight + "g " + valuable.carrySpace + "L".ToString(); //rafamaster3
                     _testGameplayCollectedItemInfo.gameObject.SetActive(true); //rafamaster3
                     Invoke(nameof(HideInfoText), collectedInfoDuration); //rafamaster3
                 }
@@ -231,8 +242,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _playerSackDebugOutput = "Not enough space to collect \"" + valuable.name + "\" (" 
-            + valuable.carrySpace + " in (" + _playerSackCarrySpaceUsed + "/" 
+            _playerSackDebugOutput = "Not enough space to collect \"" + valuable.name + "\" ("
+            + valuable.carrySpace + " in (" + _playerSackCarrySpaceUsed + "/"
             + _playerSackCarrySpaceLimit + ")";
         }
     }
@@ -243,7 +254,7 @@ public class GameManager : MonoBehaviour
     Coroutine WhenItemCollectedRoutine;
     IEnumerator playerSackWhenItemCollectedRoutine()
     {
-        
+
         float t = 0;
         float deltaDuration = 1 / (collectedInfoDuration - _onCollectedItemHold);
         while (t < 1)
@@ -288,11 +299,11 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            _playerSackDebugOutput = "Not enough space to collect \"" + randomCollectable.name + "\" (" 
-            + randomCollectable.carrySpace + " in (" + _playerSackCarrySpaceUsed + "/" 
+            _playerSackDebugOutput = "Not enough space to collect \"" + randomCollectable.name + "\" ("
+            + randomCollectable.carrySpace + " in (" + _playerSackCarrySpaceUsed + "/"
             + _playerSackCarrySpaceLimit + ")";
         }
-        
+
     }
 
     public void _Gameplay_DepositValuables()
@@ -307,6 +318,14 @@ public class GameManager : MonoBehaviour
         }
         _playerSack.Clear();
         _playerSackDebugOutput = "Clear";
+        _dayGoalLabel.text = _dayGoalText + ": $" + _currentShiftPayment + "/$" + days[_currentDay-1].dayQuota;
+
+        {
+            _playerSackLabel.text = _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit;
+            // Invoke("HidePlayerSack", collectedInfoDuration);
+            if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
+            WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
+        }
     }
 
     public void _Gameplay_UpdateDebugText()
@@ -336,13 +355,13 @@ public class GameManager : MonoBehaviour
         {
             gameplayDebugText.AppendLine("- Start Day to Display Gameplay -");
         }
-        
+
         if (_testGameplayStateText != null) _testGameplayStateText.text = gameplayDebugText.ToString();
         if (_testGameplayTimer != null) _testGameplayTimer.text = Mathf.Ceil(_shiftTimeLeft).ToString(); //rafamaster3
         if (_testGameplayShiftMoney != null) _testGameplayShiftMoney.text = "Hoy: $" + _currentShiftPayment.ToString(); //rafamaster3
         if (_testGameplayTotalMoney != null) _testGameplayTotalMoney.text = "Ahorrado: $" + _playerWallet.Balance.ToString(); //rafamaster3
     }
-    
+
     public void _Gameplay_OnPlayerDeath()
     {
         if (!inShift) return;
@@ -398,9 +417,11 @@ public class GameManager : MonoBehaviour
                 OnHurryUpDisplay();
             }
             _shiftTimeLeft -= Time.deltaTime;
+            _dayTimerLabel.text = _dayTimerText + ": " + Mathf.Ceil(_shiftTimeLeft);
             yield return null;
         }
         _shiftTimeLeft = 0;
+        _dayTimerLabel.text = _dayTimerText + ": " + _shiftTimeLeft;
         _Gameplay_OnTimeUp();
     }
 
@@ -413,12 +434,13 @@ public class GameManager : MonoBehaviour
     void ResetDayTimer()
     {
         isInHurry = false;
-        _shiftTimeLeft = _shiftTimeDuration;
+        // _shiftTimeLeft = _shiftTimeDuration;
+        _shiftTimeLeft = days[_currentDay-1].dayDuration;
     }
-    
+
     void OnHurryUpDisplay()
     {
-        
+
     }
 
     #endregion
@@ -439,13 +461,9 @@ public class GameManager : MonoBehaviour
     public void _Home_EndDay()
     {
         _testHomeScreen.SetActive(false);
-<<<<<<< Updated upstream
-        var quota = _days[_currentDay-1].dayQuota;
+        var quota = days[_currentDay - 1].dayQuota;
         if (_playerMoney >= quota)
-=======
-        var quota = days[_currentDay-1].dayQuota;
-        if (_playerMoney > quota)
->>>>>>> Stashed changes
+
         {
             _playerMoney -= quota;
             _playerWallet.TrySpend(quota); //rafamaster3
@@ -470,7 +488,7 @@ public class GameManager : MonoBehaviour
         }
         isInHome = false;
     }
-    
+
     public void _Home_UpdateDebugText()
     {
         if (!isInHome) return;
@@ -479,8 +497,8 @@ public class GameManager : MonoBehaviour
         homeDebugText.AppendLine("───────────────────────────");
         homeDebugText.AppendLine("Current Money: " + _playerMoney);
         homeDebugText.AppendLine("───────────────────────────");
-        homeDebugText.AppendLine("Day Quota: " + days[_currentDay-1].dayQuota);
-        
+        homeDebugText.AppendLine("Day Quota: " + days[_currentDay - 1].dayQuota);
+
         if (_testHomeStateText != null) _testHomeStateText.text = homeDebugText.ToString();
     }
 
@@ -490,7 +508,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _testGameOverScreen;
     [SerializeField] TMP_Text _gameOverTitle;
     [SerializeField] TMP_Text _gameOverContext;
-    
+
     struct GameEndDisplay
     {
         string endingTitle;
@@ -500,7 +518,7 @@ public class GameManager : MonoBehaviour
         {
             title.text = endingTitle;
             context.text = endingContext;
-        } 
+        }
 
         public void Set(string title = "Game Over", string context = "")
         {
@@ -509,7 +527,7 @@ public class GameManager : MonoBehaviour
         }
     }
     GameEndDisplay _gameOverDisplay;
-    
+
     public void _GameOver_Display()
     {
         _gameOverDisplay.SetEndingLabels(_gameOverTitle, _gameOverContext);
@@ -522,7 +540,7 @@ public class GameManager : MonoBehaviour
         ResetGame();
         _MainMenu_Display();
     }
-    
-#endregion
+
+    #endregion
 
 }

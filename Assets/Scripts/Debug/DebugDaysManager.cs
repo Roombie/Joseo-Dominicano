@@ -1,13 +1,17 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq; // Necesario para la conversión de la lista a array
+using System.Linq;
+using TMPro; // Necesario para la conversión de la lista a array
 
 public class DebugDaysManager : MonoBehaviour
 {
     [SerializeField] GameManager _gameManager;
     [SerializeField] DebugDaysItem _template;
     // Debes asignar el Transform que es el padre de todos los ítems de la lista (por ejemplo, el Content de un ScrollView)
-    [SerializeField] Transform _contentParent; 
+    [SerializeField] Transform _contentParent;
+    [SerializeField] private FloatVariable maxTotalOxygen;
+    [SerializeField] TMP_InputField _oxygenField;
+    [SerializeField] TMP_InputField _sackLimitField;
     List<DebugDaysItem> _debugDaysItems = new List<DebugDaysItem>();
 
     private void Start()
@@ -58,6 +62,9 @@ public class DebugDaysManager : MonoBehaviour
         ReIndexItems();
         // 🌟 NUEVO: Actualiza el estado de los botones después de cargar
         UpdateRemoveButtonStates();
+
+        _sackLimitField.text = _gameManager._playerSackCarrySpaceLimit.ToString();
+        _oxygenField.text = maxTotalOxygen.value.ToString();
     }
 
     /// <summary>
@@ -174,6 +181,9 @@ public class DebugDaysManager : MonoBehaviour
 
         // Convertir la lista a un array y asignarla al GameManager
         _gameManager.days = newDays.ToArray();
+
+        int.TryParse(_sackLimitField.text, out _gameManager._playerSackCarrySpaceLimit);
+        float.TryParse(_oxygenField.text, out maxTotalOxygen.value);
         
         Debug.Log($"¡Valores de días confirmados y guardados en GameManager! Total de días: {_gameManager.days.Length}");
     }
