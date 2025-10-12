@@ -58,13 +58,6 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         currentSpeed = walkSpeed; // Set initial speed               
     }
 
-    public void GetToDefaultStateValues()
-    {
-        sprite.flipY = false;
-        rb.linearVelocity = 0;
-        rb.rotation = 0;
-    }
-
     private void FixedUpdate()
     {
         if (rb == null) return;
@@ -170,7 +163,7 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         //Debug.Log("lastDirection changed to: " + lastDirection);
         isUpdatingLastDirection = false;
     }
-    public void OnInteract() => onInteractEvent?.Invoke();
+    public void OnInteract() => onInteractEvent.Invoke();
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();

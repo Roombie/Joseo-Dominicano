@@ -9,7 +9,7 @@ public class PlayerCollect : MonoBehaviour
     {
         if (other.TryGetComponent(out TestValuable valuable))
         {
-            _onCollect?.Invoke(valuable);
+            _onCollect?.Invoke(valuable);   
         }
     }
 }
