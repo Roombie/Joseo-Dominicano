@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: e14a54c377468e54689c90a3337376c4
+guid: 33df6afc2d6a3694990c952b04ae2845
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -650332501863574068
-    second: leg_2_0
-  - first:
-      213: 4289887419894331343
-    second: leg_2_1
-  - first:
-      213: -412296708355699937
-    second: leg_2_2
-  - first:
-      213: -6981264548073772585
-    second: leg_2_3
-  - first:
-      213: 5105306616646406248
-    second: leg_2_4
+      213: -4646944551657203209
+    second: swim guy_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -138,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: leg_2_0
+      name: swim guy_0
       rect:
         serializedVersion: 2
-        x: 166
-        y: 109
-        width: 911
-        height: 594
+        x: 0
+        y: 0
+        width: 52
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,96 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: cc5d780090e89f6f0800000000000000
-      internalID: -650332501863574068
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: leg_2_1
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 409
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: fc7f73d21edb88b30800000000000000
-      internalID: 4289887419894331343
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: leg_2_2
-      rect:
-        serializedVersion: 2
-        x: 154
-        y: 329
-        width: 11
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f1b4564045a374af0800000000000000
-      internalID: -412296708355699937
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: leg_2_3
-      rect:
-        serializedVersion: 2
-        x: 147
-        y: 321
-        width: 8
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7d9e801c1e09d1f90800000000000000
-      internalID: -6981264548073772585
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: leg_2_4
-      rect:
-        serializedVersion: 2
-        x: 169
-        y: 311
-        width: 19
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 86019aa9151b9d640800000000000000
-      internalID: 5105306616646406248
+      spriteID: 7f919830d8cb28fb0800000000000000
+      internalID: -4646944551657203209
       vertices: []
       indices: 
       edges: []
@@ -261,11 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      leg_2_0: -650332501863574068
-      leg_2_1: 4289887419894331343
-      leg_2_2: -412296708355699937
-      leg_2_3: -6981264548073772585
-      leg_2_4: 5105306616646406248
+      swim guy_0: -4646944551657203209
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
