@@ -32,11 +32,16 @@ public class OxygenManager : MonoBehaviour
     [SerializeField] private float sprintingDepletionChange = 1.7f;
     [SerializeField] private float currentMoveDepletionModifier = 1;
 
+    [Header("Hazards)]")]
+    [SerializeField] float hazardDamage = 10f;
+
 
     [SerializeField] private Slider oxygenBar;
     [SerializeField] private TextMeshProUGUI oxygenLvlText;
 
+    //Scripts to call events
     [SerializeField] private OxygenableBehaviour oxygenable;
+    [SerializeField] private PlayerHazardListener hazard;
 
 
     [SerializeField] private bool consumingOxygen = false;
@@ -63,6 +68,7 @@ public class OxygenManager : MonoBehaviour
         {
             oxygenable.isMovingEvent += UpdateBoolIfMoving;
             oxygenable.isSprintingEvent += ChangeDepletionRateIfSprinting;
+            hazard.OnHazardCollided.AddListener((Hazard) => ChangeOxygenLevel(-Hazard.damage));
         }
     }
 
@@ -72,6 +78,7 @@ public class OxygenManager : MonoBehaviour
         {
             oxygenable.isMovingEvent -= UpdateBoolIfMoving;
             oxygenable.isSprintingEvent -= ChangeDepletionRateIfSprinting;
+            hazard.OnHazardCollided.RemoveListener((Hazard) => ChangeOxygenLevel(-Hazard.damage));
         }
     }
 
@@ -110,6 +117,7 @@ public class OxygenManager : MonoBehaviour
     {
         if (oxygenLevel.value > 0)
         {
+            Debug.Log("Change oxygen called for value: "+ value);
             oxygenLevel.value = oxygenLevel.value + value > maxTotalOxygen.value ? maxTotalOxygen.value : oxygenLevel.value += value;
             oxygenLvlText.text = oxygenLevel.value.ToString();
             UpdateOxygenBar();
