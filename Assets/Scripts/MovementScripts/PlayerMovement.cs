@@ -17,6 +17,8 @@ public class PlayerMovement : OxygenableBehaviour
     Animator animator;
     private Rigidbody2D rb;
     private Vector2 movement;
+    private float currentVelocity;
+    private float newVelocity;
     private float lastDirection;
     private float currentSpeed;
     public float walkSpeed = 5f;
@@ -55,7 +57,9 @@ public class PlayerMovement : OxygenableBehaviour
     private void FixedUpdate()
     {
         //Controls movement
-        rb.linearVelocity = movement * currentSpeed;
+        rb.linearVelocity =  
+            
+            movement * currentSpeed;
 
     }
 
