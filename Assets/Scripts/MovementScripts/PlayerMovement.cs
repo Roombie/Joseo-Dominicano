@@ -2,11 +2,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System;
+using Unity.VisualScripting;
 
 
 public class PlayerMovement : OxygenableBehaviour
 {
     [SerializeField] private GameObject mobileControls;
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private float accelerationSpeed = 0.2f;
     
     public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
     private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
@@ -20,6 +23,7 @@ public class PlayerMovement : OxygenableBehaviour
     private float currentSpeed;
     public float walkSpeed = 5f;
     public float runSpeed = 10f;
+    private Vector2 velocityRef; //To use with SmoothDamp to soften acceleration
 
     //Events
     // public event Action<bool> isMovingEvent;
@@ -54,7 +58,9 @@ public class PlayerMovement : OxygenableBehaviour
     private void FixedUpdate()
     {
         //Controls movement
-        rb.linearVelocity = movement * currentSpeed;
+        rb.linearVelocity = Vector2.SmoothDamp(rb.linearVelocity, movement * currentSpeed, ref velocityRef, accelerationSpeed);
+
+        
 
     }
 
@@ -140,8 +146,23 @@ public class PlayerMovement : OxygenableBehaviour
 
     void LookForward()
     {
-        transform.right = movement.normalized;
+        if (movement.sqrMagnitude > 0.01f) // only rotate if moving
+        {
+            // Calculate target angle from movement vector
+            float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+
+            // Convert to Quaternion (Z axis rotation for 2D)
+            Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+
+            // Smoothly rotate toward target
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation,
+                targetRotation,
+                Time.deltaTime * rotationSpeed
+            );
+        }
     }
+
 
     void DefineLastDirection()
     {

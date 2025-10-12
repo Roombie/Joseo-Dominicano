@@ -5,7 +5,12 @@ public class TestValuable : MonoBehaviour
 {
     [SerializeField] GameManager.TestValuableData _properties;
     [SerializeField] float destroyTime = 10;
-    private void Start() => StartCoroutine(DestroyOnSeconds());
+    [SerializeField] bool selfDestroy = true;
+    private void Start()
+    {
+        if (selfDestroy) 
+            StartCoroutine(DestroyOnSeconds());
+    }
 
     IEnumerator DestroyOnSeconds()
     {
