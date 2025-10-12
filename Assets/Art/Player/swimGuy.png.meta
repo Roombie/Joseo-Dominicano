@@ -1,13 +1,25 @@
 fileFormatVersion: 2
-guid: 069adda4b33206e428b591c28ae49f26
+guid: 5edfb8787465a4c4cacc70fe54550694
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6831044345573399081
-    second: asset_Tienda_SpriteSheet (1)_0
+      213: -1719780377651961821
+    second: swimGuy_0
   - first:
-      213: -2955491442032686595
-    second: asset_Tienda_SpriteSheet (1)_1
+      213: -671694248710257056
+    second: swimGuy_1
+  - first:
+      213: 6509773105724406099
+    second: swimGuy_2
+  - first:
+      213: 6127090471401967894
+    second: swimGuy_3
+  - first:
+      213: -3653924922792519991
+    second: swimGuy_4
+  - first:
+      213: -6366508364974461942
+    second: swimGuy_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -54,7 +66,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -129,13 +141,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: asset_Tienda_SpriteSheet (1)_0
+      name: swimGuy_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 1
         y: 0
-        width: 64
-        height: 46
+        width: 49
+        height: 18
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,20 +156,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7d528213c514331a0800000000000000
-      internalID: -6831044345573399081
+      spriteID: 3202e5abbdc1228e0800000000000000
+      internalID: -1719780377651961821
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: asset_Tienda_SpriteSheet (1)_1
+      name: swimGuy_1
       rect:
         serializedVersion: 2
-        x: 64
+        x: 52
         y: 0
-        width: 64
-        height: 46
+        width: 43
+        height: 18
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,8 +178,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: df94fec313cfbf6d0800000000000000
-      internalID: -2955491442032686595
+      spriteID: 066c3fbb3a9ada6f0800000000000000
+      internalID: -671694248710257056
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swimGuy_2
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 0
+        width: 52
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 359381f362c575a50800000000000000
+      internalID: 6509773105724406099
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swimGuy_3
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 0
+        width: 50
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 611589e225cc70550800000000000000
+      internalID: 6127090471401967894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swimGuy_4
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 0
+        width: 46
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c6510d54a6aa4dc0800000000000000
+      internalID: -3653924922792519991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: swimGuy_5
+      rect:
+        serializedVersion: 2
+        x: 249
+        y: 0
+        width: 50
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0ce42e8f5e95a7a0800000000000000
+      internalID: -6366508364974461942
       vertices: []
       indices: 
       edges: []
@@ -176,7 +276,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c3b6141241d97314096328dacd14b0f4
+    spriteID: 6967cc3876b73ab4fa8422a0fd0c715b
     internalID: 0
     vertices: []
     indices: 
@@ -186,8 +286,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      asset_Tienda_SpriteSheet (1)_0: -6831044345573399081
-      asset_Tienda_SpriteSheet (1)_1: -2955491442032686595
+      swimGuy_0: -1719780377651961821
+      swimGuy_1: -671694248710257056
+      swimGuy_2: 6509773105724406099
+      swimGuy_3: 6127090471401967894
+      swimGuy_4: -3653924922792519991
+      swimGuy_5: -6366508364974461942
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
