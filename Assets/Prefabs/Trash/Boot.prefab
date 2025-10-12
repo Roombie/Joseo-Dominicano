@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7062699164287771994}
   - component: {fileID: 6435270088055024061}
   - component: {fileID: 4590088049046274404}
+  - component: {fileID: -9160817567021404965}
   m_Layer: 12
   m_Name: Boot
   m_TagString: Untagged
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 11
-  m_Sprite: {fileID: 5035157531102187988, guid: 7a9b1ea460bacbd488ba050e9127bcff, type: 3}
+  m_Sprite: {fileID: 7956957999726844231, guid: d82bf6f184a114f4f8210ea58547366d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -168,7 +169,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollect
-  _targetTag: Player
   _onCollect:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-9160817567021404965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4604369798694375657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af64108a653f3df45aaf0534c6ac081e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TestValuable
+  _properties:
+    name: "Bota de caama\xF1o"
+    value: 25
+    weight: 2
+    carrySpace: 2

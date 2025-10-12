@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3232539562177284266}
   - component: {fileID: 1606374383398967520}
   - component: {fileID: -2271098187654044424}
+  - component: {fileID: 3203337963352010203}
   m_Layer: 12
   m_Name: Bleach
   m_TagString: Untagged
@@ -82,7 +83,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 11
-  m_Sprite: {fileID: -113273275368915884, guid: 7a9b1ea460bacbd488ba050e9127bcff, type: 3}
+  m_Sprite: {fileID: 3120505415298479657, guid: d82bf6f184a114f4f8210ea58547366d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -168,7 +169,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollect
-  _targetTag: Player
   _onCollect:
     m_PersistentCalls:
       m_Calls:
@@ -184,3 +184,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3203337963352010203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160163271522881491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af64108a653f3df45aaf0534c6ac081e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TestValuable
+  _properties:
+    name: Pote e'cloro
+    value: 10
+    weight: 2
+    carrySpace: 2
