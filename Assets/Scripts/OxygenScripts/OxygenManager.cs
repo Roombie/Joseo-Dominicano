@@ -117,7 +117,6 @@ public class OxygenManager : MonoBehaviour
     {
         if (oxygenLevel.value > 0)
         {
-            Debug.Log("Change oxygen called for value: "+ value);
             oxygenLevel.value = oxygenLevel.value + value > maxTotalOxygen.value ? maxTotalOxygen.value : oxygenLevel.value += value;
             oxygenLvlText.text = oxygenLevel.value.ToString();
             UpdateOxygenBar();
