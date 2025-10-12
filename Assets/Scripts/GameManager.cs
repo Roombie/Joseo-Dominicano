@@ -402,7 +402,7 @@ public class GameManager : MonoBehaviour
     {
         _testHomeScreen.SetActive(false);
         var quota = _days[_currentDay-1].dayQuota;
-        if (_playerMoney > quota)
+        if (_playerMoney >= quota)
         {
             _playerMoney -= quota;
             _playerWallet.TrySpend(quota); //rafamaster3
