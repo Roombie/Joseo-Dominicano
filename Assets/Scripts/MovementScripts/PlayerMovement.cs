@@ -10,7 +10,8 @@ public class PlayerMovement : OxygenableBehaviour
     [SerializeField] private GameObject mobileControls;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float accelerationSpeed = 0.2f;
-    
+    [SerializeField] private bool nonRotationMovement;
+
     public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
     private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
 
@@ -66,7 +67,8 @@ public class PlayerMovement : OxygenableBehaviour
 
     private void Update()
     {
-        LookForward();
+        if(!nonRotationMovement)
+            LookForward();
 
         //Note: Animator should create a blend tree for the 8 directions and set motion values according to values on DefineLastDirection()
         animator.SetFloat("Blend", lastDirection);
