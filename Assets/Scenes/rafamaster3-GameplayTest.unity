@@ -263,6 +263,7 @@ MonoBehaviour:
     value: 100
     weight: 20
     carrySpace: 10
+  destroyTime: 0
 --- !u!1 &26811209
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,6 +680,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 4945245795245525404, guid: 96ffeaec8544c2148a1379b6a05be174, type: 3}
+      propertyPath: destroyTime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6847468297573457130, guid: 96ffeaec8544c2148a1379b6a05be174, type: 3}
       propertyPath: m_Name
       value: Red Sandal
@@ -715,6 +720,7 @@ MonoBehaviour:
     value: 100
     weight: 20
     carrySpace: 10
+  destroyTime: 0
 --- !u!1 &153344718
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,6 +1092,7 @@ MonoBehaviour:
     value: 500
     weight: 2
     carrySpace: 2
+  destroyTime: 0
 --- !u!1001 &205094828
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1363,7 +1370,7 @@ MonoBehaviour:
   _testGameplayTotalMoney: {fileID: 780697016}
   collectedInfoDuration: 3
   _displayHurryUpOn: 10
-  _playerSackCarrySpaceLimit: 30
+  _playerSackCarrySpaceLimit: 10
   _testLevelValuables:
   - name: Ball
     value: 35
@@ -2144,6 +2151,10 @@ PrefabInstance:
     - target: {fileID: 160163271522881491, guid: 665ad085161ba404eb1d3cdbf3d4505e, type: 3}
       propertyPath: m_Name
       value: Bleach
+      objectReference: {fileID: 0}
+    - target: {fileID: 3203337963352010203, guid: 665ad085161ba404eb1d3cdbf3d4505e, type: 3}
+      propertyPath: destroyTime
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3232539562177284266, guid: 665ad085161ba404eb1d3cdbf3d4505e, type: 3}
       propertyPath: m_GravityScale
@@ -3599,6 +3610,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 7743075861270721302, guid: 77f9ebc887c6ad747b3dc58632b446f4, type: 3}
+      propertyPath: destroyTime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7767892709728236699, guid: 77f9ebc887c6ad747b3dc58632b446f4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4673,8 +4688,8 @@ MonoBehaviour:
     code to avoid this error. But you can use it on purpose. \n- Layers must be properly
     setup to use this component \n- Setting Spawn range too wide on a scene with
     few available room to spawn may lead to crashes"
-  isLevelDependant: 0
-  activeLevel: 1
+  isLevelDependant: 1
+  activeLevel: 3
   currentLevel: 1
   continousSpawn: 1
   launchInStart: 0
@@ -4706,6 +4721,10 @@ PrefabInstance:
     - target: {fileID: 684856138852671323, guid: f08368139bb22794caf47cf4eb6bd2c2, type: 3}
       propertyPath: m_SortingOrder
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4081403562747840933, guid: f08368139bb22794caf47cf4eb6bd2c2, type: 3}
+      propertyPath: destroyTime
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7570913131349753055, guid: f08368139bb22794caf47cf4eb6bd2c2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5470,6 +5489,7 @@ MonoBehaviour:
     value: 500
     weight: 2
     carrySpace: 2
+  destroyTime: 0
 --- !u!1 &1092152910
 GameObject:
   m_ObjectHideFlags: 0
@@ -6039,6 +6059,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -6182785562099386941, guid: 2d99f792e916c3244b74058cae19c12b, type: 3}
+      propertyPath: destroyTime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7151306002606250001, guid: 2d99f792e916c3244b74058cae19c12b, type: 3}
       propertyPath: m_SortingOrder
       value: 11
@@ -6265,7 +6289,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: e97ec15200000000
+  m_ApplyToSortingLayers: e97ec1520000000013014793
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -7258,6 +7282,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1647047468}
     m_Modifications:
+    - target: {fileID: -8715334801180999777, guid: 9cc2f480b8463fc449ae254f21c3c246, type: 3}
+      propertyPath: destroyTime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: -343032725362612979, guid: 9cc2f480b8463fc449ae254f21c3c246, type: 3}
       propertyPath: _onCollect.m_PersistentCalls.m_Calls.Array.size
       value: 0
@@ -8418,8 +8446,8 @@ MonoBehaviour:
     code to avoid this error. But you can use it on purpose. \n- Layers must be properly
     setup to use this component \n- Setting Spawn range too wide on a scene with
     few available room to spawn may lead to crashes"
-  isLevelDependant: 0
-  activeLevel: 1
+  isLevelDependant: 1
+  activeLevel: 2
   currentLevel: 1
   continousSpawn: 1
   launchInStart: 0
@@ -8591,6 +8619,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1853464588}
     m_Modifications:
+    - target: {fileID: -6273983164941422214, guid: f0f84a938d2dc25469d40a921670966a, type: 3}
+      propertyPath: destroyTime
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 613700893859074490, guid: f0f84a938d2dc25469d40a921670966a, type: 3}
       propertyPath: m_SortingOrder
       value: 11
