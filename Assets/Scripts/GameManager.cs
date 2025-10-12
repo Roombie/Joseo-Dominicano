@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -131,10 +132,30 @@ public class GameManager : MonoBehaviour
         public int weight;
         public int carrySpace;
     }
+    [SerializeField] float _startDayDelay = 2;
+    [SerializeField] string _dayLabelText = "Dia";
+    [SerializeField] TMP_Text _dayLabel;
+    [SerializeField] UnityEvent _onPlay;
+    [SerializeField] UnityEvent _onStartDay;
 
     public void _Gameplay_Display()
     {
         _testGameplayScreen.SetActive(true);
+        if (_dayLabel != null) _dayLabel.text = _dayLabelText + " " + (_currentDay + 1);
+        _onPlay?.Invoke();
+    }
+
+    public void _Gameplay_StartDayOnDelay()
+    {
+        StartCoroutine(GameplayStartDayDelay());
+    }
+
+    IEnumerator GameplayStartDayDelay()
+    {
+        Debug.Log("Waiting");
+        yield return new WaitForSecondsRealtime(_startDayDelay);
+        Debug.Log("START");
+        _Gameplay_StartDay();
     }
 
     public void _Gameplay_StartDay()
@@ -152,11 +173,13 @@ public class GameManager : MonoBehaviour
 
         foreach (Spawner spawner in _spawners)
         {
+            spawner.currentLevel = _currentDay;
             spawner.LaunchSpawner();
         }
 
         _playerSackDebugOutput = "Clear";
         _currentShiftPayment = 0;
+        _onStartDay?.Invoke();
     }
 
     void OnValuableCollected(TestValuable valuableComponent)

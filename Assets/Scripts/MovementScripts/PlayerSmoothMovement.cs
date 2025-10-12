@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using System;
 
-public class PlayerSmoothMovement : MonoBehaviour
+public class PlayerSmoothMovement : OxygenableBehaviour
 {
     [SerializeField] private GameObject mobileControls;
 
@@ -12,7 +12,7 @@ public class PlayerSmoothMovement : MonoBehaviour
 
     Animator animator;
     private Rigidbody2D rb;
-    private SpriteRenderer sprite;
+    [SerializeField] private SpriteRenderer sprite;
     private Vector2 moveInput;
     private Vector2 movement;
     private Quaternion targetRotation;
@@ -26,8 +26,8 @@ public class PlayerSmoothMovement : MonoBehaviour
     public MoveToForwardType _forwardTraslationType;
 
     //Events
-    public event Action<bool> isMovingEvent;
-    public event Action<bool> isSprintingEvent;
+    // public event Action<bool> isMovingEvent;
+    // public event Action<bool> isSprintingEvent;
     public event Action onInteractEvent;
 
     void Awake()
@@ -51,7 +51,7 @@ public class PlayerSmoothMovement : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
+        if (sprite == null) sprite = GetComponent<SpriteRenderer>();
 
         currentSpeed = walkSpeed; // Set initial speed               
     }
@@ -163,11 +163,11 @@ public class PlayerSmoothMovement : MonoBehaviour
 
         if (moveInput != Vector2.zero)
         {
-            isMovingEvent?.Invoke(true); // Tell listeners moving changed
+            SetMoveEvent(true); // Tell listeners moving changed
         }
         else
         {
-            isMovingEvent?.Invoke(false); // Tell listeners moving changed
+            SetMoveEvent(false); // Tell listeners moving changed
         }
     }
 
@@ -184,14 +184,14 @@ public class PlayerSmoothMovement : MonoBehaviour
             currentSpeed = runSpeed;
             //Debug.Log("Sprint started");
 
-            isSprintingEvent?.Invoke(true); // Tell listeners sprinting changed
+            SetSprintingEvent(true); // Tell listeners sprinting changed
         }
         else
         {
             currentSpeed = walkSpeed;
             //Debug.Log("Sprint canceled");
 
-            isSprintingEvent?.Invoke(false); // Tell listeners sprinting changed
+            SetSprintingEvent(false); // Tell listeners sprinting changed
         }
     }
 

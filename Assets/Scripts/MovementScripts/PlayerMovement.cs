@@ -4,7 +4,7 @@ using System.Collections;
 using System;
 
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : OxygenableBehaviour
 {
     [SerializeField] private GameObject mobileControls;
     
@@ -22,8 +22,8 @@ public class PlayerMovement : MonoBehaviour
     public float runSpeed = 10f;
 
     //Events
-    public event Action<bool> isMovingEvent;
-    public event Action<bool> isSprintingEvent;
+    // public event Action<bool> isMovingEvent;
+    // public event Action<bool> isSprintingEvent;
     public event Action onInteractEvent;
 
     void Awake()
@@ -106,11 +106,11 @@ public class PlayerMovement : MonoBehaviour
 
         if(movement != Vector2.zero)
         {
-            isMovingEvent?.Invoke(true); // Tell listeners moving changed
+            SetMoveEvent(true); // Tell listeners moving changed
         }
         else
         {
-            isMovingEvent?.Invoke(false); // Tell listeners moving changed
+            SetMoveEvent(false); // Tell listeners moving changed
         }
     }
 
@@ -127,14 +127,14 @@ public class PlayerMovement : MonoBehaviour
             currentSpeed = runSpeed;
             //Debug.Log("Sprint started");
 
-            isSprintingEvent?.Invoke(true); // Tell listeners sprinting changed
+            SetSprintingEvent(true); // Tell listeners sprinting changed
         }
         else
         {
             currentSpeed = walkSpeed;
             //Debug.Log("Sprint canceled");
 
-            isSprintingEvent?.Invoke(false); // Tell listeners sprinting changed
+            SetSprintingEvent(false); // Tell listeners sprinting changed
         }
     }
 
