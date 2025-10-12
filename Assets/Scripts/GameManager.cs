@@ -42,8 +42,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (_testGameplayStateText != null) _Gameplay_UpdateDebugText();
-        if (_testHomeStateText != null) _Home_UpdateDebugText();
+        _Gameplay_UpdateDebugText();
+        _Home_UpdateDebugText();
     }
 
     void OnDestroy()
@@ -271,10 +271,10 @@ public class GameManager : MonoBehaviour
             gameplayDebugText.AppendLine("- Start Day to Display Gameplay -");
         }
         
-        _testGameplayStateText.text = gameplayDebugText.ToString();
-        _testGameplayTimer.text = Mathf.Ceil(_shiftTimeLeft).ToString(); //rafamaster3
-        _testGameplayShiftMoney.text = "Hoy: $" + _currentShiftPayment.ToString(); //rafamaster3
-        _testGameplayTotalMoney.text = "Ahorrado: $" + _playerWallet.Balance.ToString(); //rafamaster3
+        if (_testGameplayStateText != null) _testGameplayStateText.text = gameplayDebugText.ToString();
+        if (_testGameplayTimer != null) _testGameplayTimer.text = Mathf.Ceil(_shiftTimeLeft).ToString(); //rafamaster3
+        if (_testGameplayShiftMoney != null) _testGameplayShiftMoney.text = "Hoy: $" + _currentShiftPayment.ToString(); //rafamaster3
+        if (_testGameplayTotalMoney != null) _testGameplayTotalMoney.text = "Ahorrado: $" + _playerWallet.Balance.ToString(); //rafamaster3
     }
     
     public void _Gameplay_OnPlayerDeath()
@@ -407,7 +407,7 @@ public class GameManager : MonoBehaviour
         homeDebugText.AppendLine("───────────────────────────");
         homeDebugText.AppendLine("Day Quota: " + _days[_currentDay-1].dayQuota);
         
-        _testHomeStateText.text = homeDebugText.ToString();
+        if (_testHomeStateText != null) _testHomeStateText.text = homeDebugText.ToString();
     }
 
     #endregion
