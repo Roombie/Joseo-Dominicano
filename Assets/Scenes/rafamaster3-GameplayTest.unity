@@ -978,6 +978,27 @@ MonoBehaviour:
     value: 400
     weight: 1
     carrySpace: 1
+  _startDayDelay: 2
+  _dayLabelText: Dia
+  _dayLabel: {fileID: 0}
+  _onPlay:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 605959773}
+        m_TargetAssemblyTypeName: OxygenManager, Assembly-CSharp
+        m_MethodName: ConsumeOxygen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onStartDay:
+    m_PersistentCalls:
+      m_Calls: []
   _testHomeScreen: {fileID: 1760376722}
   _testHomeStateText: {fileID: 1854341887}
   _testGameOverScreen: {fileID: 1301140222}
@@ -1058,6 +1079,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: -- Oxygen --
       objectReference: {fileID: 0}
+    - target: {fileID: 5693128904573372215, guid: 22a4dac98096a424dbc632d2483ff178, type: 3}
+      propertyPath: oxygenable
+      value: 
+      objectReference: {fileID: 1476481364}
     - target: {fileID: 5693128904573372215, guid: 22a4dac98096a424dbc632d2483ff178, type: 3}
       propertyPath: playerMovement
       value: 
@@ -5770,7 +5795,7 @@ Transform:
   m_GameObject: {fileID: 1171013039}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -15.961291, y: -0.119999886, z: -9.999925}
+  m_LocalPosition: {x: -15.984071, y: -0.120000124, z: -9.999925}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

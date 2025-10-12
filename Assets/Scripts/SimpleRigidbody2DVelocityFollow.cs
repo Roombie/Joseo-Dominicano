@@ -7,8 +7,19 @@ public class SimpleRigidbody2DVelocityFollow : MonoBehaviour
     [SerializeField, Range(0, 1)] float _threshold = 0.2f;
     [SerializeField] Rigidbody2D _body;
     Vector3 follow;
+
+    void Start()
+    {
+        follow = _body.transform.position;
+    }
+    
     void Update()
     {
+        if (_body.gameObject.activeSelf == false)
+        {
+            transform.position = follow = _body.transform.position;
+            return;
+        }
         Vector3 center = _body.transform.position;
         Vector3 velocity = _time * _body.linearVelocity;
         velocity = Vector3.ClampMagnitude(velocity, _maxSpeed);
