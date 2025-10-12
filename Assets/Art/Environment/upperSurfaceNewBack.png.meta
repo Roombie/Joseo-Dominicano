@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2820c9ab7ebe9ef47a29e6366b9a7dbf
+guid: e2dfd703b57d93349b1a919ec44c2c22
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7811490754675276198
-    second: asset_Tienda_dog_character (1)_0
+      213: 4793268420279701092
+    second: upperSurfaceNewBack_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: asset_Tienda_dog_character (1)_0
+      name: upperSurfaceNewBack_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 70
         y: 0
-        width: 23
-        height: 17
+        width: 267
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a560551bb82089390800000000000000
-      internalID: -7811490754675276198
+      spriteID: 46e8edf7b3c158240800000000000000
+      internalID: 4793268420279701092
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      asset_Tienda_dog_character (1)_0: -7811490754675276198
+      upperSurfaceNewBack_0: 4793268420279701092
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2820c9ab7ebe9ef47a29e6366b9a7dbf
+guid: 0bfe99a2510545e4f80dee54ba4d633b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7811490754675276198
-    second: asset_Tienda_dog_character (1)_0
+      213: 7087650146101134829
+    second: shopMenu_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,11 +48,11 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 3, y: 5, z: 3, w: 3}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -126,23 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: asset_Tienda_dog_character (1)_0
+      name: shopMenu_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 23
-        height: 17
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a560551bb82089390800000000000000
-      internalID: -7811490754675276198
+      spriteID: de58a9281446c5260800000000000000
+      internalID: 7087650146101134829
       vertices: []
       indices: 
       edges: []
@@ -152,7 +152,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      asset_Tienda_dog_character (1)_0: -7811490754675276198
+      shopMenu_0: 7087650146101134829
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
