@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
         _depositValuables?.onDepositValuables.AddListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
         _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
+        UpdateTotalCoinsUI(0);
         input.PauseEvent += OnPause;
         input.EnablePlayer();
 
@@ -68,9 +69,12 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         // RESET
+        UpdateTotalCoinsUI(0);
         _currentDay = 0;
         _playerWallet.TrySpend(_playerWallet.Balance);
         _playerMoney = 0;
+        _playerSack.Clear();
+        _playerCurrentWeight = 0;
     }
 
     #endregion
@@ -157,6 +161,51 @@ public class GameManager : MonoBehaviour
     [SerializeField] UnityEvent _onEndGameplay;
     bool isPaused;
 
+    [Header("Deposit Feedback")]
+    [SerializeField,] private TMP_Text totalCoinsCollectedText;
+    [SerializeField] private GameObject _depositFeedbackUI;
+    [SerializeField] private TMP_Text _depositFeedbackText;
+    [SerializeField] private Animator _depositFeedbackAnimator;
+
+    [SerializeField, Min(0f)] private float _depositHideDelay = 1f; // seconds after last deposit
+    private Coroutine _depositHideRoutine;
+    const string ANIM_RISE_UP = "Coins Obtained Rise Up";
+    const string ANIM_RISE_DOWN = "Coins Obtained Rise Down";
+
+    private void UpdateTotalCoinsUI(int value)
+    {
+        if (totalCoinsCollectedText != null)
+            totalCoinsCollectedText.text = $"${value}";
+    }
+
+    public void _Gameplay_DepositValuables()
+    {
+        if (!inShift) return;
+
+        int totalDepositWorth = 0;
+
+        for (int i = 0; i < _playerSack.Count; i++)
+        {
+            var sackItem = _playerSack[i];
+            _currentShiftPayment += sackItem.value;
+            totalDepositWorth     += sackItem.value; // accumulate total worth of this deposit
+            _playerCurrentWeight  -= sackItem.weight;
+            _playerSackCarrySpaceUsed -= sackItem.carrySpace;
+        }
+
+        _playerSack.Clear();
+        _playerSackDebugOutput = "Clear";
+        _dayGoalLabel.text = _dayGoalText + ": $" + _currentShiftPayment + "/$" + days[_currentDay - 1].dayQuota;
+
+        // Show/refresh the popup and (re)start the idle-to-hide timer
+        UpdateTotalCoinsUI(_currentShiftPayment);
+        ShowDepositFeedback(totalDepositWorth);
+
+        _playerSackLabel.text = _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit;
+        if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
+        WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
+    }
+
     public void _Gameplay_Display()
     {
         _testGameplayScreen.SetActive(true);
@@ -201,6 +250,7 @@ public class GameManager : MonoBehaviour
         if (!inShift) return;
         _currentDay--;
         OnGameplayEnd();
+        UpdateTotalCoinsUI(0);
         _MainMenu_Display();
     }
 
@@ -363,26 +413,44 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void _Gameplay_DepositValuables()
+    private void ShowDepositFeedback(int totalDepositWorth)
     {
-        if (!inShift) return;
-        for (int i = 0; i < _playerSack.Count; i++)
-        {
-            var sackItem = _playerSack[i];
-            _currentShiftPayment += sackItem.value;
-            _playerCurrentWeight -= sackItem.weight;
-            _playerSackCarrySpaceUsed -= sackItem.carrySpace;
-        }
-        _playerSack.Clear();
-        _playerSackDebugOutput = "Clear";
-        _dayGoalLabel.text = _dayGoalText + ": $" + _currentShiftPayment + "/$" + days[_currentDay-1].dayQuota;
+        if (totalDepositWorth <= 0) return;
+        if (_depositFeedbackUI == null || _depositFeedbackText == null) return;
 
+        _depositFeedbackUI.SetActive(true);
+        _depositFeedbackText.text = "+" + totalDepositWorth;
+
+        if (_depositFeedbackAnimator != null)
         {
-            _playerSackLabel.text = _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit;
-            // Invoke("HidePlayerSack", collectedInfoDuration);
-            if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
-            WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
+            // Restart the “up” anim immediately
+            _depositFeedbackAnimator.Play(ANIM_RISE_UP, -1, 0f);
         }
+
+        // Restart the idle-to-hide timer every time you deposit
+        RestartDepositHideTimer();
+    }
+
+    private void RestartDepositHideTimer()
+    {
+        if (_depositHideRoutine != null) StopCoroutine(_depositHideRoutine);
+        _depositHideRoutine = StartCoroutine(DepositHideRoutine());
+    }
+
+    private IEnumerator DepositHideRoutine()
+    {
+        yield return new WaitForSeconds(_depositHideDelay);
+
+        if (_depositFeedbackAnimator != null)
+        {
+            _depositFeedbackAnimator.Play(ANIM_RISE_DOWN, -1, 0f);
+        }
+    }
+
+    public void HideDepositFeedback()
+    {
+        if (_depositFeedbackUI != null)
+            _depositFeedbackUI.SetActive(false);
     }
 
     public void _Gameplay_UpdateDebugText()
@@ -415,7 +483,7 @@ public class GameManager : MonoBehaviour
 
         if (_testGameplayStateText != null) _testGameplayStateText.text = gameplayDebugText.ToString();
         if (_testGameplayTimer != null) _testGameplayTimer.text = Mathf.Ceil(_shiftTimeLeft).ToString(); //rafamaster3
-        if (_testGameplayShiftMoney != null && _currentDay > 0) _testGameplayShiftMoney.text = "Today Goal: " + (_currentShiftPayment + _playerWallet.Balance).ToString() + "/" + _days[_currentDay - 1].dayQuota.ToString(); //rafamaster3
+        if (_testGameplayShiftMoney != null && _currentDay > 0) _testGameplayShiftMoney.text = "Today Goal: " + (_currentShiftPayment + _playerWallet.Balance).ToString() + "/" + days[_currentDay - 1].dayQuota.ToString(); //rafamaster3
         if (_testGameplayTotalMoney != null) _testGameplayTotalMoney.text = "Ahorrado: $" + _playerWallet.Balance.ToString(); //rafamaster3
 
         if (_playerSackCarrySpaceUsed >= _playerSackCarrySpaceLimit)
@@ -621,5 +689,4 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
-
 }

@@ -68,7 +68,14 @@ public class OxygenManager : MonoBehaviour
         {
             oxygenable.isMovingEvent += UpdateBoolIfMoving;
             oxygenable.isSprintingEvent += ChangeDepletionRateIfSprinting;
-            hazard.OnHazardCollided.AddListener((Hazard) => ChangeOxygenLevel(-Hazard.damage));
+            if (hazard != null)
+            {
+                hazard.OnHazardCollided.AddListener((Hazard) => ChangeOxygenLevel(-Hazard.damage));
+            }
+            else
+            {
+                Debug.LogWarning("No PlayerHazardListener found in the scene. Please add one to detect hazard collisions.");
+            }
         }
     }
 
@@ -78,7 +85,10 @@ public class OxygenManager : MonoBehaviour
         {
             oxygenable.isMovingEvent -= UpdateBoolIfMoving;
             oxygenable.isSprintingEvent -= ChangeDepletionRateIfSprinting;
-            hazard.OnHazardCollided.RemoveListener((Hazard) => ChangeOxygenLevel(-Hazard.damage));
+            if (hazard != null)
+            {
+                hazard.OnHazardCollided.RemoveListener((Hazard) => ChangeOxygenLevel(-Hazard.damage));
+            }
         }
     }
 
@@ -112,7 +122,7 @@ public class OxygenManager : MonoBehaviour
     {
         while (consumingOxygen)
         {
-            yield return new WaitForSecondsRealtime(currentDepletionRate); //Consume 1% oxygen every x seconds defined in the depletion rate
+            yield return new WaitForSecondsRealtime(currentDepletionRate); // Consume 1% oxygen every x seconds defined in the depletion rate
             ChangeOxygenLevel(-1);
         }
     }
