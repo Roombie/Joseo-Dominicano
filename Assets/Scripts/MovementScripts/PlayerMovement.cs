@@ -33,18 +33,16 @@ public class PlayerMovement : OxygenableBehaviour
 
     void Awake()
     {
-        
-#if UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID
-        if (mobileControls != null)
+        if (mobileControls == null)
+            return;
+        if (Application.isMobilePlatform)
         {
-            mobileControls.gameObject.SetActive(true);
+            mobileControls.SetActive(true);
         }
-#else
-        if (mobileControls != null)
+        else
         {
-            mobileControls.gameObject.SetActive(false);
+            mobileControls.SetActive(false);
         }
-#endif
 
     }
 
