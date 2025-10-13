@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -575,7 +574,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] string _badEndingContextText = "Your family starved...";
     [SerializeField] TMP_Text _gameOverTitle;
     [SerializeField] TMP_Text _gameOverContext;
-    [SerializeField] Image _gameOverBackground;
 
     struct GameEndDisplay
     {
