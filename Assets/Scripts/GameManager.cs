@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour
         _dayGoalValue.text = $"<color={goalValueColor}>$" + _currentShiftPayment + "/$" + days[_currentDay - 1].dayQuota + "</color>";
 
         // Show/refresh the popup and (re)start the idle-to-hide timer
-        UpdateTotalCoinsUI(_currentShiftPayment);
+        UpdateTotalCoinsUI(_playerMoney + _currentShiftPayment);
         ShowDepositFeedback(totalDepositWorth);
 
         _playerSackLabel.text = _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit;
