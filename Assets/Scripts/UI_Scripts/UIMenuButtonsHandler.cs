@@ -48,8 +48,8 @@ public class UIMenuButtonsHandler : MonoBehaviour
             }
             buttonAction.name = buttonAction.button.name;
             // buttonAction.button.interactable = !buttonAction.locked;
-            // var label = buttonAction.button.GetComponentInChildren<TMP_Text>();
-            // label.text = buttonAction.button.name;
+            var label = buttonAction.button.GetComponentInChildren<TMP_Text>();
+            if(label != null) label.text = buttonAction.button.name;
             // buttonAction.button.image.enabled = label.enabled = !buttonAction.hided;
             buttonAction.FetchButtonActions();
         }
