@@ -220,6 +220,13 @@ public class GameManager : MonoBehaviour
                     _testGameplayCollectedItemInfo.gameObject.SetActive(true); //rafamaster3
                     Invoke(nameof(HideInfoText), collectedInfoDuration); //rafamaster3
                 }
+
+                {
+                    _playerSackLabel.text = "LLENO";
+                    // Invoke("HidePlayerSack", collectedInfoDuration);
+                    if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
+                    WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
+                }
                 _playerSackDebugOutput += "(FULL)";
             }
             else
@@ -243,6 +250,13 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            {
+                _playerSackLabel.text = "Falta espacio";
+                // Invoke("HidePlayerSack", collectedInfoDuration);
+                if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
+                WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
+            }
+                
             _playerSackDebugOutput = "Not enough space to collect \"" + valuable.name + "\" ("
             + valuable.carrySpace + " in (" + _playerSackCarrySpaceUsed + "/"
             + _playerSackCarrySpaceLimit + ")";
