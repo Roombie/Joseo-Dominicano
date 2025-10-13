@@ -5,9 +5,9 @@ public class PlayerCollect : MonoBehaviour
 { 
     [SerializeField] UnityEvent<TestValuable> _onCollect;
     public UnityEvent<TestValuable> onCollect => _onCollect;
-    private void OnTriggerEnter2D(Collider2D other) 
+    private void OnCollisionEnter2D(Collision2D other) 
     {
-        if (other.TryGetComponent(out TestValuable valuable))
+        if (other.collider.TryGetComponent(out TestValuable valuable))
         {
             _onCollect?.Invoke(valuable);   
         }

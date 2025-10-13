@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviour
         var valuable = valuableComponent.valuable;
         if (valuable.value == 0 && valuable.carrySpace == 0)
         {
-            Destroy(valuableComponent.gameObject);
+            // Destroy(valuableComponent.gameObject);
             return;
         }
 
