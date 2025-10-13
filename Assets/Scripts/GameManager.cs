@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     #region General
     [Header("General")]
     [SerializeField] InputReader input;
-    float _playerMoney;
+    int _playerMoney;
     int _currentDay = 0;
     // [SerializeField] int _dayCount = 5;
     [System.Serializable]
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerCollect _playerCollect;
     [SerializeField] OxygenManager _oxygenManager; //rafamaster3
     [SerializeField] List<Spawner> _spawners; //rafamaster3-modified
+    [SerializeField] UnityEvent _onStart;
 
     void Awake()
     {
@@ -44,6 +45,11 @@ public class GameManager : MonoBehaviour
         {
             spawner?.onSpawn.AddListener(AddSpawnedValuable);
         }
+    }
+
+    void Start()
+    {
+        _onStart?.Invoke();
     }
 
     void Update()
@@ -114,8 +120,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] TMP_Text _testGameplayCollectedItemInfo; //rafamaster3
     [SerializeField] TMP_Text _testGameplayTotalMoney; //rafamaster3
     [SerializeField] int collectedInfoDuration = 3; //rafamaster3
-    [SerializeField] float _onCollectedItemTotalDuration = 3;
-    [SerializeField] float _onCollectedItemHold = 2;
+    [SerializeField] float _onCollectedItemHoldDuration = 2;
+    [SerializeField] float _onCollectedItemFadeDuration = 0.2f;
     float _shiftTimeDuration = 30;
     [SerializeField] float _displayHurryUpOn = 10;
     float _shiftTimeLeft;
@@ -152,9 +158,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] string _dayLabelText = "Dia";
     [SerializeField] TMP_Text _dayLabel;
     [SerializeField] TMP_Text _dayGoalLabel;
+    [SerializeField] TMP_Text _dayGoalValue;
     [SerializeField] string _dayGoalText = "Meta diaria";
     [SerializeField] TMP_Text _dayTimerLabel;
+    [SerializeField] TMP_Text _dayTimerValue;
+    [SerializeField] Color _dayGoalInsufficientColor = Color.red;
+    [SerializeField] Color _dayGoalReachedColor = Color.green;
     [SerializeField] string _dayTimerText = "Tiempo";
+    [SerializeField] UnityEvent _onGameplayHurryUp;
     [SerializeField] UnityEvent _onPlay;
     [SerializeField] UnityEvent _onStartDay;
     [SerializeField] UnityEvent _onEndGameplay;
@@ -194,7 +205,10 @@ public class GameManager : MonoBehaviour
 
         _playerSack.Clear();
         _playerSackDebugOutput = "Clear";
-        _dayGoalLabel.text = _dayGoalText + ": $" + _currentShiftPayment + "/$" + days[_currentDay - 1].dayQuota;
+        lastRejectedValuable = null;
+        _dayGoalLabel.text = _dayGoalText + ": ";
+        string goalValueColor = "#" + ColorUtility.ToHtmlStringRGBA(_currentShiftPayment >= days[_currentDay - 1].dayQuota ? _dayGoalReachedColor : _dayGoalInsufficientColor);
+        _dayGoalValue.text = $"<color={goalValueColor}>$" + _currentShiftPayment + "/$" + days[_currentDay - 1].dayQuota + "</color>";
 
         // Show/refresh the popup and (re)start the idle-to-hide timer
         UpdateTotalCoinsUI(_currentShiftPayment);
@@ -284,15 +298,20 @@ public class GameManager : MonoBehaviour
 
         _playerSackDebugOutput = "Clear";
         _currentShiftPayment = 0;
-        _dayGoalLabel.text = _dayGoalText + ": $" + _currentShiftPayment + "/$" + days[_currentDay - 1].dayQuota;
+        _dayGoalLabel.text = _dayGoalText + ": "; 
+        string goalValueColor = "#" + ColorUtility.ToHtmlStringRGBA(_currentShiftPayment >= days[_currentDay - 1].dayQuota ? _dayGoalReachedColor : _dayGoalInsufficientColor);
+        _dayGoalValue.text = $"<color={goalValueColor}>$" + _currentShiftPayment + "/$" + days[_currentDay - 1].dayQuota + "</color>";
         _onStartDay?.Invoke();
     }
+
+    TestValuable lastRejectedValuable;
 
     void OnValuableCollected(TestValuable valuableComponent)
     {
         if (!inShift) return;
         var valuable = valuableComponent.valuable;
-        if (valuable.value == 0 && valuable.carrySpace == 0)
+        if ((lastRejectedValuable != null && valuableComponent == lastRejectedValuable) 
+        ||(valuable.value == 0 && valuable.carrySpace == 0))
         {
             // Destroy(valuableComponent.gameObject);
             return;
@@ -313,12 +332,14 @@ public class GameManager : MonoBehaviour
                 }
 
                 {
-                    _playerSackLabel.text = "LLENO";
+                    // _playerSackLabel.text = "LLENO";
+                    _playerSackLabel.text = "<color=yellow>(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ")" + "</color>";
                     // Invoke("HidePlayerSack", collectedInfoDuration);
                     if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
                     WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
                 }
                 _playerSackDebugOutput += "(FULL)";
+                lastRejectedValuable = valuableComponent;
             }
             else
             {
@@ -342,12 +363,15 @@ public class GameManager : MonoBehaviour
         else
         {
             {
-                _playerSackLabel.text = "Falta espacio";
+                // _playerSackLabel.text = "Falta espacio";
+                if (_playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit) 
+                _playerSackLabel.text = "<color=yellow>(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ")" + "</color>";
+                else _playerSackLabel.text = "<color=red>(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ") +" + valuable.carrySpace + "</color>";
                 // Invoke("HidePlayerSack", collectedInfoDuration);
                 if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
                 WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
             }
-                
+            lastRejectedValuable = valuableComponent;
             _playerSackDebugOutput = "Not enough space to collect \"" + valuable.name + "\" ("
             + valuable.carrySpace + " in (" + _playerSackCarrySpaceUsed + "/"
             + _playerSackCarrySpaceLimit + ")";
@@ -362,25 +386,26 @@ public class GameManager : MonoBehaviour
     {
 
         float t = 0;
-        float deltaDuration = 1 / (collectedInfoDuration - _onCollectedItemHold);
+        float fadeDuration = 1 / _onCollectedItemFadeDuration;
         while (t < 1)
         {
             _playerSackUI.alpha = Mathf.Lerp(0, 1, t);
-            t += 2 * deltaDuration * Time.deltaTime;
+            t += fadeDuration * Time.deltaTime;
             yield return null;
         }
         t = 1;
-
-        yield return new WaitForSeconds(_onCollectedItemHold);
+        _playerSackUI.alpha = 1;
+        yield return new WaitForSeconds(_onCollectedItemHoldDuration);
 
         while (t > 0)
         {
             _playerSackUI.alpha = Mathf.Lerp(0, 1, t);
-            t -= 2 * deltaDuration * Time.deltaTime;
+            t -= fadeDuration * Time.deltaTime;
             yield return null;
         }
 
         _playerSackUI.alpha = 0;
+        lastRejectedValuable = null;
     }
 
 
@@ -551,11 +576,13 @@ public class GameManager : MonoBehaviour
                 OnHurryUpDisplay();
             }
             _shiftTimeLeft -= Time.deltaTime;
-            _dayTimerLabel.text = _dayTimerText + ": " + Mathf.Ceil(_shiftTimeLeft);
+            _dayTimerLabel.text = _dayTimerText + ": ";
+            _dayTimerValue.text = Mathf.Ceil(_shiftTimeLeft).ToString();
             yield return null;
         }
         _shiftTimeLeft = 0;
-        _dayTimerLabel.text = _dayTimerText + ": " + _shiftTimeLeft;
+        _dayTimerLabel.text = _dayTimerText + ": ";
+        _dayTimerValue.text = Mathf.Ceil(_shiftTimeLeft).ToString();
         _Gameplay_OnTimeUp();
     }
 
@@ -579,7 +606,7 @@ public class GameManager : MonoBehaviour
 
     void OnHurryUpDisplay()
     {
-
+        _onGameplayHurryUp?.Invoke();
     }
 
     #endregion
@@ -605,6 +632,7 @@ public class GameManager : MonoBehaviour
 
         {
             _playerMoney -= quota;
+            UpdateTotalCoinsUI(_playerMoney);
             _playerWallet.TrySpend(quota); //rafamaster3
             _testGameplayTotalMoney.text = _playerWallet.Balance.ToString(); //rafamaster3
 

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using System;
+using UnityEngine.Events;
 
 public class PlayerSmoothMovement : OxygenableBehaviour
 {
@@ -19,12 +20,15 @@ public class PlayerSmoothMovement : OxygenableBehaviour
     private Quaternion targetRotation;
     private float lastDirection;
     private float currentSpeed;
+    [SerializeField] float movementDeadZone = 0.01f;
     public float walkSpeed = 5f;
     public float rotationSpeed = 5f;
     public float runSpeed = 10f;
     [Range(0, 1)] public float flipDirectionThreshold = 0.2f;
     public enum MoveToForwardType { FollowInputDirection, FollowPhysicsRotation }
     public MoveToForwardType _forwardTraslationType;
+    [SerializeField] UnityEvent _onSprintStart;
+    [SerializeField] UnityEvent _onSprintEnd;
 
     //Events
     // public event Action<bool> isMovingEvent;
@@ -76,7 +80,7 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         if (rb == null) return;
 
         // 2. Rotación Progresiva (ApplyTorque)
-        if (moveInput.sqrMagnitude > 0.01f) // Solo si hay input
+        if (moveInput.sqrMagnitude > movementDeadZone) // Solo si hay input
         {
             // Calcular el ángulo de rotación deseado (en radianes, luego a grados)
             float targetAngle = Mathf.Atan2(moveInput.y, moveInput.x) * Mathf.Rad2Deg;
@@ -101,7 +105,7 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         }
 
         // 3. Movimiento Suavizado
-        if (moveInput.sqrMagnitude > 0.01f)
+        if (moveInput.sqrMagnitude > movementDeadZone)
         {
             // El Rigidbody2D.rotation es el ángulo en grados. Necesitamos la dirección frontal (forward vector)
             // que coincide con la rotación Z del Rigidbody en 2D.
@@ -128,6 +132,10 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
             // Aplicamos la fuerza como un cambio de velocidad instantáneo
             rb.AddForce(desiredVelocity);
+        }
+        else if (currentSpeed == runSpeed) // SPRINTING
+        {
+            SprintReleased();
         }
         // else
         // {
@@ -240,14 +248,17 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
     public void SprintPressed()
     {
+        if (rb.linearVelocity.sqrMagnitude <= movementDeadZone) return;
         currentSpeed = runSpeed;
         SetSprintingEvent(true);
+        _onSprintStart?.Invoke();
     }
     
     public void SprintReleased()
     {
         currentSpeed = walkSpeed;
         SetSprintingEvent(false); 
+        _onSprintEnd?.Invoke();
     }
 
 }
