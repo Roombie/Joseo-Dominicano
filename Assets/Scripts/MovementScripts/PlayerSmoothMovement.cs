@@ -5,6 +5,7 @@ using System;
 
 public class PlayerSmoothMovement : OxygenableBehaviour
 {
+    [SerializeField] InputReader input;
     [SerializeField] private GameObject mobileControls;
 
     public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
@@ -45,6 +46,20 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         }
 #endif
 
+    }
+
+    void OnEnable()
+    {
+        input.MoveEvent += OnMove;
+        input.SprintStartedEvent += SprintPressed;
+        input.SprintCanceledEvent += SprintReleased;
+    }
+
+    void OnDisable()
+    {
+        input.MoveEvent -= OnMove;
+        input.SprintStartedEvent -= SprintPressed;
+        input.SprintCanceledEvent -= SprintReleased;
     }
 
     private void Start()
@@ -120,6 +135,7 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         //     // Esto se hace aplicando una fuerza contraria a la velocidad actual.
         //     rb.AddForce(-rb.linearVelocity * 0.1f, ForceMode2D.Force); 
         // }
+        
     }
 
     private void Update()
@@ -140,10 +156,14 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
 
         if (!isUpdatingLastDirection) // If moving away from diagonal, delay before switching to avoid animation flicker
-            {
-                StartCoroutine(DelayDirectionChange());
-            }
+        {
+            StartCoroutine(DelayDirectionChange());
+        }
+    }
 
+    void LateUpdate()
+    {
+        
     }
 
     private IEnumerator DelayDirectionChange()
@@ -160,6 +180,29 @@ public class PlayerSmoothMovement : OxygenableBehaviour
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
+
+        if (moveInput != Vector2.zero)
+        {
+            SetMoveEvent(true); // Tell listeners moving changed
+        }
+        else
+        {
+            SetMoveEvent(false); // Tell listeners moving changed
+        }
+    }
+
+    public void ResetMove()
+    {
+        moveInput = Vector2.zero;
+        currentSpeed = walkSpeed;
+        animator.SetFloat("Speed", 0);
+        SetMoveEvent(false);
+        SetSprintingEvent(false); 
+    }
+
+    public void OnMove(Vector2 value)
+    {
+        moveInput = value;
 
         if (moveInput != Vector2.zero)
         {
@@ -193,6 +236,18 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
             SetSprintingEvent(false); // Tell listeners sprinting changed
         }
+    }
+
+    public void SprintPressed()
+    {
+        currentSpeed = runSpeed;
+        SetSprintingEvent(true);
+    }
+    
+    public void SprintReleased()
+    {
+        currentSpeed = walkSpeed;
+        SetSprintingEvent(false); 
     }
 
 }

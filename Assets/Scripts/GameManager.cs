@@ -4,11 +4,13 @@ using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
     #region General
     [Header("General")]
+    [SerializeField] InputReader input;
     float _playerMoney;
     int _currentDay = 0;
     // [SerializeField] int _dayCount = 5;
@@ -35,6 +37,8 @@ public class GameManager : MonoBehaviour
         _depositValuables?.onDepositValuables.AddListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
         _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
+        input.PauseEvent += OnPause;
+        input.EnablePlayer();
 
         foreach (Spawner spawner in _spawners)
         {
@@ -53,6 +57,7 @@ public class GameManager : MonoBehaviour
         _depositValuables?.onDepositValuables.RemoveListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.RemoveListener(OnValuableCollected);
         _oxygenManager?.onOxygenDepleted.RemoveListener(_Gameplay_OnPlayerDeath);
+        input.PauseEvent -= OnPause;
 
         foreach (Spawner spawner in _spawners)
         {
@@ -72,12 +77,12 @@ public class GameManager : MonoBehaviour
     #region Main Menu
     [Header("Main Menu")]
     [SerializeField] GameObject _testMainMenu;
-    [SerializeField] Animator _mainMenuAnimator;
-    [SerializeField] string _onPlayMainMenuAnimation;
+    [SerializeField] UnityEvent _onMenuDisplay;
 
     public void _MainMenu_Display()
     {
         _testMainMenu.SetActive(true);
+        _onMenuDisplay?.Invoke();
     }
 
     public void _MainMenu_PlayGame()
@@ -96,6 +101,7 @@ public class GameManager : MonoBehaviour
     [Header("Gameplay")]
     [SerializeField] Vector3 _playerInitialPosition;
     [SerializeField] GameObject _testGameplayScreen;
+    [SerializeField] GameObject _pausePanel;
     [SerializeField] TMP_Text _testGameplayStateText;
     [SerializeField] TMP_Text _playerSackLabel;
     [SerializeField] CanvasGroup _playerSackUI;
@@ -148,6 +154,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] UnityEvent _onPlay;
     [SerializeField] UnityEvent _onStartDay;
     [SerializeField] UnityEvent _onEndGameplay;
+    bool isPaused;
 
     public void _Gameplay_Display()
     {
@@ -162,6 +169,40 @@ public class GameManager : MonoBehaviour
     {
         StartCoroutine(GameplayStartDayDelay());
     }
+
+    public void _Gameplay_Pause()
+    {
+        if (!inShift) return;
+        Time.timeScale = 0;
+        _pausePanel.SetActive(true);
+        _oxygenManager.PauseOxygen();
+        StopDayTimer();
+        isPaused = true;
+    }
+
+    public void _Gameplay_Resume()
+    {
+        Time.timeScale = 1;
+        _pausePanel.SetActive(false);
+        _oxygenManager.ConsumeOxygen();
+        RunDayTimer();
+        isPaused = false;
+    }
+
+    void OnPause()
+    {
+        if (isPaused) _Gameplay_Resume();
+        else _Gameplay_Pause();
+    }
+    
+    public void _Gameplay_GoToMenu()
+    {
+        if (!inShift) return;
+        _currentDay--;
+        OnGameplayEnd();
+        _MainMenu_Display();
+    }
+
 
     IEnumerator GameplayStartDayDelay()
     {
@@ -444,6 +485,11 @@ public class GameManager : MonoBehaviour
     {
         if (dayTimeRoutine != null) StopCoroutine(dayTimeRoutine);
         dayTimeRoutine = StartCoroutine(Internal_RunDayTimer());
+    }
+
+    void StopDayTimer()
+    {
+        if (dayTimeRoutine != null) StopCoroutine(dayTimeRoutine);
     }
 
     void ResetDayTimer()

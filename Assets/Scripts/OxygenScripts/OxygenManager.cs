@@ -84,8 +84,17 @@ public class OxygenManager : MonoBehaviour
         oxygenLvlText.text = oxygenLevel.value.ToString();
 
         UpdateOxygenBar();
-
     }
+
+    public void PauseOxygen()
+    {
+        StopAllCoroutines();
+
+        consumingOxygen = false;
+
+        UpdateOxygenBar();
+    }
+
     public void ConsumeOxygen()
     {
         consumingOxygen = true;
