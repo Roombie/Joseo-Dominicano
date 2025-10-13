@@ -107,6 +107,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] CanvasGroup _playerSackUI;
     [SerializeField] TMP_Text _testGameplayTimer; //rafamaster3
     [SerializeField] TMP_Text _testGameplayShiftMoney; //rafamaster3
+    [SerializeField] TMP_Text _testGameSacSpace; //rafamaster3
     [SerializeField] TMP_Text _testGameplayCollectedItemInfo; //rafamaster3
     [SerializeField] TMP_Text _testGameplayTotalMoney; //rafamaster3
     [SerializeField] int collectedInfoDuration = 3; //rafamaster3
@@ -414,8 +415,18 @@ public class GameManager : MonoBehaviour
 
         if (_testGameplayStateText != null) _testGameplayStateText.text = gameplayDebugText.ToString();
         if (_testGameplayTimer != null) _testGameplayTimer.text = Mathf.Ceil(_shiftTimeLeft).ToString(); //rafamaster3
-        if (_testGameplayShiftMoney != null) _testGameplayShiftMoney.text = "Hoy: $" + _currentShiftPayment.ToString(); //rafamaster3
+        if (_testGameplayShiftMoney != null && _currentDay > 0) _testGameplayShiftMoney.text = "Today Goal: " + (_currentShiftPayment + _playerWallet.Balance).ToString() + "/" + _days[_currentDay - 1].dayQuota.ToString(); //rafamaster3
         if (_testGameplayTotalMoney != null) _testGameplayTotalMoney.text = "Ahorrado: $" + _playerWallet.Balance.ToString(); //rafamaster3
+
+        if (_playerSackCarrySpaceUsed >= _playerSackCarrySpaceLimit)
+        {
+            if (_testGameSacSpace != null) _testGameSacSpace.text = "Saco lleno, sube"; //rafamaster3
+        }
+        else
+        {
+        if (_testGameSacSpace != null) _testGameSacSpace.text =  "Carga: \n" +_playerSackCarrySpaceUsed.ToString() + "/" + _playerSackCarrySpaceLimit.ToString(); //rafamaster3
+
+        }
     }
 
     public void _Gameplay_OnPlayerDeath()

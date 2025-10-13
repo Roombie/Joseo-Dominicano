@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2164877756470956420}
   - component: {fileID: 7332173174229374273}
   - component: {fileID: 4081403562747840933}
+  - component: {fileID: 7568608766099112497}
   m_Layer: 12
   m_Name: Water Bottle
   m_TagString: Untagged
@@ -92,7 +93,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
+  m_MaskInteraction: 1
   m_SpriteSortPoint: 0
 --- !u!50 &9022424925067234071
 Rigidbody2D:
@@ -106,9 +107,9 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 30
-  m_AngularDamping: 30
+  m_Mass: 0.1
+  m_LinearDamping: 15
+  m_AngularDamping: 2
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -189,3 +190,58 @@ MonoBehaviour:
     value: 5
     weight: 1
     carrySpace: 1
+  destroyTime: 10
+  selfDestroy: 0
+--- !u!114 &7568608766099112497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8377498005828144882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.ShadowCaster2D
+  m_ShadowGroup: 0
+  m_Priority: 11
+  m_ComponentVersion: 5
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: e97ec15200000000
+  m_ShapePath:
+  - {x: -0.53125, y: -0.5, z: 0}
+  - {x: -0.53125, y: 0.5, z: 0}
+  - {x: 0.53125, y: 0.5, z: 0}
+  - {x: 0.53125, y: -0.5, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 684856138852671323}
+  m_ShadowShape2DProvider:
+    rid: 8145009779213336733
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.32499695, y: 0.51249695, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.05
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0.05
+  m_PreviousEdgeProcessing: 1
+  m_PreviousShadowCastingSource: 2
+  m_PreviousShadowShape2DSource: {fileID: 684856138852671323}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8145009779213336733
+      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 

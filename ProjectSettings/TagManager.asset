@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Deliver
   - Store
+  - Hazard
   layers:
   - Default
   - TransparentFX

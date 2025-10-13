@@ -1,0 +1,38 @@
+using System.Collections;
+using UnityEngine;
+
+
+public class Hazard : MonoBehaviour
+{
+    [SerializeField] public float damage;
+    [SerializeField] public float coolDownPeriod;
+
+    float normalDamage;
+    bool isCooling;
+
+    private void Start()
+    {
+        normalDamage = damage;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player") && !isCooling)
+        {
+            damage = 0;
+            StartCoroutine(Cooldown());
+        }
+    }
+
+    IEnumerator Cooldown()
+    {
+        isCooling = true;
+        yield return new WaitForSeconds(coolDownPeriod);
+        damage = normalDamage;
+        isCooling = false;
+    }
+
+
+
+}
+
