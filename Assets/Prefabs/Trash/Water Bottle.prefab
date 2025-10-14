@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 9022424925067234071}
   - component: {fileID: 2164877756470956420}
   - component: {fileID: 7332173174229374273}
-  - component: {fileID: 4081403562747840933}
+  - component: {fileID: -5626027824029047947}
   - component: {fileID: 7568608766099112497}
   m_Layer: 12
   m_Name: Water Bottle
@@ -173,7 +173,10 @@ MonoBehaviour:
   _onCollect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4081403562747840933
+  onCollect:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-5626027824029047947
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,14 +185,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 8377498005828144882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af64108a653f3df45aaf0534c6ac081e, type: 3}
+  m_Script: {fileID: 11500000, guid: 56a2d1641e38d4344b29243e6981c8e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestValuable
-  _properties:
-    name: Botellita Planeta Sucio
-    value: 5
-    weight: 1
-    carrySpace: 1
+  m_EditorClassIdentifier: Assembly-CSharp::TrashPickup
+  item: {fileID: 11400000, guid: 663d707e6e99e75438be48b7f997d164, type: 2}
   destroyTime: 10
   selfDestroy: 0
 --- !u!114 &7568608766099112497

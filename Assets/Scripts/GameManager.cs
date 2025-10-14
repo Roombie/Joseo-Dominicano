@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     }
     public Level[] days;
     [Header("References")]
-    [SerializeField] DeliverInteraction _depositValuables; //rafamaster3
     [SerializeField] PlayerWallet _playerWallet; //rafamaster3
     [SerializeField] PlayerCollect _playerCollect;
     [SerializeField] OxygenManager _oxygenManager; //rafamaster3
@@ -34,7 +33,6 @@ public class GameManager : MonoBehaviour
         _testGameplayScreen.SetActive(false);
         _testHomeScreen.SetActive(false);
         _testGameOverScreen.SetActive(false);
-        _depositValuables?.onDepositValuables.AddListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
         _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
         UpdateTotalCoinsUI(0);
@@ -60,7 +58,6 @@ public class GameManager : MonoBehaviour
 
     void OnDestroy()
     {
-        _depositValuables?.onDepositValuables.RemoveListener(_Gameplay_DepositValuables);
         _playerCollect?.onCollect.RemoveListener(OnValuableCollected);
         _oxygenManager?.onOxygenDepleted.RemoveListener(_Gameplay_OnPlayerDeath);
         input.PauseEvent -= OnPause;
@@ -126,11 +123,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _displayHurryUpOn = 10;
     float _shiftTimeLeft;
     int _currentShiftPayment = 0;
-    int _playerCurrentWeight = 0;
+    float _playerCurrentWeight = 0;
     public int _playerSackCarrySpaceLimit = 10;
     int _playerSackCarrySpaceUsed;
-    [SerializeField] TestValuableData[] _testLevelValuables;
-    List<TestValuableData> _playerSack = new List<TestValuableData>();
+    [SerializeField] TrashItemSO[] _levelTrashItems;
+    List<TrashItemSO> _playerSack = new List<TrashItemSO>();
     List<GameObject> _spawnedValuables = new List<GameObject>();
     void AddSpawnedValuable(GameObject valuable) => _spawnedValuables.Add(valuable);
     public void DestroyAllSpawnedValuables()
@@ -155,7 +152,7 @@ public class GameManager : MonoBehaviour
         public int carrySpace;
     }
     [SerializeField] float _startDayDelay = 2;
-    [SerializeField] string _dayLabelText = "Dia";
+    [SerializeField] string _dayLabelText = "Día";
     [SerializeField] TMP_Text _dayLabel;
     [SerializeField] TMP_Text _dayGoalLabel;
     [SerializeField] TMP_Text _dayGoalValue;
@@ -197,10 +194,10 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < _playerSack.Count; i++)
         {
             var sackItem = _playerSack[i];
-            _currentShiftPayment += sackItem.value;
-            totalDepositWorth     += sackItem.value; // accumulate total worth of this deposit
-            _playerCurrentWeight  -= sackItem.weight;
-            _playerSackCarrySpaceUsed -= sackItem.carrySpace;
+            _currentShiftPayment += sackItem.Worth;
+            totalDepositWorth     += sackItem.Worth; // accumulate total worth of this deposit
+            _playerCurrentWeight  -= sackItem.WeightKg;
+            _playerSackCarrySpaceUsed -= sackItem.PickUpSpace;
         }
 
         _playerSack.Clear();
@@ -304,77 +301,84 @@ public class GameManager : MonoBehaviour
         _onStartDay?.Invoke();
     }
 
-    TestValuable lastRejectedValuable;
+    TrashPickup lastRejectedValuable;
 
-    void OnValuableCollected(TestValuable valuableComponent)
+    void OnValuableCollected(TrashPickup pickup)
     {
-        if (!inShift) return;
-        var valuable = valuableComponent.valuable;
-        if ((lastRejectedValuable != null && valuableComponent == lastRejectedValuable) 
-        ||(valuable.value == 0 && valuable.carrySpace == 0))
+        if (!inShift || pickup == null) return;
+
+        var so = pickup.Item;                 // TrashItemSO
+        if (so == null) return;
+
+        // Evitar doble intento inmediato o basura sin “valor/espacio” (placeholder)
+        if ((lastRejectedValuable != null && pickup == lastRejectedValuable) ||
+            (so.Worth == 0 && so.PickUpSpace == 0))
         {
-            // Destroy(valuableComponent.gameObject);
             return;
         }
 
-        if (valuable.carrySpace <= _playerSackCarrySpaceLimit - _playerSackCarrySpaceUsed)
+        int freeSpace = _playerSackCarrySpaceLimit - _playerSackCarrySpaceUsed;
+        if (so.PickUpSpace <= freeSpace)
         {
-            _playerSack.Add(valuable);
-            _playerCurrentWeight += valuable.weight;
-            _playerSackCarrySpaceUsed += valuable.carrySpace;
-            _playerSackDebugOutput = "\"" + valuable.name + "\" added ";
-            if (_playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit)
-            {
-                { //rafamaster3: Display collectible info text for short time 
-                    _testGameplayCollectedItemInfo.text = "FULL"; //rafamaster3
-                    _testGameplayCollectedItemInfo.gameObject.SetActive(true); //rafamaster3
-                    Invoke(nameof(HideInfoText), collectedInfoDuration); //rafamaster3
-                }
+            // Añadir al saco
+            _playerSack.Add(so);
 
-                {
-                    // _playerSackLabel.text = "LLENO";
-                    _playerSackLabel.text = "<color=yellow>(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ")" + "</color>";
-                    // Invoke("HidePlayerSack", collectedInfoDuration);
-                    if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
-                    WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
-                }
+            // Si tu unidad interna es gramos:
+            // _playerCurrentWeight += Mathf.RoundToInt(so.WeightKg * 1000f);
+            // Si es Kg (float/int):
+            _playerCurrentWeight += so.WeightKg;
+
+            _playerSackCarrySpaceUsed += so.PickUpSpace;
+            _playerSackDebugOutput = $"\"{so.name}\" added ";
+
+            bool isFull = _playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit;
+
+            if (isFull)
+            {
+                // Info “FULL”
+                _testGameplayCollectedItemInfo.text = "FULL";
+                _testGameplayCollectedItemInfo.gameObject.SetActive(true);
+                Invoke(nameof(HideInfoText), collectedInfoDuration);
+
+                _playerSackLabel.text = $"<color=yellow>({_playerSackCarrySpaceUsed}/{_playerSackCarrySpaceLimit})</color>";
+                if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
+                WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
+
                 _playerSackDebugOutput += "(FULL)";
-                lastRejectedValuable = valuableComponent;
+                lastRejectedValuable = pickup; // recordar el último rechazado para evitar spam
             }
             else
             {
-                {
-                    _playerSackLabel.text = _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit;
-                    // Invoke("HidePlayerSack", collectedInfoDuration);
-                    if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
-                    WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
-                }
+                _playerSackLabel.text = $"{_playerSackCarrySpaceUsed}/{_playerSackCarrySpaceLimit}";
+                if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
+                WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
 
-                { //rafamaster3: Display collectible info text for short time
-                    _testGameplayCollectedItemInfo.text = valuable.name + " $" + valuable.value + " " + valuable.weight + "g " + valuable.carrySpace + "L".ToString(); //rafamaster3
-                    _testGameplayCollectedItemInfo.gameObject.SetActive(true); //rafamaster3
-                    Invoke(nameof(HideInfoText), collectedInfoDuration); //rafamaster3
-                }
+                // Mostrar info del item recogido
+                // Si llevas peso interno en gramos y quieres mostrar “g”: usa (so.WeightKg * 1000f).ToString("0")
+                _testGameplayCollectedItemInfo.text =
+                    $"{so.name} ${so.Worth} {so.WeightKg:0.##}kg {so.PickUpSpace}L";
+                _testGameplayCollectedItemInfo.gameObject.SetActive(true);
+                Invoke(nameof(HideInfoText), collectedInfoDuration);
 
-                _playerSackDebugOutput += "(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ")";
+                _playerSackDebugOutput += $"({_playerSackCarrySpaceUsed}/{_playerSackCarrySpaceLimit})";
             }
-            Destroy(valuableComponent.gameObject);
+
+            Destroy(pickup.gameObject);
         }
         else
         {
-            {
-                // _playerSackLabel.text = "Falta espacio";
-                if (_playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit) 
-                _playerSackLabel.text = "<color=yellow>(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ")" + "</color>";
-                else _playerSackLabel.text = "<color=red>(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ") +" + valuable.carrySpace + "</color>";
-                // Invoke("HidePlayerSack", collectedInfoDuration);
-                if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
-                WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
-            }
-            lastRejectedValuable = valuableComponent;
-            _playerSackDebugOutput = "Not enough space to collect \"" + valuable.name + "\" ("
-            + valuable.carrySpace + " in (" + _playerSackCarrySpaceUsed + "/"
-            + _playerSackCarrySpaceLimit + ")";
+            // Sin espacio suficiente
+            if (_playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit)
+                _playerSackLabel.text = $"<color=yellow>({_playerSackCarrySpaceUsed}/{_playerSackCarrySpaceLimit})</color>";
+            else
+                _playerSackLabel.text = $"<color=red>({_playerSackCarrySpaceUsed}/{_playerSackCarrySpaceLimit}) +{so.PickUpSpace}</color>";
+
+            if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
+            WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
+
+            lastRejectedValuable = pickup;
+            _playerSackDebugOutput =
+                $"Not enough space to collect \"{so.name}\" ({so.PickUpSpace} in ({_playerSackCarrySpaceUsed}/{_playerSackCarrySpaceLimit}))";
         }
     }
 
@@ -406,35 +410,6 @@ public class GameManager : MonoBehaviour
 
         _playerSackUI.alpha = 0;
         lastRejectedValuable = null;
-    }
-
-
-    public void _Gameplay_CollectValuable()
-    {
-        if (!inShift) return;
-        TestValuableData randomCollectable = _testLevelValuables[Random.Range(0, _testLevelValuables.Length)];
-        if (randomCollectable.carrySpace <= _playerSackCarrySpaceLimit - _playerSackCarrySpaceUsed)
-        {
-            _playerSack.Add(randomCollectable);
-            _playerCurrentWeight += randomCollectable.weight;
-            _playerSackCarrySpaceUsed += randomCollectable.carrySpace;
-            _playerSackDebugOutput = "\"" + randomCollectable.name + "\" added ";
-            if (_playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit)
-            {
-                _playerSackDebugOutput += "(FULL)";
-            }
-            else
-            {
-                _playerSackDebugOutput += "(" + _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit + ")";
-            }
-        }
-        else
-        {
-            _playerSackDebugOutput = "Not enough space to collect \"" + randomCollectable.name + "\" ("
-            + randomCollectable.carrySpace + " in (" + _playerSackCarrySpaceUsed + "/"
-            + _playerSackCarrySpaceLimit + ")";
-        }
-
     }
 
     private void ShowDepositFeedback(int totalDepositWorth)
@@ -495,7 +470,7 @@ public class GameManager : MonoBehaviour
             for (int i = 0; i < _playerSack.Count; i++)
             {
                 var sackItem = _playerSack[i];
-                gameplayDebugText.AppendLine((i + 1) + "- " + sackItem.name + " - value: " + sackItem.value + ", weight: " + sackItem.weight);
+                gameplayDebugText.AppendLine((i + 1) + "- " + sackItem.name + " - value: " + sackItem.Worth + ", weight: " + sackItem.WeightKg);
             }
             gameplayDebugText.AppendLine("───────────────────────────");
             gameplayDebugText.AppendLine("Player Sack Update: " + _playerSackDebugOutput);

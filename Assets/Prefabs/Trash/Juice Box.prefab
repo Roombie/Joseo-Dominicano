@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1553230231290606009}
   - component: {fileID: 5109028029268587427}
   - component: {fileID: 1181082689369219357}
+  - component: {fileID: 5996546516585215707}
   - component: {fileID: 6246884113506863021}
   m_Layer: 12
   m_Name: Juice Box
@@ -172,6 +173,24 @@ MonoBehaviour:
   _onCollect:
     m_PersistentCalls:
       m_Calls: []
+  onCollect:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &5996546516585215707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740871035598803086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56a2d1641e38d4344b29243e6981c8e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrashPickup
+  item: {fileID: 11400000, guid: 5deea62f02ffa97488871038e067dbf1, type: 2}
+  destroyTime: 10
+  selfDestroy: 1
 --- !u!114 &6246884113506863021
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Soda Bottle
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: 74713026-f20f-4b6f-9cc7-0c039eb95302
-  weightKg: 1
-  worth: 1
-  pickUpSpace: 1
+  weightKg: 0.6
+  worth: 5
+  pickUpSpace: 2

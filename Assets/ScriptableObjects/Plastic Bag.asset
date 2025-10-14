@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Plastic Bag
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: ca946650-5315-4793-ac59-39cc1f784a29
-  weightKg: 1
-  worth: 1
+  weightKg: 0.2
+  worth: 4
   pickUpSpace: 1

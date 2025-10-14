@@ -3,13 +3,12 @@ using UnityEngine.Events;
 
 public class PlayerCollect : MonoBehaviour
 { 
-    [SerializeField] UnityEvent<TestValuable> _onCollect;
-    public UnityEvent<TestValuable> onCollect => _onCollect;
+    public UnityEvent<TrashPickup> onCollect;
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if (other.collider.TryGetComponent(out TestValuable valuable))
+        if (other.gameObject.TryGetComponent(out TrashPickup pickup))
         {
-            _onCollect?.Invoke(valuable);   
+            onCollect?.Invoke(pickup);
         }
     }
 }

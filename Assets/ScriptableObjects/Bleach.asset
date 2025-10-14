@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Bleach
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: 15503501-7733-4d0b-b747-a6f120e2259d
-  weightKg: 1
-  worth: 1
-  pickUpSpace: 1
+  weightKg: 2.5
+  worth: 13
+  pickUpSpace: 3

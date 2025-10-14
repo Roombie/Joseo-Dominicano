@@ -27,8 +27,8 @@ public class PlayerSmoothMovement : OxygenableBehaviour
     [Range(0, 1)] public float flipDirectionThreshold = 0.2f;
     public enum MoveToForwardType { FollowInputDirection, FollowPhysicsRotation }
     public MoveToForwardType _forwardTraslationType;
-    [SerializeField] UnityEvent _onSprintStart;
-    [SerializeField] UnityEvent _onSprintEnd;
+    [SerializeField] public UnityEvent _onSprintStart;
+    [SerializeField] public UnityEvent _onSprintEnd;
 
     //Events
     // public event Action<bool> isMovingEvent;

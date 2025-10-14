@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Juice Box
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: 403cd0e1-e423-4ac8-86c6-40587ab5a87a
-  weightKg: 1
-  worth: 1
+  weightKg: 0.4
+  worth: 5
   pickUpSpace: 1

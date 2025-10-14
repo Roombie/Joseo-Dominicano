@@ -177,8 +177,8 @@ TextureImporter:
       name: image (6)_0
       rect:
         serializedVersion: 2
-        x: 50
-        y: 104
+        x: 62
+        y: 77
         width: 12
         height: 17
       alignment: 0
@@ -916,7 +916,24 @@ TextureImporter:
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline: []
+      outline:
+      - - {x: -6, y: 5}
+        - {x: -7, y: 4}
+        - {x: -8, y: 1}
+        - {x: -8, y: -2}
+        - {x: -7, y: -4}
+        - {x: -5, y: -7}
+        - {x: -2, y: -8}
+        - {x: 3, y: -8}
+        - {x: 4, y: -6}
+        - {x: 6, y: -4}
+        - {x: 7, y: -2}
+        - {x: 7, y: 2}
+        - {x: 6, y: 4}
+        - {x: 4, y: 6}
+        - {x: 2, y: 7}
+        - {x: -2, y: 7}
+        - {x: -4, y: 6}
       physicsShape: []
       tessellationDetail: 0
       bones: []

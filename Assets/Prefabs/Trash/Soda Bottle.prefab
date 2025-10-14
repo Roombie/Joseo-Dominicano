@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7564070763181589384}
   - component: {fileID: 5014857313450758560}
   - component: {fileID: -3136884800011814250}
-  - component: {fileID: -6273983164941422214}
+  - component: {fileID: -9201690065677472318}
   - component: {fileID: 2865018209108229417}
   m_Layer: 12
   m_Name: Soda Bottle
@@ -173,7 +173,10 @@ MonoBehaviour:
   _onCollect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &-6273983164941422214
+  onCollect:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-9201690065677472318
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,14 +185,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2348519147166527074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af64108a653f3df45aaf0534c6ac081e, type: 3}
+  m_Script: {fileID: 11500000, guid: 56a2d1641e38d4344b29243e6981c8e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestValuable
-  _properties:
-    name: Botellita KolaCola
-    value: 5
-    weight: 1
-    carrySpace: 1
+  m_EditorClassIdentifier: Assembly-CSharp::TrashPickup
+  item: {fileID: 11400000, guid: 1538211eee3158a43ab2bc2cc9066ba6, type: 2}
   destroyTime: 10
   selfDestroy: 0
 --- !u!114 &2865018209108229417

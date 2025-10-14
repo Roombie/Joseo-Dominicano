@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3232539562177284266}
   - component: {fileID: 1606374383398967520}
   - component: {fileID: -2271098187654044424}
-  - component: {fileID: 3203337963352010203}
+  - component: {fileID: 7380794306084500309}
   - component: {fileID: 4797700573662332973}
   m_Layer: 12
   m_Name: Bleach
@@ -173,7 +173,10 @@ MonoBehaviour:
   _onCollect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3203337963352010203
+  onCollect:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7380794306084500309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,16 +185,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 160163271522881491}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af64108a653f3df45aaf0534c6ac081e, type: 3}
+  m_Script: {fileID: 11500000, guid: 56a2d1641e38d4344b29243e6981c8e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestValuable
-  _properties:
-    name: "Gal\xF3n de cloro"
-    value: 10
-    weight: 2
-    carrySpace: 2
+  m_EditorClassIdentifier: Assembly-CSharp::TrashPickup
+  item: {fileID: 11400000, guid: cfebab8c5f37ade4ea8058b73480a20e, type: 2}
   destroyTime: 10
-  selfDestroy: 0
+  selfDestroy: 1
 --- !u!114 &4797700573662332973
 MonoBehaviour:
   m_ObjectHideFlags: 0

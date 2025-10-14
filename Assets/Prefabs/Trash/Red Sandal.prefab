@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 3888864768247324354}
   - component: {fileID: 6651150743350022090}
   - component: {fileID: 1069893648809873122}
-  - component: {fileID: 4945245795245525404}
+  - component: {fileID: 738248095003363818}
+  - component: {fileID: 8856824589585614119}
   m_Layer: 12
   m_Name: Red Sandal
   m_TagString: Untagged
@@ -172,7 +173,10 @@ MonoBehaviour:
   _onCollect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4945245795245525404
+  onCollect:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &738248095003363818
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,11 +185,62 @@ MonoBehaviour:
   m_GameObject: {fileID: 6847468297573457130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af64108a653f3df45aaf0534c6ac081e, type: 3}
+  m_Script: {fileID: 11500000, guid: 56a2d1641e38d4344b29243e6981c8e3, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestValuable
-  _properties:
-    name: Chancla rosadita
-    value: 6
-    weight: 1
-    carrySpace: 1
+  m_EditorClassIdentifier: Assembly-CSharp::TrashPickup
+  item: {fileID: 11400000, guid: 7552e07b7af13ad48836e388b4461d2e, type: 2}
+  destroyTime: 6
+  selfDestroy: 1
+--- !u!114 &8856824589585614119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6847468297573457130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.2D.Runtime::UnityEngine.Rendering.Universal.ShadowCaster2D
+  m_ShadowGroup: 0
+  m_Priority: 0
+  m_ComponentVersion: 5
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_AlphaCutoff: 0.1
+  m_ApplyToSortingLayers: e97ec15200000000
+  m_ShapePath:
+  - {x: -0.65625, y: -0.4375, z: 0}
+  - {x: -0.65625, y: 0.4375, z: 0}
+  - {x: 0.65625, y: 0.4375, z: 0}
+  - {x: 0.65625, y: -0.4375, z: 0}
+  m_ShapePathHash: 0
+  m_InstanceId: 0
+  m_ShadowShape2DComponent: {fileID: 3102044284355071824}
+  m_ShadowShape2DProvider:
+    rid: 6326243873519304778
+  m_ShadowCastingSource: 2
+  m_ShadowMesh:
+    m_Mesh: {fileID: 0}
+    m_LocalBounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5537567, y: 0.3350067, z: 0}
+    m_EdgeProcessing: 1
+    m_TrimEdge: 0.05
+    m_FlipX: 0
+    m_FlipY: 0
+    m_InitialTrim: 0.04
+  m_CastingOption: 1
+  m_PreviousTrimEdge: 0
+  m_PreviousEdgeProcessing: -1
+  m_PreviousShadowCastingSource: -1
+  m_PreviousShadowShape2DSource: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 6326243873519304778
+      type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data: 

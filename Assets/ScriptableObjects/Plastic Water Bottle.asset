@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Plastic Water Bottle
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: a77ffdb5-3d73-4dae-9cca-cd93ce7d0f94
-  weightKg: 1
-  worth: 1
-  pickUpSpace: 1
+  weightKg: 0.8
+  worth: 7
+  pickUpSpace: 2
