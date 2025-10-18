@@ -102,6 +102,41 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+    #region Extra Menus
+    [SerializeField] private GameObject _optionsPanel;
+    [SerializeField] private GameObject _creditsPanel;
+    [SerializeField] private bool _pauseWhileInOptions = true;
+
+    public void _MainMenu_OpenOptions()
+    {
+        if (inShift && !isPaused) _Gameplay_Pause();
+
+        if (_optionsPanel) _optionsPanel.SetActive(true);
+
+        // Make sure toggles reflect saved state right away:
+        foreach (var t in _optionsPanel.GetComponentsInChildren<ToggleSettingHandler>(true))
+            t.RefreshUI();
+    }
+
+    public void _MainMenu_CloseOptions()
+    {
+        if (_optionsPanel) _optionsPanel.SetActive(false);
+
+        // If we paused for options during gameplay, resume
+        if (_pauseWhileInOptions && inShift && isPaused) _Gameplay_Resume();
+    }
+
+    public void _MainMenu_OpenCredits()
+    {
+        if (_creditsPanel) _creditsPanel.SetActive(true);
+    }
+
+    public void _MainMenu_CloseCredits()
+    {
+        if (_creditsPanel) _creditsPanel.SetActive(false);
+    }
+    #endregion
+
     #endregion
     #region Gameplay
     [Header("Gameplay")]
