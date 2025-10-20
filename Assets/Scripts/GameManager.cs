@@ -197,7 +197,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] Color _dayGoalInsufficientColor = Color.red;
     [SerializeField] Color _dayGoalReachedColor = Color.green;
     [SerializeField] string _dayTimerText = "Tiempo";
+    [SerializeField] float _timesUpDisplayHomeDelay = 3;
     [SerializeField] UnityEvent _onGameplayHurryUp;
+    [SerializeField] UnityEvent _onGameplayTimesUp;
     [SerializeField] UnityEvent _onPlay;
     [SerializeField] UnityEvent _onStartDay;
     [SerializeField] UnityEvent _onEndGameplay;
@@ -543,7 +545,8 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift) return;
         OnGameplayEnd();
-        _Home_Display();
+        _onGameplayTimesUp?.Invoke();
+        Invoke("_Home_Display", _timesUpDisplayHomeDelay);
         // _gameOverDisplay.Set("Game Over", "The truck left you behind");
         // _GameOver_Display();
     }
@@ -571,7 +574,7 @@ public class GameManager : MonoBehaviour
             spawner.StopSpawning();
         }
 
-        DestroyAllSpawnedValuables();
+        // DestroyAllSpawnedValuables();
         _testGameplayScreen.SetActive(false);
         _onEndGameplay?.Invoke();
     }
@@ -670,10 +673,10 @@ public class GameManager : MonoBehaviour
     {
         if (!isInHome) return;
         var homeDebugText = new System.Text.StringBuilder();
-        homeDebugText.AppendLine("HOME DEBUG TEXT");
-        homeDebugText.AppendLine("───────────────────────────");
+        // homeDebugText.AppendLine("HOME DEBUG TEXT");
+        // homeDebugText.AppendLine("─────────────");
         homeDebugText.AppendLine("Current Money: " + _playerMoney);
-        homeDebugText.AppendLine("───────────────────────────");
+        // homeDebugText.AppendLine("─────────────");
         homeDebugText.AppendLine("Day Quota: " + days[_currentDay - 1].dayQuota);
 
         if (_testHomeStateText != null) _testHomeStateText.text = homeDebugText.ToString();
