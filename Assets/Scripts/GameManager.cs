@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     }
     public Level[] days;
     [Header("References")]
+    [SerializeField] Rigidbody2D _playerPhysics;
     [SerializeField] PlayerWallet _playerWallet; //rafamaster3
     [SerializeField] PlayerCollect _playerCollect;
     [SerializeField] OxygenManager _oxygenManager; //rafamaster3
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
         _testHomeScreen.SetActive(false);
         _testGameOverScreen.SetActive(false);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
-        _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
+        // _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
         UpdateTotalCoinsUI(0);
         input.PauseEvent += OnPause;
         input.EnablePlayer();
@@ -59,7 +60,7 @@ public class GameManager : MonoBehaviour
     void OnDestroy()
     {
         _playerCollect?.onCollect.RemoveListener(OnValuableCollected);
-        _oxygenManager?.onOxygenDepleted.RemoveListener(_Gameplay_OnPlayerDeath);
+        // _oxygenManager?.onOxygenDepleted.RemoveListener(_Gameplay_OnPlayerDeath);
         input.PauseEvent -= OnPause;
 
         foreach (Spawner spawner in _spawners)
@@ -256,6 +257,8 @@ public class GameManager : MonoBehaviour
     public void _Gameplay_Display()
     {
         _testGameplayScreen.SetActive(true);
+        _playerPhysics.linearVelocity = Vector2.zero;
+        _playerPhysics.angularVelocity = 0;
         _playerCollect.transform.position = _playerInitialPosition;
         _playerCollect.transform.rotation = Quaternion.identity;
         if (_dayLabel != null) _dayLabel.text = _dayLabelText + " " + (_currentDay + 1);

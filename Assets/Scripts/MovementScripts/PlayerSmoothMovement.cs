@@ -24,6 +24,10 @@ public class PlayerSmoothMovement : OxygenableBehaviour
     public float walkSpeed = 5f;
     public float rotationSpeed = 5f;
     public float runSpeed = 10f;
+    [SerializeField] float enabledLinearDamping = 4.5f;
+    [SerializeField] float enabledAngularDamping = 9;
+    [SerializeField] float disabledLinearDamping = 0.5f;
+    [SerializeField] float disabledAngularDamping = 2;
     [Range(0, 1)] public float flipDirectionThreshold = 0.2f;
     public enum MoveToForwardType { FollowInputDirection, FollowPhysicsRotation }
     public MoveToForwardType _forwardTraslationType;
@@ -37,7 +41,10 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
     void Awake()
     {
-
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        if (sprite == null) sprite = GetComponent<SpriteRenderer>();
+        
 #if UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID
         if (mobileControls != null)
         {
@@ -54,6 +61,8 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
     void OnEnable()
     {
+        rb.linearDamping = enabledLinearDamping;
+        rb.angularDamping = enabledAngularDamping;
         input.MoveEvent += OnMove;
         input.SprintStartedEvent += SprintPressed;
         input.SprintCanceledEvent += SprintReleased;
@@ -61,6 +70,8 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
     void OnDisable()
     {
+        rb.linearDamping = disabledLinearDamping;
+        rb.angularDamping = disabledAngularDamping;
         input.MoveEvent -= OnMove;
         input.SprintStartedEvent -= SprintPressed;
         input.SprintCanceledEvent -= SprintReleased;
@@ -68,10 +79,6 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody2D>();
-        if (sprite == null) sprite = GetComponent<SpriteRenderer>();
-
         currentSpeed = walkSpeed; // Set initial speed               
     }
     

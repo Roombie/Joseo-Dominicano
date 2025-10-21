@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5014857313450758560}
   - component: {fileID: -3136884800011814250}
   - component: {fileID: -9201690065677472318}
-  - component: {fileID: 2865018209108229417}
+  - component: {fileID: 7181348365474599652}
   m_Layer: 12
   m_Name: Soda Bottle
   m_TagString: Untagged
@@ -152,7 +152,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -170,9 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollect
-  _onCollect:
-    m_PersistentCalls:
-      m_Calls: []
   onCollect:
     m_PersistentCalls:
       m_Calls: []
@@ -191,7 +188,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 1538211eee3158a43ab2bc2cc9066ba6, type: 2}
   destroyTime: 10
   selfDestroy: 0
---- !u!114 &2865018209108229417
+--- !u!114 &7181348365474599652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
