@@ -39,11 +39,11 @@ public class SettingsManager : MonoBehaviour
     public void ApplyAllFromPrefs()
     {
         bool musicOn = PlayerPrefs.GetInt(SettingsKeys.MusicEnabledKey, 1) == 1;
-        bool sfxOn   = PlayerPrefs.GetInt(SettingsKeys.SoundEnabledKey,  1) == 1;
+        bool sfxOn   = PlayerPrefs.GetInt(SettingsKeys.SFXEnabledKey,  1) == 1;
 
         // Don’t overwrite saved loudness; just mute/unmute at the mixer.
         AudioManager.Instance?.SetMuted(SettingType.MusicEnabledKey, !musicOn);
-        AudioManager.Instance?.SetMuted(SettingType.SoundEnabledKey,  !sfxOn);
+        AudioManager.Instance?.SetMuted(SettingType.SFXEnabledKey,  !sfxOn);
     }
 
     // Static convenience
@@ -68,9 +68,9 @@ public class SettingsManager : MonoBehaviour
                 AudioManager.Instance?.SetMuted(SettingType.MusicEnabledKey, !turnOn);
                 break;
 
-            case SettingType.SoundEnabledKey:
-                PlayerPrefs.SetInt(SettingsKeys.SoundEnabledKey, turnOn ? 1 : 0);
-                AudioManager.Instance?.SetMuted(SettingType.SoundEnabledKey, !turnOn);
+            case SettingType.SFXEnabledKey:
+                PlayerPrefs.SetInt(SettingsKeys.SFXEnabledKey, turnOn ? 1 : 0);
+                AudioManager.Instance?.SetMuted(SettingType.SFXEnabledKey, !turnOn);
                 break;
         }
 

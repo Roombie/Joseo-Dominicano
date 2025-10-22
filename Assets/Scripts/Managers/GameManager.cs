@@ -7,6 +7,13 @@ using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
+    #region Music
+    public AudioClip menuMusic;
+    public AudioClip normalMusic;
+    public AudioClip hurryUpMusic;
+    [SerializeField, Range(0f, 1f)] private float pausedMusicDuck = 0.5f; // Volume multiplier when paused
+    #endregion
+
     #region General
     [Header("General")]
     [SerializeField] InputReader input;
@@ -53,7 +60,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         _Gameplay_UpdateDebugText();
-        _Home_UpdateDebugText();
     }
 
     void OnDestroy()
@@ -275,6 +281,9 @@ public class GameManager : MonoBehaviour
         _oxygenManager.PauseOxygen();
         StopDayTimer();
         isPaused = true;
+
+        bool musicOn = PlayerPrefs.GetInt(SettingsKeys.MusicEnabledKey, 1) == 1;  // clave existente
+        if (musicOn) AudioManager.Instance?.SetVolume(SettingType.MusicEnabledKey, pausedMusicDuck, persist: false);
     }
 
     public void _Gameplay_Resume()
@@ -284,6 +293,9 @@ public class GameManager : MonoBehaviour
         _oxygenManager.ConsumeOxygen();
         RunDayTimer();
         isPaused = false;
+
+        bool musicOn = PlayerPrefs.GetInt(SettingsKeys.MusicEnabledKey, 1) == 1;
+        if (musicOn) AudioManager.Instance?.SetMuted(SettingType.MusicEnabledKey, false);
     }
 
     void OnPause()
@@ -314,6 +326,7 @@ public class GameManager : MonoBehaviour
     {
         if (inShift) return;
         inShift = true;
+
         _currentDay++;
         ResetDayTimer();
         RunDayTimer();
@@ -623,37 +636,43 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+    
     #region Home
     [Header("Home")]
     [SerializeField] GameObject _testHomeScreen;
     [SerializeField] TMP_Text _testHomeStateText;
     [SerializeField] UnityEvent _onHomeGoToNextDay;
-    // [SerializeField] float _dayCost = 1200;
     bool isInHome;
+    Coroutine homeDebugRoutine;
 
     public void _Home_Display()
     {
         isInHome = true;
         _testHomeScreen.SetActive(true);
+
+        // Launches the text effect only once upon entering
+        if (homeDebugRoutine != null)
+            StopCoroutine(homeDebugRoutine);
+
+        homeDebugRoutine = StartCoroutine(HomeTextReveal());
     }
 
     public void _Home_EndDay()
     {
         _testHomeScreen.SetActive(false);
         var quota = days[_currentDay - 1].dayQuota;
-        if (_playerMoney >= quota)
 
+        if (_playerMoney >= quota)
         {
             _playerMoney -= quota;
             UpdateTotalCoinsUI(_playerMoney);
-            _playerWallet.TrySpend(quota); //rafamaster3
-            _testGameplayTotalMoney.text = _playerWallet.Balance.ToString(); //rafamaster3
+            _playerWallet.TrySpend(quota);
+            _testGameplayTotalMoney.text = _playerWallet.Balance.ToString();
 
             if (_currentDay >= days.Length)
             {
                 _gameOverDisplay.Set(_winTitleText, _winContextText);
                 _GameOver_Display();
-
             }
             else
             {
@@ -666,23 +685,32 @@ public class GameManager : MonoBehaviour
             _gameOverDisplay.Set(_badEndingTitleText, _badEndingContextText);
             _GameOver_Display();
         }
+
         isInHome = false;
     }
 
-    public void _Home_UpdateDebugText()
+    // Displays information with effect “one by one”
+    IEnumerator HomeTextReveal()
     {
-        if (!isInHome) return;
-        var homeDebugText = new System.Text.StringBuilder();
-        // homeDebugText.AppendLine("HOME DEBUG TEXT");
-        // homeDebugText.AppendLine("─────────────");
-        homeDebugText.AppendLine("Current Money: " + _playerMoney);
-        // homeDebugText.AppendLine("─────────────");
-        homeDebugText.AppendLine("Day Quota: " + days[_currentDay - 1].dayQuota);
+        if (_testHomeStateText == null) yield break;
 
-        if (_testHomeStateText != null) _testHomeStateText.text = homeDebugText.ToString();
+        _testHomeStateText.text = "";
+        string[] lines =
+        {
+            $"Dinero actual: {_playerMoney}",
+            $"Cuota del día: {days[_currentDay - 1].dayQuota}",
+            "......................................................",
+            $"Saldo restante: {Mathf.Max(0, _playerMoney - days[_currentDay - 1].dayQuota)}"
+        };
+
+        foreach (string line in lines)
+        {
+            yield return new WaitForSeconds(0.5f); // time between lines
+            _testHomeStateText.text += line + "\n";
+        }
     }
-
     #endregion
+
     #region Game Over
     [Header("Game Over")]
     [SerializeField] GameObject _testGameOverScreen;

@@ -23,7 +23,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip CurrentMusic { get; private set; }
 
-    // Persistent volume keys (distinct from "enabled" flags)
+    // AudioMixers parameters keys
     private const string MusicVolKey = "MusicVolume";
     private const string SoundVolKey = "SoundVolume";
 
@@ -42,9 +42,9 @@ public class AudioManager : MonoBehaviour
         // Initialize mixer parameters from saved volume values WITHOUT writing back
         // (mute/unmute state will be applied by SettingsManager)
         float music = GetSavedVolumeValue(SettingType.MusicEnabledKey, 0.6f);
-        float sfx   = GetSavedVolumeValue(SettingType.SoundEnabledKey,  0.6f);
+        float sfx   = GetSavedVolumeValue(SettingType.SFXEnabledKey,  0.6f);
         SetVolume(SettingType.MusicEnabledKey, music, persist:false);
-        SetVolume(SettingType.SoundEnabledKey,  sfx,  persist:false);
+        SetVolume(SettingType.SFXEnabledKey,  sfx,  persist:false);
     }
 
     private void InitializePools()
@@ -70,7 +70,7 @@ public class AudioManager : MonoBehaviour
         string param = type switch
         {
             SettingType.MusicEnabledKey => "MusicVolume",
-            SettingType.SoundEnabledKey => "SoundVolume",
+            SettingType.SFXEnabledKey => "SFXVolume",
             _ => null
         };
 
@@ -119,7 +119,7 @@ public class AudioManager : MonoBehaviour
     {
         //  SettingType    =>    AudioMixers Exposed parameters
         SettingType.MusicEnabledKey => MusicVolKey,
-        SettingType.SoundEnabledKey => SoundVolKey,
+        SettingType.SFXEnabledKey => SoundVolKey,
         _ => "UnknownVolume"
     };
 
