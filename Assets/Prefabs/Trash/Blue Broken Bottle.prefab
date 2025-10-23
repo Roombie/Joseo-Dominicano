@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3966150590207311967}
   - component: {fileID: 7058038288394510931}
   - component: {fileID: 2366647224649512400}
-  - component: {fileID: 8514907874743690825}
+  - component: {fileID: 4295189098435203722}
   m_Layer: 12
   m_Name: Blue Broken Bottle
   m_TagString: EditorOnly
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8637896964672977443}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
   m_Name: 
@@ -172,7 +172,7 @@ MonoBehaviour:
   onCollect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8514907874743690825
+--- !u!114 &4295189098435203722
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

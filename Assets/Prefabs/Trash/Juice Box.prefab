@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5109028029268587427}
   - component: {fileID: 1181082689369219357}
   - component: {fileID: 5996546516585215707}
-  - component: {fileID: 6246884113506863021}
+  - component: {fileID: 6934957525847744486}
   m_Layer: 12
   m_Name: Juice Box
   m_TagString: Respawn
@@ -170,9 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollect
-  _onCollect:
-    m_PersistentCalls:
-      m_Calls: []
   onCollect:
     m_PersistentCalls:
       m_Calls: []
@@ -191,7 +188,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 5deea62f02ffa97488871038e067dbf1, type: 2}
   destroyTime: 10
   selfDestroy: 1
---- !u!114 &6246884113506863021
+--- !u!114 &6934957525847744486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1606374383398967520}
   - component: {fileID: -2271098187654044424}
   - component: {fileID: 7380794306084500309}
-  - component: {fileID: 4797700573662332973}
+  - component: {fileID: 3682445766235075760}
   m_Layer: 12
   m_Name: Bleach
   m_TagString: Untagged
@@ -152,7 +152,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -170,9 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollect
-  _onCollect:
-    m_PersistentCalls:
-      m_Calls: []
   onCollect:
     m_PersistentCalls:
       m_Calls: []
@@ -191,7 +188,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: cfebab8c5f37ade4ea8058b73480a20e, type: 2}
   destroyTime: 10
   selfDestroy: 1
---- !u!114 &4797700573662332973
+--- !u!114 &3682445766235075760
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

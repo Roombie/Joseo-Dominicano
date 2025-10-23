@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8787905289867546051}
   - component: {fileID: 7188790565066204460}
   - component: {fileID: 2802231216800779521}
-  - component: {fileID: 7457292792292416685}
+  - component: {fileID: 39383393474990275}
   m_Layer: 12
   m_Name: Red Broken Bottle
   m_TagString: EditorOnly
@@ -164,15 +164,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6466122819447697235}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollect
-  _onCollect:
+  onCollect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7457292792292416685
+--- !u!114 &39383393474990275
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

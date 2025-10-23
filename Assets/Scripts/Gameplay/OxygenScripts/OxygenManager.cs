@@ -32,7 +32,7 @@ public class OxygenManager : MonoBehaviour
     [SerializeField] private float sprintingDepletionChange = 1.7f;
     [SerializeField] private float currentMoveDepletionModifier = 1;
 
-    [Header("Hazards)]")]
+    [Header("Hazards")]
     [SerializeField] float hazardDamage = 10f;
 
 
@@ -140,7 +140,7 @@ public class OxygenManager : MonoBehaviour
             oxygenLvlText.text = oxygenLevel.value.ToString();
             UpdateOxygenBar();
         }
-        else
+        else if (consumingOxygen)
         {
             StopAllCoroutines();
             consumingOxygen = false;

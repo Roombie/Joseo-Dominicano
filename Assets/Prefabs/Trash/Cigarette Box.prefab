@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3526377972279638363}
   - component: {fileID: -8412620777481808591}
   - component: {fileID: 7270919786819843327}
-  - component: {fileID: 4473461578959125310}
+  - component: {fileID: 1299002696305979513}
   m_Layer: 12
   m_Name: Cigarette Box
   m_TagString: Finish
@@ -170,9 +170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollect
-  _onCollect:
-    m_PersistentCalls:
-      m_Calls: []
   onCollect:
     m_PersistentCalls:
       m_Calls: []
@@ -191,7 +188,7 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 3d9e9d85d16a62a488ae8931cbec6fc8, type: 2}
   destroyTime: 10
   selfDestroy: 1
---- !u!114 &4473461578959125310
+--- !u!114 &1299002696305979513
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
