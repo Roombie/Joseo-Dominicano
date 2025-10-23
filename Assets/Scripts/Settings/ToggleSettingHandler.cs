@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ToggleSettingHandler : MonoBehaviour, ISettingHandler
 {
     [Header("Setting Config")]
-    [SettingTypeFilter(SettingType.MusicEnabledKey, SettingType.SoundEnabledKey)]
+    [SettingTypeFilter(SettingType.MusicEnabledKey, SettingType.SFXEnabledKey)]
     [SerializeField] private SettingType settingType;
 
     [Header("UI")]

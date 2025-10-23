@@ -43,6 +43,6 @@ Material:
     m_Floats:
     - _Intensity: 0
     m_Colors:
-    - _Tone: {r: 0.45113918, g: 0.6057514, b: 0.6981132, a: 1}
+    - _Tone: {r: 0.9607843, g: 0.8, b: 0.6313726, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

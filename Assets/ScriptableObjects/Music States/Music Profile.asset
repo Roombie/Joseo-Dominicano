@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4c9437166b7ee489ccdb044fca1c5a, type: 3}
+  m_Name: Music Profile
+  m_EditorClassIdentifier: Assembly-CSharp::MusicProfile
+  mixer: {fileID: 24100000, guid: 57624a10020424b4bbab204b44ff50e8, type: 2}
+  states:
+  - {fileID: 11400000, guid: 9873f54d6fcd89045b3f45b3e51ff469, type: 2}
+  - {fileID: 11400000, guid: dd81e6dc9333712468adb5b97bb6cfad, type: 2}
+  - {fileID: 11400000, guid: 38ed56e244684f54fab3ef9f5bfe64de, type: 2}
