@@ -130,13 +130,14 @@ GameObject:
   - component: {fileID: 296744266}
   - component: {fileID: 296744268}
   - component: {fileID: 296744267}
+  - component: {fileID: 296744269}
   m_Layer: 5
   m_Name: Radial Fill Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &296744266
 RectTransform:
   m_ObjectHideFlags: 0
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 530961751}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -194,6 +195,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 296744265}
   m_CullTransparentMesh: 1
+--- !u!114 &296744269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 296744265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a32eb0802502640848849d0c18e86d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIGradientMultiplyController
+  uiGraphic: {fileID: 296744267}
+  targetRenderer: {fileID: 0}
+  explicitMaterial: {fileID: 2100000, guid: 2df9b167c43908d4a9cf286a432e3a4d, type: 2}
+  propMainTex: _MainTex
+  propColorA: _Color_A
+  propColorB: _Color_B
+  propGradOffset: _Gradient_Offset
+  propGradDerivation: _Gradient_Derivation
+  propCustomTex: _Custom_Texture
+  propCustomSpeed: _Custom_Speed
+  propUVOverride: _UV_Override
+  mainTexture: {fileID: 0}
+  colorA: {r: 0, g: 0, b: 0, a: 0}
+  colorB: {r: 0.15294118, g: 0.17254902, b: 0.72156864, a: 0.44705883}
+  gradientOffset: -0.734
+  gradientDerivation: 0.008
+  customTexture: {fileID: 0}
+  customSpeed: {x: 0, y: 0}
+  uvOverride: {fileID: 0}
+  gradientOffsetRange: {x: -1, y: 1}
+  gradientDerivationRange: {x: 0, y: 1}
+  controlTypeKeyword: 0
+  typeKeywords: []
+  typeIndex: 0
+  debugMode: 1
 --- !u!1 &325882024
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +307,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 325882024}
   m_CullTransparentMesh: 1
+--- !u!21 &530961751
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ShadeGradientUI_Multiply
+  m_Shader: {fileID: -6465566751694194690, guid: 476a384fdb23e9941987ad79e477f126, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _TYPE_RADIAL
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Custom_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _UV_Override:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Gradient_Derivation: 0.008
+    - _Gradient_Offset: -0.734
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    - _TYPE: 1
+    - _UIMaskSoftnessX: 1
+    - _UIMaskSoftnessY: 1
+    m_Colors:
+    - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
+    - _Color_A: {r: 0, g: 0, b: 0, a: 0}
+    - _Color_B: {r: 0.15294118, g: 0.17254902, b: 0.72156864, a: 0.44705883}
+    - _Custom_Speed: {r: 0, g: 0, b: 0, a: 0}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &589818866
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,6 +839,8 @@ PlayableDirector:
     value: {fileID: 1720614998}
   - key: {fileID: -7116981722066028233, guid: c65759c92216d944e83e680de6370dfe, type: 2}
     value: {fileID: 1720614999}
+  - key: {fileID: -5200844976255315628, guid: c65759c92216d944e83e680de6370dfe, type: 2}
+    value: {fileID: 296744269}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &1720615001
@@ -776,7 +884,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: dobleadev-GameplayTest 4
+          m_StringArgument: roombie-gameplay-5
           m_BoolArgument: 0
         m_CallState: 2
   submitAction: {fileID: 392368643174621059, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
@@ -1245,7 +1353,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035704790}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a10c07766cac0d6469a8ae14ff978714, type: 3}
   m_Name: 
