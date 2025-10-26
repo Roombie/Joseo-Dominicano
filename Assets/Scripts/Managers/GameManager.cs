@@ -8,9 +8,7 @@ using UnityEngine.InputSystem;
 public class GameManager : MonoBehaviour
 {
     #region Music
-    public AudioClip menuMusic;
-    public AudioClip normalMusic;
-    public AudioClip hurryUpMusic;
+    [SerializeField] private MusicSwitcher musicSwitcher;
     [SerializeField, Range(0f, 1f)] private float pausedMusicDuck = 0.5f; // Volume multiplier when paused
     #endregion
 
@@ -94,6 +92,7 @@ public class GameManager : MonoBehaviour
 
     public void _MainMenu_Display()
     {
+        musicSwitcher?.SwitchTo(MusicState.Menu, 0.15f);
         _testMainMenu.SetActive(true);
         _onMenuDisplay?.Invoke();
     }
@@ -262,6 +261,7 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_Display()
     {
+        musicSwitcher?.SwitchTo(MusicState.Gameplay, 0.15f);
         _testGameplayScreen.SetActive(true);
         _playerPhysics.linearVelocity = Vector2.zero;
         _playerPhysics.angularVelocity = 0;
@@ -636,6 +636,7 @@ public class GameManager : MonoBehaviour
     void OnHurryUpDisplay()
     {
         _onGameplayHurryUp?.Invoke();
+        musicSwitcher?.SwitchTo(MusicState.Hurry, 0.15f);
     }
 
     #endregion

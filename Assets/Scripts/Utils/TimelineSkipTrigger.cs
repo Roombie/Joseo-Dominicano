@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using UnityEngine.Timeline;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
+using System.Collections;
 
 public class TimelineSkipTrigger : MonoBehaviour
 {
@@ -49,6 +50,20 @@ public class TimelineSkipTrigger : MonoBehaviour
         }
 
         EnhancedTouchSupport.Disable();
+    }
+
+    void Start()
+    {
+        if (director != null)
+            StartCoroutine(DelayedTimelineStart());
+        else
+            Debug.LogWarning("[TimelineSkipTrigger] No PlayableDirector assigned.");
+    }
+
+    private IEnumerator DelayedTimelineStart()
+    {
+        yield return null; // Wait one frame for AudioManager to finish setup
+        director.Play();
     }
 
     void Update()

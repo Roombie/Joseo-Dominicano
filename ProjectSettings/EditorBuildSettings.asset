@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Set Scenes/Intro.unity
     guid: c54844a6eca9b7444a43094ab14ff8f9
   - enabled: 1
+    path: Assets/Scenes/Set Scenes/Lore.unity
+    guid: 723805fc5512c0d4989c210b4105ed5f
+  - enabled: 1
     path: Assets/Scenes/dobleadev-GameplayTest 4.unity
     guid: a677413d325d58b44a43c6cb94b1d196
   - enabled: 1

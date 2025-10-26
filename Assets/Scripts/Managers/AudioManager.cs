@@ -25,7 +25,7 @@ public class AudioManager : MonoBehaviour
 
     // AudioMixers parameters keys
     private const string MusicVolKey = "MusicVolume";
-    private const string SoundVolKey = "SoundVolume";
+    private const string SoundVolKey = "SFXVolume";
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class AudioManager : MonoBehaviour
         // Initialize mixer parameters from saved volume values WITHOUT writing back
         // (mute/unmute state will be applied by SettingsManager)
         float music = GetSavedVolumeValue(SettingType.MusicEnabledKey, 0.6f);
-        float sfx   = GetSavedVolumeValue(SettingType.SFXEnabledKey,  0.6f);
+        float sfx = GetSavedVolumeValue(SettingType.SFXEnabledKey,  0.6f);
         SetVolume(SettingType.MusicEnabledKey, music, persist:false);
         SetVolume(SettingType.SFXEnabledKey,  sfx,  persist:false);
     }
