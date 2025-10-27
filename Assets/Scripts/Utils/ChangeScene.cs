@@ -7,4 +7,9 @@ public class ChangeScene : MonoBehaviour
     {
         SceneManager.LoadScene(sceneName);
     }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneTransitionManager.Instance.LoadScene(sceneName);
+    }
 }

@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryPage
   animator: {fileID: 64903696}
+  slidePageClip: {fileID: 8300000, guid: 3fe08fc865be3044d86b5c810ce20a7c, type: 3}
   appearTrigger: Appear
   leaveTrigger: Leave
   appearStateName: In
@@ -520,6 +521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryPage
   animator: {fileID: 748115825}
+  slidePageClip: {fileID: 8300000, guid: a1fe7910cad8ee14a9afea6402c13599, type: 3}
   appearTrigger: Appear
   leaveTrigger: Leave
   appearStateName: In
@@ -769,6 +771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StoryPage
   animator: {fileID: 1002402510}
+  slidePageClip: {fileID: 8300000, guid: c1781120a47518b498096879c9507a44, type: 3}
   appearTrigger: Appear
   leaveTrigger: Leave
   appearStateName: In
@@ -1007,7 +1010,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1940733652}
         m_TargetAssemblyTypeName: ChangeScene, Assembly-CSharp
-        m_MethodName: ChangeSceneNoTransition
+        m_MethodName: LoadScene
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

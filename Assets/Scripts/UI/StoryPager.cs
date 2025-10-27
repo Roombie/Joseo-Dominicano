@@ -36,7 +36,27 @@ public class StoryPager : MonoBehaviour
             submit.action.performed += OnSubmit;
             submit.action.Enable();
         }
-        if (playOnAwake) Begin();
+
+        if (playOnAwake)
+            StartCoroutine(WaitForSceneTransitionThenBegin());
+    }
+
+    IEnumerator WaitForSceneTransitionThenBegin()
+    {
+        // If scene transition manager doesn't exist, skip waiting
+        if (SceneTransitionManager.Instance == null)
+        {
+            Debug.Log("[StoryPager] No SceneTransitionManager found — starting immediately.");
+            Begin();
+            yield break;
+        }
+
+        // Wait until the SceneTransitionManager exists and finishes transitioning
+        while (SceneTransitionManager.Instance == null || SceneTransitionManager.Instance.isTransitioning)
+            yield return null;
+
+        Debug.Log("[StoryPager] Scene transition complete, beginning story flow");
+        Begin();
     }
 
     void OnDestroy()

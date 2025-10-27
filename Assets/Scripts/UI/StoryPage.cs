@@ -6,6 +6,9 @@ public class StoryPage : MonoBehaviour
     [Header("Animator & States")]
     public Animator animator;
 
+    [Header("Audio")]
+    public AudioClip slidePageClip;
+
     [Tooltip("Trigger to start the 'appear' animation.")]
     public string appearTrigger = "Appear";
     [Tooltip("Trigger to start the 'leave' animation.")]
@@ -90,6 +93,14 @@ public class StoryPage : MonoBehaviour
             if (st.shortNameHash == targetHash && st.normalizedTime >= 1f && !animator.IsInTransition(layerIndex))
                 break;
             yield return null;
+        }
+    }
+
+    public void PlaySlidePageSound()
+    {
+        if (slidePageClip != null)
+        {
+            AudioManager.Instance.Play(slidePageClip, SoundCategory.SFX);
         }
     }
 }
