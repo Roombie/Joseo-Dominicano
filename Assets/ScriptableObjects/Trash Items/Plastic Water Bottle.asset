@@ -16,3 +16,4 @@ MonoBehaviour:
   weightKg: 0.8
   worth: 7
   pickUpSpace: 2
+  pickUpSound: {fileID: 8300000, guid: 15b01aed0cdc67e40a7bfad1f7f4cc07, type: 3}

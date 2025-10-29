@@ -50,7 +50,7 @@ public class ToggleSettingHandler : MonoBehaviour, ISettingHandler
         _provider?.ApplySetting(settingType, _currentValue ? 1 : 0);
 
         if (toggleSound)
-            AudioSource.PlayClipAtPoint(toggleSound, Camera.main ? Camera.main.transform.position : Vector3.zero);
+            AudioManager.Instance?.Play(toggleSound, SoundCategory.SFX);
     }
 
     // Optional: wire a Button to this to behave like a press-to-toggle

@@ -238,8 +238,8 @@ public class GameManager : MonoBehaviour
         {
             var sackItem = _playerSack[i];
             _currentShiftPayment += sackItem.Worth;
-            totalDepositWorth     += sackItem.Worth; // accumulate total worth of this deposit
-            _playerCurrentWeight  -= sackItem.WeightKg;
+            totalDepositWorth += sackItem.Worth; // accumulate total worth of this deposit
+            _playerCurrentWeight -= sackItem.WeightKg;
             _playerSackCarrySpaceUsed -= sackItem.PickUpSpace;
         }
 
@@ -360,7 +360,7 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift || pickup == null) return;
 
-        var so = pickup.Item;                 // TrashItemSO
+        var so = pickup.Item; // TrashItemSO
         if (so == null) return;
 
         // Evitar doble intento inmediato o basura sin “valor/espacio” (placeholder)
@@ -415,7 +415,18 @@ public class GameManager : MonoBehaviour
 
                 _playerSackDebugOutput += $"({_playerSackCarrySpaceUsed}/{_playerSackCarrySpaceLimit})";
             }
+            
+            if (so.PickUpSound != null)
+            {
+                float minPitch = so.MinRandomPitch;
+                float maxPitch = so.MaxRandomPitch;
 
+                if (maxPitch < minPitch) { var t = minPitch; minPitch = maxPitch; maxPitch = t; }
+                float pitch = Random.Range(minPitch, maxPitch);
+
+                AudioManager.Instance?.Play(so.PickUpSound, SoundCategory.SFX, volume: 1f, pitch: pitch, loop: false);
+            }
+            
             Destroy(pickup.gameObject);
         }
         else
