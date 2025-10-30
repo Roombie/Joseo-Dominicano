@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        _testMainMenu.SetActive(true);
+        // _testMainMenu.SetActive(true);
         _testGameplayScreen.SetActive(false);
         _testHomeScreen.SetActive(false);
         _testGameOverScreen.SetActive(false);
