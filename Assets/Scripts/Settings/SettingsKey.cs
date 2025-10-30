@@ -4,6 +4,7 @@ public enum SettingType
 {
     MusicEnabledKey,
     SFXEnabledKey,
+    LanguageKey
 }
 
 public static class SettingsKeys
@@ -12,6 +13,7 @@ public static class SettingsKeys
     {
         { SettingType.MusicEnabledKey, MusicEnabledKey },
         { SettingType.SFXEnabledKey, SFXEnabledKey },
+        { SettingType.LanguageKey, LanguageKey }
     };
 
     public static string Get(SettingType type) => keys.TryGetValue(type, out var value) ? value : type.ToString();
@@ -19,4 +21,5 @@ public static class SettingsKeys
     // Audio
     public const string MusicEnabledKey = "MusicEnabled";
     public const string SFXEnabledKey = "SFXEnabled";
+    public const string LanguageKey = "Language";
 }

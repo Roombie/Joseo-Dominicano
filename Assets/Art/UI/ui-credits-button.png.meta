@@ -109,6 +109,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -117,7 +130,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 26
         width: 90
         height: 26
       alignment: 0
@@ -139,7 +152,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 90
-        y: 0
+        y: 26
         width: 90
         height: 26
       alignment: 0
@@ -152,6 +165,50 @@ TextureImporter:
       bones: []
       spriteID: 6a5ce284515cc0945b1a7c5a05917fd2
       internalID: 590102226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui-credits-button_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 90
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 228f3d356a68960479661f81404425de
+      internalID: -2074324933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui-credits-button_3
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 0
+        width: 90
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f24c8b2c76f795441ba18a7598c6e9d7
+      internalID: -598642616
       vertices: []
       indices: 
       edges: []
@@ -174,6 +231,8 @@ TextureImporter:
     nameFileIdTable:
       ui-credits-button_0: -1577767080
       ui-credits-button_1: 590102226
+      ui-credits-button_2: -2074324933
+      ui-credits-button_3: -598642616
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

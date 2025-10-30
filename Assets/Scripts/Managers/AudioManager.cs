@@ -330,6 +330,84 @@ public class AudioManager : MonoBehaviour
         if (source.outputAudioMixerGroup == musicMixerGroup) return SoundCategory.Music;
         return SoundCategory.SFX;
     }
+
+    public Coroutine FadeOutCategory(SoundCategory category, float duration, bool stopAfter = true)
+    => StartCoroutine(FadeOutCategoryRoutine(category, duration, stopAfter));
+
+    public Coroutine FadeOutAll(float duration, bool stopAfter = true)
+        => StartCoroutine(FadeOutAllRoutine(duration, stopAfter));
+
+    private IEnumerator FadeOutCategoryRoutine(SoundCategory category, float duration, bool stopAfter)
+    {
+        var sources = GetComponents<AudioSource>();
+        var list = new List<AudioSource>();
+        var start = new List<float>();
+
+        foreach (var src in sources)
+        {
+            if (src != null && src.isPlaying && GetCategory(src) == category)
+            {
+                list.Add(src);
+                start.Add(src.volume);
+            }
+        }
+        if (list.Count == 0 || duration <= 0f) yield break;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            float k = 1f - (t / duration);
+            for (int i = 0; i < list.Count; i++)
+            {
+                var src = list[i];
+                if (src != null) src.volume = start[i] * k;
+            }
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            var src = list[i];
+            if (src == null) continue;
+            if (stopAfter) src.Stop();
+            // restore per-source volume so future plays start at the same loudness
+            src.volume = start[i];
+        }
+    }
+
+    private IEnumerator FadeOutAllRoutine(float duration, bool stopAfter)
+    {
+    #if UNITY_2023_1_OR_NEWER
+        var sources = FindObjectsByType<AudioSource>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+    #else
+        var sources = Object.FindObjectsOfType<AudioSource>(true);
+    #endif
+        if (sources == null || sources.Length == 0 || duration <= 0f) yield break;
+
+        var start = new float[sources.Length];
+        for (int i = 0; i < sources.Length; i++)
+            start[i] = sources[i] ? sources[i].volume : 1f;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            float k = 1f - (t / duration);
+            for (int i = 0; i < sources.Length; i++)
+                if (sources[i]) sources[i].volume = start[i] * k;
+
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        for (int i = 0; i < sources.Length; i++)
+        {
+            var s = sources[i];
+            if (!s) continue;
+            if (stopAfter) s.Stop();
+            s.volume = start[i]; // restore so future plays start at same loudness
+        }
+    }
 }
 
 public enum SoundCategory

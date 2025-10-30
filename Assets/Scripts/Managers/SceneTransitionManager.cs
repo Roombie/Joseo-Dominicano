@@ -11,6 +11,8 @@ public class SceneTransitionManager : MonoBehaviour
 
     public bool isTransitioning = false;
 
+    [SerializeField] private float audioFadeOutDuration = 0.6f;
+
     // Precomputed animator hashes
     private static readonly int CloseTrigger = Animator.StringToHash("close");
     private static readonly int OpenTrigger = Animator.StringToHash("open");
@@ -52,7 +54,9 @@ public class SceneTransitionManager : MonoBehaviour
         // Trigger the "close" animation
         animator.SetTrigger(CloseTrigger);
 
-        AudioManager.Instance.StopCategory(SoundCategory.Music);
+        Coroutine fadeAll = null;
+        if (AudioManager.Instance != null && audioFadeOutDuration > 0f)
+            fadeAll = AudioManager.Instance.FadeOutAll(audioFadeOutDuration, stopAfter: true);
 
         // Wait until the state with tag "TransitionClose" is active
         yield return null;
@@ -69,6 +73,8 @@ public class SceneTransitionManager : MonoBehaviour
             yield return null;
             state = animator.GetCurrentAnimatorStateInfo(0);
         }
+
+        if (fadeAll != null) yield return fadeAll;
 
         // Load the scene asynchronously
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);

@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: GameText_es
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: es
+  m_SharedData: {fileID: 11400000, guid: 8838e1a860fa6104199f73a640b0e443, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 492559007744
+    m_Localized: Un juego
+    m_Metadata:
+      m_Items: []
+  - m_Id: 573358080000
+    m_Localized: hecho para
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9552708632576
+    m_Localized: Controles
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9699916120064
+    m_Localized: 'Impulsar
+
+      (Mantener)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9788806004736
+    m_Localized: Interactuar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9896725446656
+    m_Localized: Mover
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10009325731840
+    m_Localized: Objetivos
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10587003027456
+    m_Localized: "Recoge basura \xFAtil"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11171240214528
+    m_Localized: "Administra ox\xEDgeno\ny espacio"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12423747469312
+    m_Localized: 'Sube a la superficie
+
+      para cobrar'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12632615419904
+    m_Localized: 'Compra mejoras
+
+      en la tienda'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18925010944000
+    m_Localized: Volver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19113427468288
+    m_Localized: Volver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19728090136576
+    m_Localized: 'Meta:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19970176974848
+    m_Localized: 'Tiempo:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20070315982848
+    m_Localized: "El d\xEDa est\xE1 por acabar..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20626359058432
+    m_Localized: "FIN DEL D\xCDA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23498928816128
+    m_Localized: DEJA EL RELAJO...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43572666433536
+    m_Localized: "<color=#fe9166>Ilustraciones</color>\n- Jay\n\n<color=#fe9166>Pixel
+      Art</color>\n- SnowHex\n\n<color=#fe9166>M\xFAsica</color>\n- DobleADev\n\n<color=#fe9166>Programaci\xF3n</color>\n-
+      DobleADev\n- Rafamaster3\n- Roombie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60747011719168
+    m_Localized: "Terminar d\xEDa"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61273149407232
+    m_Localized: Hogar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66849279442944
+    m_Localized: Toca la pantalla para salta
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88509474799616
+    m_Localized: Toque para continuar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88616215642112
+    m_Localized: Presione {0} para continuar
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

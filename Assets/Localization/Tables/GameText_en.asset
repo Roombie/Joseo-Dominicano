@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: GameText_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 8838e1a860fa6104199f73a640b0e443, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 492559007744
+    m_Localized: A game
+    m_Metadata:
+      m_Items: []
+  - m_Id: 573358080000
+    m_Localized: made for
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9552708632576
+    m_Localized: Controls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9699916120064
+    m_Localized: 'Boost
+
+      (Hold)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9788806004736
+    m_Localized: Interact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9896725446656
+    m_Localized: Move
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10009325731840
+    m_Localized: Objectives
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10587003027456
+    m_Localized: Collect useful trash
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11171240214528
+    m_Localized: "Manage oxygen \nand space"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12423747469312
+    m_Localized: Surface to cash in
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12632615419904
+    m_Localized: 'Buy upgrades
+
+      in the shop'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18925010944000
+    m_Localized: Back
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19113427468288
+    m_Localized: Volver
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19728090136576
+    m_Localized: 'Goal:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19970176974848
+    m_Localized: 'Time:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20070315982848
+    m_Localized: The day is about to end...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20626359058432
+    m_Localized: END OF THE DAY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23498928816128
+    m_Localized: "KNOCK IT OF\u2026"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43572666433536
+    m_Localized: '<color=#fe9166>Illustrations</color>
+
+      - Jay
+
+
+      <color=#fe9166>Pixel
+      Art</color>
+
+      - SnowHex
+
+
+      <color=#fe9166>Music</color>
+
+      -
+      DobleADev
+
+
+      <color=#fe9166>Programmers</color>
+
+      - DobleADev
+
+      -
+      Rafamaster3
+
+      - Roombie'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60747011719168
+    m_Localized: End day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61273149407232
+    m_Localized: Home
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66849279442944
+    m_Localized: Touch the screen to ski
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88509474799616
+    m_Localized: Tap to continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88616215642112
+    m_Localized: Press {0} to continue
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

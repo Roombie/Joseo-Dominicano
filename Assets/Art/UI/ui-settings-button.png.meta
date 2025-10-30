@@ -109,6 +109,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 256
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -117,7 +130,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 26
         width: 90
         height: 26
       alignment: 0
@@ -139,7 +152,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 90
-        y: 0
+        y: 26
         width: 90
         height: 26
       alignment: 0
@@ -152,6 +165,50 @@ TextureImporter:
       bones: []
       spriteID: 20904e17a7b84db48a3901f3bae0a988
       internalID: -1354004221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui-settings-button_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 90
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec28dadb3d89b654897a001edb9376c3
+      internalID: -568814824
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ui-settings-button_3
+      rect:
+        serializedVersion: 2
+        x: 90
+        y: 0
+        width: 90
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fdbf6e89669ae4479e3dff9a295f822
+      internalID: -1097425207
       vertices: []
       indices: 
       edges: []
@@ -174,6 +231,8 @@ TextureImporter:
     nameFileIdTable:
       ui-settings-button_0: 367107957
       ui-settings-button_1: -1354004221
+      ui-settings-button_2: -568814824
+      ui-settings-button_3: -1097425207
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

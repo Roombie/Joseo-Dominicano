@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-Assets-Shared
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Localization-Assets-Shared
+  m_GUID: b5e897217ef6b3f4cbf2daca2e1bea99
+  m_SerializeEntries:
+  - m_GUID: 3e054839b4025e047b97625bcb220114
+    m_Address: ui-credits-button
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 408f3057b0821cb45974c5a6442e49b8
+    m_Address: ui-quit-button
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e13488ca5bc8e144bc625989228e59d
+    m_Address: creditsTitle
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 521f20cae5980dd4885c806ea7f54d77
+    m_Address: ui-settings-button
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 53b214fbc6eb85d44b82ef2d122ce7a4
+    m_Address: optionsTitle
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80b981c0a4c4a904886359f32df0a1d2
+    m_Address: ui-play-button
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8838e1a860fa6104199f73a640b0e443
+    m_Address: Assets/Localization/Tables/GameText Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 933db0d4d780a554aa48a089f0f915d0
+    m_Address: Assets/Localization/Tables/GameAssets Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: dd4de31883e1d2044b61b51c2f95f721, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: fca0a5524a14315458b1499abc160142, type: 2}
+    - {fileID: 11400000, guid: 8bd14f0c03af50a4da4ce5c65689a9c4, type: 2}
