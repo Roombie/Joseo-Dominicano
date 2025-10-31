@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+[DefaultExecutionOrder(-100)]
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
@@ -39,12 +40,19 @@ public class AudioManager : MonoBehaviour
 
         InitializePools();
 
-        // Initialize mixer parameters from saved volume values WITHOUT writing back
-        // (mute/unmute state will be applied by SettingsManager)
-        float music = GetSavedVolumeValue(SettingType.MusicEnabledKey, 0.6f);
-        float sfx = GetSavedVolumeValue(SettingType.SFXEnabledKey,  0.6f);
-        SetVolume(SettingType.MusicEnabledKey, music, persist:false);
-        SetVolume(SettingType.SFXEnabledKey,  sfx,  persist:false);
+        float musicVol = GetSavedVolumeValue(SettingType.MusicEnabledKey, 0.6f);
+        float sfxVol   = GetSavedVolumeValue(SettingType.SFXEnabledKey, 0.6f);
+        SetVolume(SettingType.MusicEnabledKey, musicVol, persist: false);
+        SetVolume(SettingType.SFXEnabledKey, sfxVol, persist: false);
+        
+        bool musicEnabled = PlayerPrefs.GetInt(SettingsKeys.MusicEnabledKey, 1) == 1;
+        bool sfxEnabled = PlayerPrefs.GetInt(SettingsKeys.SFXEnabledKey, 1) == 1;
+        
+        float mixerMusicVolume = musicEnabled ? musicVol : 0f;
+        float mixerSfxVolume = sfxEnabled ? sfxVol : 0f;
+        
+        SetVolume(SettingType.MusicEnabledKey, mixerMusicVolume, persist: false);
+        SetVolume(SettingType.SFXEnabledKey,  mixerSfxVolume,  persist: false);
     }
 
     private void InitializePools()
@@ -98,7 +106,7 @@ public class AudioManager : MonoBehaviour
     public void SetMuted(SettingType type, bool muted, float fallback = 0.6f)
     {
         float saved = GetSavedVolumeValue(type, fallback);
-        SetVolume(type, muted ? 0f : saved, persist:false);
+        SetVolume(type, muted ? 0f : saved, persist: false);
     }
 
     /// <summary>Reads the persisted *volume value* (0..1) for a given type.</summary>
@@ -169,7 +177,7 @@ public class AudioManager : MonoBehaviour
         foreach (var kv in activeSounds)
         {
             var clip = kv.Key;
-            var src  = kv.Value;
+            var src = kv.Value;
             if (src != null && GetCategory(src.outputAudioMixerGroup) == category)
             {
                 src.Stop();
@@ -378,11 +386,11 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator FadeOutAllRoutine(float duration, bool stopAfter)
     {
-    #if UNITY_2023_1_OR_NEWER
+#if UNITY_2023_1_OR_NEWER
         var sources = FindObjectsByType<AudioSource>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
-    #else
+#else
         var sources = Object.FindObjectsOfType<AudioSource>(true);
-    #endif
+#endif
         if (sources == null || sources.Length == 0 || duration <= 0f) yield break;
 
         var start = new float[sources.Length];

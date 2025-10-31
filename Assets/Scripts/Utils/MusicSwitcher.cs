@@ -11,6 +11,7 @@ public class MusicSwitcher : MonoBehaviour
 
     private AudioSource[] allSources;
     private MusicState current = MusicState.Menu;
+    private Coroutine muteRoutine;
 
     void Awake()
     {
@@ -26,12 +27,21 @@ public class MusicSwitcher : MonoBehaviour
 
     void Start()
     {
+        bool musicEnabled = PlayerPrefs.GetInt(SettingsKeys.MusicEnabledKey, 1) == 1;
+
         double startAt = AudioSettings.dspTime + 0.1;
         foreach (var src in allSources)
         {
             if (src && src.clip)
+            {
+                src.volume = musicEnabled ? 0f : 0f;
                 src.PlayScheduled(startAt);
+
+                if (!musicEnabled)
+                    src.mute = true;
+            }
         }
+
         SetImmediate(MusicState.Menu);
     }
 
@@ -81,5 +91,40 @@ public class MusicSwitcher : MonoBehaviour
             MusicState.Hurry => hurrySource,
             _ => null
         };
+    }
+
+    /// <summary>
+    /// Silences or restores the music without stopping playback.
+    /// </summary>
+    public void SetMusicAudible(bool audible, float fadeTime = 0.5f)
+    {
+        if (muteRoutine != null)
+            StopCoroutine(muteRoutine);
+        muteRoutine = StartCoroutine(FadeMusicAudibility(audible, fadeTime));
+    }
+
+    private IEnumerator FadeMusicAudibility(bool audible, float duration)
+    {
+        float[] startVolumes = new float[allSources.Length];
+        for (int i = 0; i < allSources.Length; i++)
+            startVolumes[i] = allSources[i] ? allSources[i].volume : 0f;
+
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.Clamp01(t / duration);
+            float fade = audible ? k : 1f - k;
+            for (int i = 0; i < allSources.Length; i++)
+            {
+                if (allSources[i])
+                    allSources[i].volume = Mathf.Lerp(startVolumes[i], audible ? 1f : 0f, k);
+            }
+            yield return null;
+        }
+
+        foreach (var s in allSources)
+            if (s)
+                s.volume = audible ? 1f : 0f;
     }
 }

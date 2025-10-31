@@ -573,6 +573,8 @@ public class GameManager : MonoBehaviour
     public void _Gameplay_OnPlayerDeath()
     {
         if (!inShift) return;
+        isInHurry = false;
+        musicSwitcher?.SetMusicAudible(false, 0.25f);
         OnGameplayEnd();
         _gameOverDisplay.Set(_gameOverTitleText, _gameOverContextText);
         _GameOver_Display();
@@ -588,9 +590,12 @@ public class GameManager : MonoBehaviour
         // _GameOver_Display();
     }
 
+    // just for testing
     public void _Gameplay_End()
     {
         if (!inShift) return;
+        StopDayTimer();
+        isInHurry = false;
         OnGameplayEnd();
         _Home_Display();
     }
@@ -705,6 +710,8 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            isInHurry = false;
+            musicSwitcher?.SetMusicAudible(false, 0.25f);
             _gameOverDisplay.Set(_badEndingTitleText, _badEndingContextText);
             _GameOver_Display();
         }
@@ -774,6 +781,7 @@ public class GameManager : MonoBehaviour
     public void _GameOver_GoToMainMenu()
     {
         _testGameOverScreen.SetActive(false);
+        musicSwitcher?.SetMusicAudible(true, 0.25f);
         ResetGame();
         _MainMenu_Display();
     }
