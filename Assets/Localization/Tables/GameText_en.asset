@@ -142,6 +142,18 @@ MonoBehaviour:
     m_Localized: Press {0} to continue
     m_Metadata:
       m_Items: []
+  - m_Id: 148415905136640
+    m_Localized: Continue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148463263023104
+    m_Localized: Go to Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148697661702144
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

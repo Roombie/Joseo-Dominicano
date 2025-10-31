@@ -122,6 +122,18 @@ MonoBehaviour:
     m_Localized: Presione {0} para continuar
     m_Metadata:
       m_Items: []
+  - m_Id: 148415905136640
+    m_Localized: Seguir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148463263023104
+    m_Localized: "Ir al Men\xFA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148697661702144
+    m_Localized: Opciones
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

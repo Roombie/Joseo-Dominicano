@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
 
     #region Extra Menus
     [SerializeField] private GameObject _optionsPanel;
+    [SerializeField] private GameObject _optionsPausePanel;
     [SerializeField] private GameObject _creditsPanel;
     [SerializeField] private bool _pauseWhileInOptions = true;
 
@@ -130,6 +131,22 @@ public class GameManager : MonoBehaviour
 
         // If we paused for options during gameplay, resume
         if (_pauseWhileInOptions && inShift && isPaused) _Gameplay_Resume();
+    }
+
+    public void _PauseMenu_OpenOptions()
+    {
+        if (inShift && !isPaused) _Gameplay_Pause();
+
+        if (_optionsPausePanel) _optionsPausePanel.SetActive(true);
+
+        // Make sure toggles reflect saved state right away:
+        foreach (var t in _optionsPausePanel.GetComponentsInChildren<ToggleSettingHandler>(true))
+            t.RefreshUI();
+    }
+
+    public void _PauseMenu_CloseOptions()
+    {
+        if (_optionsPausePanel) _optionsPausePanel.SetActive(false);
     }
 
     public void _MainMenu_OpenCredits()

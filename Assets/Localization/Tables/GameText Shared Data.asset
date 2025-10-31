@@ -122,6 +122,18 @@ MonoBehaviour:
     m_Key: PressKeyToContinue
     m_Metadata:
       m_Items: []
+  - m_Id: 148415905136640
+    m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Seguir/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148463263023104
+    m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Ir al Menu/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148697661702144
+    m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Opciones/Text (TMP)
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
