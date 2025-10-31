@@ -70,10 +70,6 @@ MonoBehaviour:
     m_Localized: Back
     m_Metadata:
       m_Items: []
-  - m_Id: 19113427468288
-    m_Localized: Volver
-    m_Metadata:
-      m_Items: []
   - m_Id: 19728090136576
     m_Localized: 'Goal:'
     m_Metadata:
@@ -91,7 +87,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 23498928816128
-    m_Localized: "KNOCK IT OF\u2026"
+    m_Localized: QUIT FOOLING AROUND...
     m_Metadata:
       m_Items: []
   - m_Id: 43572666433536
@@ -152,6 +148,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 148697661702144
     m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 180446135451648
+    m_Localized: Day
     m_Metadata:
       m_Items: []
   references:

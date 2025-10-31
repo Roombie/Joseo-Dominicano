@@ -71,11 +71,6 @@ MonoBehaviour:
     m_Key: BackButton
     m_Metadata:
       m_Items: []
-  - m_Id: 19113427468288
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST CREDITS MENU/Credits Menu Background
-      Image/Back Button Container/Back Button/Back Text (TMP)
-    m_Metadata:
-      m_Items: []
   - m_Id: 19728090136576
     m_Key: roombie-gameplay-5/-- UI --/Final UI/HUD/Header/Goal/Today Goal Text
     m_Metadata:
@@ -132,6 +127,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 148697661702144
     m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Opciones/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 180446135451648
+    m_Key: roombie-gameplay-5/-- UI --/Final UI/Day Container/Gameplay Day
     m_Metadata:
       m_Items: []
   m_Metadata:

@@ -133,7 +133,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 46
         width: 64
         height: 46
       alignment: 0
@@ -155,7 +155,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 46
         width: 64
         height: 46
       alignment: 0
@@ -168,6 +168,50 @@ TextureImporter:
       bones: []
       spriteID: df94fec313cfbf6d0800000000000000
       internalID: -2955491442032686595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: asset_Tienda_SpriteSheet (1)_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a361acfcb0a157540bfa9d743b775456
+      internalID: -700724062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: asset_Tienda_SpriteSheet (1)_3
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 46
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26cf6c383d9c27643854028b5c9a8136
+      internalID: -203366437
       vertices: []
       indices: 
       edges: []
@@ -188,6 +232,8 @@ TextureImporter:
     nameFileIdTable:
       asset_Tienda_SpriteSheet (1)_0: -6831044345573399081
       asset_Tienda_SpriteSheet (1)_1: -2955491442032686595
+      asset_Tienda_SpriteSheet (1)_2: -700724062
+      asset_Tienda_SpriteSheet (1)_3: -203366437
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

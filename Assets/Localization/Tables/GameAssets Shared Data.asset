@@ -116,6 +116,11 @@ MonoBehaviour:
     m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Salir 4
     m_Metadata:
       m_Items: []
+  - m_Id: 427128370626560
+    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Fourth Instruction
+      Gameobject/Shop Image
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items:
     - rid: 6326244251868594403
@@ -229,6 +234,10 @@ MonoBehaviour:
           - es
           - en
         - m_KeyId: 53698739699712
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 427128370626560
           m_TableCodes:
           - en
           - es

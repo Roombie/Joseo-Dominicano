@@ -15,6 +15,13 @@ MonoBehaviour:
   m_GroupName: Localization-Assets-Shared
   m_GUID: b5e897217ef6b3f4cbf2daca2e1bea99
   m_SerializeEntries:
+  - m_GUID: 069adda4b33206e428b591c28ae49f26
+    m_Address: asset_Tienda_SpriteSheet
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3e054839b4025e047b97625bcb220114
     m_Address: ui-credits-button
     m_ReadOnly: 1

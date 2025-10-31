@@ -210,16 +210,11 @@ public class GameManager : MonoBehaviour
         public int carrySpace;
     }
     [SerializeField] float _startDayDelay = 2;
-    [SerializeField] string _dayLabelText = "Día";
     [SerializeField] TMP_Text _dayLabel;
-    [SerializeField] TMP_Text _dayGoalLabel;
     [SerializeField] TMP_Text _dayGoalValue;
-    [SerializeField] string _dayGoalText = "Meta diaria";
-    [SerializeField] TMP_Text _dayTimerLabel;
     [SerializeField] TMP_Text _dayTimerValue;
     [SerializeField] Color _dayGoalInsufficientColor = Color.red;
     [SerializeField] Color _dayGoalReachedColor = Color.green;
-    [SerializeField] string _dayTimerText = "Tiempo";
     [SerializeField] float _timesUpDisplayHomeDelay = 3;
     [SerializeField] UnityEvent _onGameplayHurryUp;
     [SerializeField] UnityEvent _onGameplayTimesUp;
@@ -263,7 +258,6 @@ public class GameManager : MonoBehaviour
         _playerSack.Clear();
         _playerSackDebugOutput = "Clear";
         lastRejectedValuable = null;
-        _dayGoalLabel.text = _dayGoalText + ": ";
         string goalValueColor = "#" + ColorUtility.ToHtmlStringRGBA(_currentShiftPayment >= days[_currentDay - 1].dayQuota ? _dayGoalReachedColor : _dayGoalInsufficientColor);
         _dayGoalValue.text = $"<color={goalValueColor}>$" + _currentShiftPayment + "/$" + days[_currentDay - 1].dayQuota + "</color>";
 
@@ -284,7 +278,7 @@ public class GameManager : MonoBehaviour
         _playerPhysics.angularVelocity = 0;
         _playerCollect.transform.position = _playerInitialPosition;
         _playerCollect.transform.rotation = Quaternion.identity;
-        if (_dayLabel != null) _dayLabel.text = _dayLabelText + " " + (_currentDay + 1);
+        if (_dayLabel != null) _dayLabel.text = (_currentDay + 1).ToString();
         _onPlay?.Invoke();
     }
 
@@ -365,7 +359,6 @@ public class GameManager : MonoBehaviour
 
         _playerSackDebugOutput = "Clear";
         _currentShiftPayment = 0;
-        _dayGoalLabel.text = _dayGoalText + ": "; 
         string goalValueColor = "#" + ColorUtility.ToHtmlStringRGBA(_currentShiftPayment >= days[_currentDay - 1].dayQuota ? _dayGoalReachedColor : _dayGoalInsufficientColor);
         _dayGoalValue.text = $"<color={goalValueColor}>$" + _currentShiftPayment + "/$" + days[_currentDay - 1].dayQuota + "</color>";
         _onStartDay?.Invoke();
@@ -633,12 +626,10 @@ public class GameManager : MonoBehaviour
                 OnHurryUpDisplay();
             }
             _shiftTimeLeft -= Time.deltaTime;
-            _dayTimerLabel.text = _dayTimerText + ": ";
             _dayTimerValue.text = Mathf.Ceil(_shiftTimeLeft).ToString();
             yield return null;
         }
         _shiftTimeLeft = 0;
-        _dayTimerLabel.text = _dayTimerText + ": ";
         _dayTimerValue.text = Mathf.Ceil(_shiftTimeLeft).ToString();
         _Gameplay_OnTimeUp();
     }
