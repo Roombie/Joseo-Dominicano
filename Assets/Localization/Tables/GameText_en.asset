@@ -127,7 +127,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 66849279442944
-    m_Localized: Touch the screen to ski
+    m_Localized: Touch the screen to skip
     m_Metadata:
       m_Items: []
   - m_Id: 88509474799616
@@ -152,6 +152,18 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 180446135451648
     m_Localized: Day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704740879892480
+    m_Localized: 'Current money:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704747880185856
+    m_Localized: 'Day quota:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704769036255232
+    m_Localized: 'Remaining balance:'
     m_Metadata:
       m_Items: []
   references:

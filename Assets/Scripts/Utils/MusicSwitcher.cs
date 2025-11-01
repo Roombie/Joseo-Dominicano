@@ -13,6 +13,28 @@ public class MusicSwitcher : MonoBehaviour
     private MusicState current = MusicState.Menu;
     private Coroutine muteRoutine;
 
+    void OnEnable()
+    {
+        AudioManager.OnMusicEnabledChanged += HandleMusicToggle;
+    }
+
+    void OnDisable()
+    {
+        AudioManager.OnMusicEnabledChanged -= HandleMusicToggle;
+    }
+
+    private void HandleMusicToggle(bool enabled)
+    {
+        StopAllCoroutines();
+
+        foreach (var src in allSources)
+        {
+            if (!src) continue; 
+            src.mute = false; // Ensure all sources are unmuted internally
+            src.volume = enabled ? (src == GetSource(current) ? 1f : 0f) : 0f; // Adjust volume according to the global toggle
+        }
+    }
+
     void Awake()
     {
         allSources = new[] { menuSource, gameplaySource, hurrySource };

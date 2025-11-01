@@ -28,6 +28,8 @@ public class AudioManager : MonoBehaviour
     private const string MusicVolKey = "MusicVolume";
     private const string SoundVolKey = "SFXVolume";
 
+    public static event System.Action<bool> OnMusicEnabledChanged;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -107,6 +109,8 @@ public class AudioManager : MonoBehaviour
     {
         float saved = GetSavedVolumeValue(type, fallback);
         SetVolume(type, muted ? 0f : saved, persist: false);
+        if (type == SettingType.MusicEnabledKey)
+            OnMusicEnabledChanged?.Invoke(!muted);
     }
 
     /// <summary>Reads the persisted *volume value* (0..1) for a given type.</summary>

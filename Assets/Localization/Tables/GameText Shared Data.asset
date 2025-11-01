@@ -133,6 +133,18 @@ MonoBehaviour:
     m_Key: roombie-gameplay-5/-- UI --/Final UI/Day Container/Gameplay Day
     m_Metadata:
       m_Items: []
+  - m_Id: 704740879892480
+    m_Key: home_current_money
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704747880185856
+    m_Key: home_day_quota
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704769036255232
+    m_Key: home_remaining_balance
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

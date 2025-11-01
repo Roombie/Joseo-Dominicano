@@ -134,6 +134,18 @@ MonoBehaviour:
     m_Localized: "D\xEDa"
     m_Metadata:
       m_Items: []
+  - m_Id: 704740879892480
+    m_Localized: 'Dinero actual:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704747880185856
+    m_Localized: "Cuota del d\xEDa:"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704769036255232
+    m_Localized: 'Saldo restante:'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

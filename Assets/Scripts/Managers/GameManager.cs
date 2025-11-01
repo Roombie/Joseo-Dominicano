@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.Localization;
 
 public class GameManager : MonoBehaviour
 {
@@ -432,7 +434,7 @@ public class GameManager : MonoBehaviour
                 float maxPitch = so.MaxRandomPitch;
 
                 if (maxPitch < minPitch) { var t = minPitch; minPitch = maxPitch; maxPitch = t; }
-                float pitch = Random.Range(minPitch, maxPitch);
+                float pitch = UnityEngine.Random.Range(minPitch, maxPitch);
 
                 AudioManager.Instance?.Play(so.PickUpSound, SoundCategory.SFX, volume: 1f, pitch: pitch, loop: false);
             }
@@ -670,19 +672,60 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject _testHomeScreen;
     [SerializeField] TMP_Text _testHomeStateText;
     [SerializeField] UnityEvent _onHomeGoToNextDay;
+    [SerializeField] private HomeStatsUI homeStatsUI;
     bool isInHome;
-    Coroutine homeDebugRoutine;
 
     public void _Home_Display()
     {
         isInHome = true;
         _testHomeScreen.SetActive(true);
 
-        // Launches the text effect only once upon entering
-        if (homeDebugRoutine != null)
-            StopCoroutine(homeDebugRoutine);
+        if (_testHomeScreen == null)
+        {
+            Debug.LogError("[GameManager] Home screen reference is missing!");
+            return;
+        }
 
-        homeDebugRoutine = StartCoroutine(HomeTextReveal());
+        _testHomeScreen.SetActive(true);
+
+        if (homeStatsUI == null)
+        {
+            Debug.LogError("[GameManager] HomeStatsUI reference is missing!");
+            return;
+        }
+
+        if (homeStatsUI.stats == null || homeStatsUI.stats.Count == 0)
+        {
+            Debug.LogWarning("[GameManager] No stats configured in HomeStatsUI.");
+            return;
+        }
+
+        var valueMap = new Dictionary<string, Func<string>>
+        {
+            ["money"] = () => _playerMoney.ToString(),
+            ["quota"] = () => days[_currentDay - 1].dayQuota.ToString(),
+            ["remaining"] = () =>
+                Mathf.Max(0, _playerMoney - days[_currentDay - 1].dayQuota).ToString()
+        };
+
+        foreach (var stat in homeStatsUI.stats)
+        {
+            if (valueMap.TryGetValue(stat.id.ToLower(), out var getter))
+                stat.valueGetter = getter;
+            else
+                stat.valueGetter = () => "-";
+        }
+        
+        StartCoroutine(ShowHomeStatsDelayed());
+    }
+
+    private IEnumerator ShowHomeStatsDelayed()
+    {
+        // Wait one frame to allow UI activation
+        yield return null;
+
+        // Now safe to call DisplayStats()
+        homeStatsUI.DisplayStats();
     }
 
     public void _Home_EndDay()
@@ -717,27 +760,6 @@ public class GameManager : MonoBehaviour
         }
 
         isInHome = false;
-    }
-
-    // Displays information with effect “one by one”
-    IEnumerator HomeTextReveal()
-    {
-        if (_testHomeStateText == null) yield break;
-
-        _testHomeStateText.text = "";
-        string[] lines =
-        {
-            $"Dinero actual: {_playerMoney}",
-            $"Cuota del día: {days[_currentDay - 1].dayQuota}",
-            "......................................................",
-            $"Saldo restante: {Mathf.Max(0, _playerMoney - days[_currentDay - 1].dayQuota)}"
-        };
-
-        foreach (string line in lines)
-        {
-            yield return new WaitForSeconds(0.5f); // time between lines
-            _testHomeStateText.text += line + "\n";
-        }
     }
     #endregion
 
