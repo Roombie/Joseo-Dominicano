@@ -93,7 +93,7 @@ public class MusicSwitcher : MonoBehaviour
 
         while (time < duration)
         {
-            time += Time.deltaTime;
+            time += Time.unscaledDeltaTime;
             float t = Mathf.Clamp01(time / duration);
             if (from) from.volume = Mathf.Lerp(startVol, 0f, t);
             if (to) to.volume = Mathf.Lerp(0f, 1f, t);
