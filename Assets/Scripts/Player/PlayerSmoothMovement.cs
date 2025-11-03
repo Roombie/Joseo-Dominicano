@@ -44,21 +44,22 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         if (sprite == null) sprite = GetComponent<SpriteRenderer>();
-        
-#if UNITY_EDITOR || UNITY_IOS || UNITY_ANDROID
+
+    #if UNITY_IOS || UNITY_ANDROID
+        // Only show on actual mobile devices
         if (mobileControls != null)
         {
             mobileControls.gameObject.SetActive(true);
         }
-#else
+    #else
+        // Hide on PC, WebGL, Mac, Linux, etc.
         if (mobileControls != null)
         {
             mobileControls.gameObject.SetActive(false);
         }
-#endif
-
+    #endif
     }
-
+    
     void OnEnable()
     {
         rb.linearDamping = enabledLinearDamping;

@@ -102,6 +102,10 @@ public class MusicSwitcher : MonoBehaviour
 
         if (from) from.volume = 0f;
         if (to) to.volume = 1f;
+
+        yield return null;
+        if (from && from.volume > 0.0001f)
+            from.volume = 0f;
     }
 
     private AudioSource GetSource(MusicState s)
@@ -128,25 +132,36 @@ public class MusicSwitcher : MonoBehaviour
     private IEnumerator FadeMusicAudibility(bool audible, float duration)
     {
         float[] startVolumes = new float[allSources.Length];
+        float[] targetVolumes = new float[allSources.Length];
+        
+        // Set target volumes based on current music state
         for (int i = 0; i < allSources.Length; i++)
-            startVolumes[i] = allSources[i] ? allSources[i].volume : 0f;
+        {
+            if (allSources[i])
+            {
+                startVolumes[i] = allSources[i].volume;
+                // Only the current state's source should have volume when audible
+                targetVolumes[i] = audible ? (allSources[i] == GetSource(current) ? 1f : 0f) : 0f;
+            }
+        }
 
         float t = 0f;
         while (t < duration)
         {
             t += Time.deltaTime;
             float k = Mathf.Clamp01(t / duration);
-            float fade = audible ? k : 1f - k;
             for (int i = 0; i < allSources.Length; i++)
             {
                 if (allSources[i])
-                    allSources[i].volume = Mathf.Lerp(startVolumes[i], audible ? 1f : 0f, k);
+                    allSources[i].volume = Mathf.Lerp(startVolumes[i], targetVolumes[i], k);
             }
             yield return null;
         }
 
-        foreach (var s in allSources)
-            if (s)
-                s.volume = audible ? 1f : 0f;
+        for (int i = 0; i < allSources.Length; i++)
+        {
+            if (allSources[i])
+                allSources[i].volume = targetVolumes[i];
+        }
     }
 }

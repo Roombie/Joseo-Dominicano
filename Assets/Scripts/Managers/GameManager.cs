@@ -596,8 +596,8 @@ public class GameManager : MonoBehaviour
     public void _Gameplay_End()
     {
         if (!inShift) return;
-        StopDayTimer();
         isInHurry = false;
+        StopDayTimer();
         OnGameplayEnd();
         _Home_Display();
     }
@@ -807,6 +807,5 @@ public class GameManager : MonoBehaviour
         ResetGame();
         _MainMenu_Display();
     }
-
     #endregion
 }

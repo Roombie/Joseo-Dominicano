@@ -134,7 +134,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 25
+        width: 24
         height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -154,9 +154,9 @@ TextureImporter:
       name: Icon_1
       rect:
         serializedVersion: 2
-        x: 25
+        x: 24
         y: 0
-        width: 25
+        width: 24
         height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
