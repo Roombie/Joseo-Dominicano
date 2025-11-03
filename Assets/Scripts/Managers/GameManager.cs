@@ -9,6 +9,8 @@ using UnityEngine.Localization;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance { get; private set; }
+
     #region Music
     [SerializeField] private MusicSwitcher musicSwitcher;
     [SerializeField, Range(0f, 1f)] private float pausedMusicDuck = 0.5f; // Volume multiplier when paused
@@ -37,6 +39,13 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        
         // _testMainMenu.SetActive(true);
         _testGameplayScreen.SetActive(false);
         _testHomeScreen.SetActive(false);
@@ -200,7 +209,7 @@ public class GameManager : MonoBehaviour
         _spawnedValuables.Clear();
     }
     Coroutine dayTimeRoutine;
-    bool inShift;
+    [HideInInspector] public bool inShift;
     bool isInHurry;
     string _playerSackDebugOutput;
     [System.Serializable]
@@ -223,7 +232,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] UnityEvent _onPlay;
     [SerializeField] UnityEvent _onStartDay;
     [SerializeField] UnityEvent _onEndGameplay;
-    bool isPaused;
+    [HideInInspector] public bool isPaused;
 
     [Header("Deposit Feedback")]
     [SerializeField,] private TMP_Text totalCoinsCollectedText;

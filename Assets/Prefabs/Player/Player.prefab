@@ -5328,7 +5328,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4594997632702453292}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5415,6 +5415,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  swimSFXVariations:
+  - {fileID: 8300000, guid: 341a897dd351ab04799b3674ede66cca, type: 3}
+  - {fileID: 8300000, guid: 47cc4a3a7ce2b2840a438af17178fc0f, type: 3}
+  - {fileID: 8300000, guid: 98f2b95c9685c6040898f79c2b41ab28, type: 3}
+  - {fileID: 8300000, guid: a6a7b80b62133b44a83f42deb073b57d, type: 3}
+  - {fileID: 8300000, guid: 9bbd67de600608c46888ea0461ab064a, type: 3}
+  - {fileID: 8300000, guid: fb22234bedfb89246b7b257aca219935, type: 3}
+  minPitch: 0.8
+  maxPitch: 1.2
+  minVolume: 1
+  maxVolume: 1
+  sprintStartSFX: {fileID: 8300000, guid: 4722d68eb8307b04d878cedcc31f77be, type: 3}
 --- !u!114 &2415517742074715297
 MonoBehaviour:
   m_ObjectHideFlags: 0

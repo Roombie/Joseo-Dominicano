@@ -34,6 +34,15 @@ public class PlayerSmoothMovement : OxygenableBehaviour
     [SerializeField] public UnityEvent _onSprintStart;
     [SerializeField] public UnityEvent _onSprintEnd;
 
+    [Header("Swim Sounds")]
+    [SerializeField] private AudioClip[] swimSFXVariations;
+    [SerializeField] private float minPitch = 0.8f;
+    [SerializeField] private float maxPitch = 1.2f;
+    private bool wasMoving = false;
+    private float swimSoundTimer = 0f;
+    private const float SwimSoundInterval = 1.2f;
+    [SerializeField] private AudioClip sprintStartSFX;
+
     //Events
     // public event Action<bool> isMovingEvent;
     // public event Action<bool> isSprintingEvent;
@@ -158,6 +167,48 @@ public class PlayerSmoothMovement : OxygenableBehaviour
     {
         // LookForward();
 
+        // Handle swimming sound based on movement
+        // Check if we're in active gameplay
+        if (GameManager.Instance == null || !GameManager.Instance.inShift || GameManager.Instance.isPaused) 
+        {
+            swimSoundTimer = 0f;
+            return;
+        }
+
+        bool isMoving = moveInput.sqrMagnitude > movementDeadZone;
+        
+        if (isMoving)
+        {
+            swimSoundTimer += Time.deltaTime;
+            
+            if (swimSoundTimer >= SwimSoundInterval)
+            {
+                if (swimSFXVariations != null && swimSFXVariations.Length > 0)
+                {
+                    AudioClip randomSound = swimSFXVariations[UnityEngine.Random.Range(0, swimSFXVariations.Length)];
+
+                    // Random pitch between pitch for more variety
+                    float randomPitch = UnityEngine.Random.Range(minPitch, maxPitch);
+                    
+                    // Adjust velocity
+                    if (currentSpeed == runSpeed)
+                    {
+                        randomPitch *= 1.2f;
+                    }
+                    
+                    AudioManager.Instance.Play(randomSound, SoundCategory.SFX, 1f, pitch: randomPitch);
+                }
+                
+                swimSoundTimer = 0f;
+            }
+        }
+        else
+        {
+            swimSoundTimer = 0f;
+        }
+        
+        wasMoving = isMoving;
+
         //Note: Animator should create a blend tree for the 8 directions and set motion values according to values on DefineLastDirection()
         // animator.SetFloat("Blend", lastDirection);
         animator.SetFloat("X", rb.linearVelocity.x / currentSpeed);
@@ -242,6 +293,8 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         {
             currentSpeed = runSpeed;
             //Debug.Log("Sprint started");
+            if (sprintStartSFX != null)
+                AudioManager.Instance.Play(sprintStartSFX, SoundCategory.SFX);
 
             SetSprintingEvent(true); // Tell listeners sprinting changed
         }
