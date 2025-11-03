@@ -166,6 +166,10 @@ MonoBehaviour:
     m_Localized: 'Remaining balance:'
     m_Metadata:
       m_Items: []
+  - m_Id: 1490206319312896
+    m_Localized: Oxygen
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

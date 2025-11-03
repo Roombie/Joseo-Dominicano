@@ -145,6 +145,11 @@ MonoBehaviour:
     m_Key: home_remaining_balance
     m_Metadata:
       m_Items: []
+  - m_Id: 1490206319312896
+    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Second Instruction
+      GameObject/Oxygen Meter/OxygenLabel
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
