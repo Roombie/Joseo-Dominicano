@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 408f3057b0821cb45974c5a6442e49b8
+guid: 7c4a903b78dbfc74e885137d3f6a4eff
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2085403075085471837
-    second: ui-quit-buttonpng_0
+      213: -2840376290565667332
+    second: countryFlagImages_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -48,10 +48,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -97,7 +97,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: WebGL
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -110,11 +110,11 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 4
-    buildTarget: Android
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -126,13 +126,35 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ui-quit-button_0
+      name: rd_flag
       rect:
         serializedVersion: 2
         x: 0
-        y: 26
-        width: 63
-        height: 26
+        y: 0
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf5446c00d4f498d0800000000000000
+      internalID: -2840376290565667332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: usa_flag
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 0
+        width: 11
+        height: 9
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,74 +163,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a101c91352a099447b9c101ae79eca6c
-      internalID: -909654670
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ui-quit-button_1
-      rect:
-        serializedVersion: 2
-        x: 63
-        y: 26
-        width: 63
-        height: 26
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 76a3127924478b64394d364e79764dcb
-      internalID: 457818793
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ui-quit-button_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 63
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 62a31d18fc21ff34bafae43860a76dac
-      internalID: -98945080
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ui-quit-button_3
-      rect:
-        serializedVersion: 2
-        x: 63
-        y: 0
-        width: 63
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 54860aca9a9dda34fa9c300d04f14cf4
-      internalID: -217219013
+      spriteID: 948d1fc9e8cd9954a981a4474444253f
+      internalID: 592157413
       vertices: []
       indices: 
       edges: []
@@ -217,7 +173,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 05e8e638a1a8a004299679bc50ca7e81
+    spriteID: 697be39700d163c4a80f2cd57453953a
     internalID: 0
     vertices: []
     indices: 
@@ -225,14 +181,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":2.0,"y":1.0},"gridSpriteSize":{"x":63.0,"y":26.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      ui-quit-button_0: -909654670
-      ui-quit-button_1: 457818793
-      ui-quit-button_2: -98945080
-      ui-quit-button_3: -217219013
+      rd_flag: -2840376290565667332
+      usa_flag: 592157413
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

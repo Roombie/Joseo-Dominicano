@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: d73b47890805b9241ad1899c09864cfe
+guid: 54877d4f0d664714f93869751938f1b5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6542183027367309865
-    second: ui-back-button_0
+      213: -7363997453301986264
+    second: Joseo_Dominicano_App_Icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,9 +46,9 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
@@ -126,45 +126,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ui-back-button_0
+      name: Joseo_Dominicano_App_Icon_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 71
-        height: 26
+        width: 1200
+        height: 1200
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 92271d92dc08aca50800000000000000
-      internalID: 6542183027367309865
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ui-back-button_1
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 0
-        width: 71
-        height: 26
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 705388f2802690a448c82bcbd23a0206
-      internalID: 1960474298
+      spriteID: 82ccd051553ddc990800000000000000
+      internalID: -7363997453301986264
       vertices: []
       indices: 
       edges: []
@@ -173,7 +151,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: ec063091acb9f4844b21312bb40bd3d8
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -183,8 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      ui-back-button_0: 6542183027367309865
-      ui-back-button_1: 1960474298
+      Joseo_Dominicano_App_Icon_0: -7363997453301986264
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
