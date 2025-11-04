@@ -16,3 +16,6 @@ MonoBehaviour:
   weightKg: 0.1
   worth: 10
   pickUpSpace: 1
+  minRandomPitch: 0.96
+  maxRandomPitch: 1.04
+  pickUpSound: {fileID: 8300000, guid: 1a6ee7b79cf0cf6449c1b3e03c58d3f0, type: 3}

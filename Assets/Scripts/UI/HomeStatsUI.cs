@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using UnityEngine.Localization;
 using System;
 using System.Collections;
+using System.Text;
 using TMPro;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.AddressableAssets;
+using UnityEngine.EventSystems;
 
 public class HomeStatsUI : MonoBehaviour
 {
     [Serializable]
     public class HomeStat
     {
-        public string id;                      // e.g., "money", "quota", "remaining"
-        public LocalizedString label;          // Localized string reference
-        [NonSerialized] public Func<string> valueGetter; // Runtime value provider
+        public string id;                               
+        public LocalizedString label;
+        [NonSerialized] public Func<string> valueGetter;
     }
 
     [Header("References")]
@@ -45,328 +48,329 @@ public class HomeStatsUI : MonoBehaviour
     [SerializeField] private bool skipOnAnyKey = false;
 
     [Header("Events")]
-    public UnityEvent onDisplayAwake;          // Fires when this script enables
-    public UnityEvent onDisplayStart;          // Fires when stats display begins
-    public UnityEvent onDisplayComplete;       // Fires when all stats are shown
-    public UnityEvent onDisplayInterrupted;    // Fires if display is cleared before completion
-    public UnityEvent onSkipPressed;           // Fires when user skips the animation
+    public UnityEvent onDisplayEnable;
+    public UnityEvent onDisplayStart;
+    public UnityEvent onDisplayComplete;
+    public UnityEvent onDisplayInterrupted;
+    public UnityEvent onSkipPressed;
 
-    private readonly List<HomeStatLine> instantiatedLines = new();
-    private TMP_Text instantiatedSeparator;
-    private Coroutine currentDisplayRoutine;
-    private bool isDisplayInProgress = false;
-    private bool skipRequested = false;
-    private int currentStatIndex = 0;
+    private readonly List<HomeStatLine> _instantiatedLines = new();
+    private TMP_Text _instantiatedSeparator;
+    private Coroutine _currentDisplayRoutine;
 
-    void OnEnable()
+    private bool _isDisplayInProgress;
+    private bool _skipRequested;
+    private int _currentStatIndex;
+    private int _displaySequenceId = 0;
+    private bool _weEnabledSkipAction;
+
+    private void OnEnable()
     {
-        // Fire awake event when script becomes enabled
-        onDisplayAwake?.Invoke();
+        ResetVisualState();
 
-        if (allowSkip)
+        // Setup skip input
+        if (allowSkip && skipAction?.action != null)
         {
-            if (skipAction != null)
+            var action = skipAction.action;
+            if (!action.enabled)
             {
-                skipAction.action.Enable();
-                skipAction.action.performed += OnSkipAction;
+                action.Enable();
+                _weEnabledSkipAction = true;
+            }
+            action.performed += OnSkipAction;
+        }
+    }
+
+    private void ResetVisualState()
+    {
+        StopAllCoroutines();
+        ++_displaySequenceId;
+
+        _isDisplayInProgress = false;
+        _skipRequested = false;
+        _currentStatIndex = 0;
+
+        foreach (var l in _instantiatedLines)
+            if (l != null) Destroy(l.gameObject);
+        _instantiatedLines.Clear();
+
+        if (_instantiatedSeparator != null)
+        {
+            Destroy(_instantiatedSeparator.gameObject);
+            _instantiatedSeparator = null;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (skipAction?.action != null)
+        {
+            skipAction.action.performed -= OnSkipAction;
+            if (_weEnabledSkipAction)
+            {
+                skipAction.action.Disable();
+                _weEnabledSkipAction = false;
+            }
+        }
+
+        // Trigger interrupt if animation mid-run
+        if (_isDisplayInProgress)
+            onDisplayInterrupted?.Invoke();
+
+        ResetVisualState();
+    }
+
+    private void Update()
+    {
+        if (!_isDisplayInProgress || !allowSkip || _skipRequested) return;
+
+        // Keyboard skip
+        if (skipOnAnyKey && Input.anyKeyDown)
+        {
+            SkipDisplay();
+            return;
+        }
+
+        // Touch skip that ignores UI
+        if (skipOnAnyTouch && Input.touchCount > 0)
+        {
+            var touch = Input.GetTouch(0);
+            if (touch.phase == UnityEngine.TouchPhase.Began)
+            {
+                bool overUI = false;
+#if ENABLE_INPUT_SYSTEM
+                if (EventSystem.current != null)
+                    overUI = EventSystem.current.IsPointerOverGameObject(touch.fingerId);
+#else
+                if (EventSystem.current != null)
+                    overUI = EventSystem.current.IsPointerOverGameObject();
+#endif
+                if (!overUI)
+                    SkipDisplay();
             }
         }
     }
 
-    void OnDisable()
+    private void OnSkipAction(InputAction.CallbackContext _)
     {
-        if (skipAction != null)
-        {
-            skipAction.action.performed -= OnSkipAction;
-            skipAction.action.Disable();
-        }
-    }
-
-    void Update()
-    {
-        if (!isDisplayInProgress || !allowSkip || skipRequested) return;
-
-        // Check for alternative skip methods
-        if (skipOnAnyTouch && Input.touchCount > 0 && Input.GetTouch(0).phase == UnityEngine.TouchPhase.Began)
-        {
+        if (_isDisplayInProgress && !_skipRequested)
             SkipDisplay();
-        }
-        else if (skipOnAnyKey && Input.anyKeyDown)
-        {
-            SkipDisplay();
-        }
-    }
-
-    private void OnSkipAction(InputAction.CallbackContext context)
-    {
-        if (isDisplayInProgress && !skipRequested)
-        {
-            SkipDisplay();
-        }
     }
 
     public void DisplayStats()
     {
+        ResetVisualState();
         if (!isActiveAndEnabled)
         {
             StartCoroutine(WaitUntilActiveThenDisplay());
             return;
         }
 
-        Clear();
-        currentDisplayRoutine = StartCoroutine(DisplayRoutineDelayed(2f));
+        onDisplayEnable?.Invoke();
+        _currentDisplayRoutine = StartCoroutine(DisplayRoutineDelayed(2f));
     }
 
     private IEnumerator WaitUntilActiveThenDisplay()
     {
-        yield return new WaitUntil(() => isActiveAndEnabled);
-        Clear();
-        currentDisplayRoutine = StartCoroutine(DisplayRoutineDelayed(2f));
+        while (this != null && !isActiveAndEnabled)
+            yield return null;
+        if (this == null) yield break;
+
+        ResetVisualState();
+        _currentDisplayRoutine = StartCoroutine(DisplayRoutineDelayed(2f));
     }
 
     private IEnumerator DisplayRoutineDelayed(float delay)
     {
         yield return new WaitForSeconds(delay);
-        currentDisplayRoutine = StartCoroutine(DisplayRoutine());
+        _currentDisplayRoutine = StartCoroutine(DisplayRoutine());
     }
 
     private IEnumerator DisplayRoutine()
     {
-        isDisplayInProgress = true;
-        skipRequested = false;
-        currentStatIndex = 0;
-        
-        // Fire start event
+        int mySeq = ++_displaySequenceId;
+        _isDisplayInProgress = true;
+        _skipRequested = false;
+        _currentStatIndex = 0;
+
         onDisplayStart?.Invoke();
 
-        for (currentStatIndex = 0; currentStatIndex < stats.Count; currentStatIndex++)
+        if (stats == null || stats.Count == 0)
         {
-            // Check for skip before each line
-            if (skipRequested)
-            {
-                // Skip requested - complete all remaining stats instantly
-                CompleteRemainingStatsInstantly();
-                break;
-            }
-
-            yield return StartCoroutine(DisplaySingleStat(currentStatIndex));
-        }
-
-        // Only fire complete if we didn't skip or we finished naturally
-        if (!skipRequested || currentStatIndex >= stats.Count)
-        {
-            // Fire complete event
+            _isDisplayInProgress = false;
             onDisplayComplete?.Invoke();
-        }
-
-        isDisplayInProgress = false;
-        currentDisplayRoutine = null;
-    }
-
-    private IEnumerator DisplaySingleStat(int index)
-    {
-        var stat = stats[index];
-
-        // Instantiate and enable
-        var line = Instantiate(statLinePrefab, statsContainer);
-        line.gameObject.SetActive(true);
-        instantiatedLines.Add(line);
-
-        // Localize label
-        AsyncOperationHandle<string> localizedOp = stat.label.GetLocalizedStringAsync();
-        
-        // Wait for localization but check for skip
-        while (!localizedOp.IsDone && !skipRequested)
-        {
-            yield return null;
-        }
-
-        if (localizedOp.IsValid() && localizedOp.Status == AsyncOperationStatus.Succeeded &&
-            !string.IsNullOrEmpty(localizedOp.Result))
-        {
-            line.SetLabel(localizedOp.Result);
-        }
-        else
-        {
-            line.SetLabel(stat.id); // fallback
-            Debug.LogWarning($"[HomeStatsUI] Missing localization for '{stat.id}'");
-        }
-
-        // Value
-        string value = stat.valueGetter?.Invoke() ?? "-";
-        line.SetValue(value);
-
-        // Play line sound (unless we're skipping)
-        if (lineAppearSFX != null && !skipRequested)
-            AudioManager.Instance?.Play(lineAppearSFX, SoundCategory.SFX);
-
-        // Wait for line delay, but check for skip during wait
-        if (!skipRequested)
-        {
-            float timer = 0f;
-            while (timer < lineDelay && !skipRequested)
-            {
-                timer += Time.deltaTime;
-                yield return null;
-            }
-        }
-
-        // Separator animation
-        if (separatorPrefab != null && index == separatorAfterIndex)
-        {
-            yield return StartCoroutine(DisplaySeparator());
-        }
-    }
-
-    private IEnumerator DisplaySeparator()
-    {
-        if (skipRequested)
-        {
-            // Create separator instantly when skipping
-            instantiatedSeparator = Instantiate(separatorPrefab, statsContainer);
-            instantiatedSeparator.text = new string('.', separatorDotCount);
             yield break;
         }
 
-        instantiatedSeparator = Instantiate(separatorPrefab, statsContainer);
-        instantiatedSeparator.text = string.Empty;
-
-        for (int d = 0; d < separatorDotCount; d++)
+        for (_currentStatIndex = 0; _currentStatIndex < stats.Count; _currentStatIndex++)
         {
-            if (skipRequested) break;
-
-            instantiatedSeparator.text += ".";
-            if (dotSFX != null && d % dotSoundEveryNDots == 0)
-                AudioManager.Instance?.Play(dotSFX, SoundCategory.SFX);
-
-            // Wait for dot delay, but check for skip
-            float timer = 0f;
-            while (timer < dotDelay && !skipRequested)
+            if (!IsMySeq(mySeq)) yield break;
+            if (_skipRequested)
             {
-                timer += Time.deltaTime;
+                yield return StartCoroutine(CompleteRemainingStatsInstantly(mySeq));
+                break;
+            }
+            yield return StartCoroutine(DisplaySingleStat(_currentStatIndex, mySeq));
+        }
+
+        if (!IsMySeq(mySeq)) yield break;
+
+        if (_currentStatIndex >= stats.Count)
+            onDisplayComplete?.Invoke();
+
+        _isDisplayInProgress = false;
+    }
+
+    private IEnumerator DisplaySingleStat(int index, int seq)
+    {
+        var stat = stats[index];
+        var line = Instantiate(statLinePrefab, statsContainer);
+        line.gameObject.SetActive(true);
+        _instantiatedLines.Add(line);
+
+        AsyncOperationHandle<string> op = stat.label.GetLocalizedStringAsync();
+        bool labelSet = false;
+
+        while (!op.IsDone && !_skipRequested && IsMySeq(seq)) yield return null;
+
+        try
+        {
+            if (IsMySeq(seq) && op.Status == AsyncOperationStatus.Succeeded && !string.IsNullOrEmpty(op.Result))
+            {
+                line.SetLabel(op.Result);
+                labelSet = true;
+            }
+        }
+        finally
+        {
+            if (op.IsValid()) Addressables.Release(op);
+        }
+
+        if (!labelSet)
+            line.SetLabel(string.IsNullOrEmpty(stat.id) ? "-" : stat.id);
+
+        string value = "-";
+        try { value = stat.valueGetter?.Invoke() ?? "-"; } catch { }
+        line.SetValue(value);
+
+        if (!_skipRequested && IsMySeq(seq) && lineAppearSFX != null)
+            SafePlay(lineAppearSFX);
+
+        if (!_skipRequested && IsMySeq(seq))
+        {
+            float t = 0f;
+            while (t < lineDelay && !_skipRequested && IsMySeq(seq))
+            {
+                t += Time.deltaTime;
                 yield return null;
             }
         }
 
-        if (!skipRequested)
+        if (IsMySeq(seq) && separatorPrefab != null && index == separatorAfterIndex)
+            yield return StartCoroutine(DisplaySeparator(seq));
+    }
+
+    private IEnumerator DisplaySeparator(int seq)
+    {
+        if (_skipRequested || !IsMySeq(seq))
         {
-            float timer = 0f;
-            while (timer < lineDelay && !skipRequested)
+            if (_instantiatedSeparator == null)
             {
-                timer += Time.deltaTime;
+                _instantiatedSeparator = Instantiate(separatorPrefab, statsContainer);
+                _instantiatedSeparator.text = new string('.', Mathf.Max(0, separatorDotCount));
+            }
+            yield break;
+        }
+
+        _instantiatedSeparator = Instantiate(separatorPrefab, statsContainer);
+        var sb = new StringBuilder(separatorDotCount);
+
+        for (int i = 0; i < separatorDotCount && IsMySeq(seq); i++)
+        {
+            if (_skipRequested) break;
+
+            sb.Append('.');
+            _instantiatedSeparator.text = sb.ToString();
+
+            if (dotSFX != null && (i % dotSoundEveryNDots) == 0)
+                SafePlay(dotSFX);
+
+            float t = 0f;
+            while (t < dotDelay && !_skipRequested && IsMySeq(seq))
+            {
+                t += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        if (!_skipRequested && IsMySeq(seq))
+        {
+            float t = 0f;
+            while (t < lineDelay && !_skipRequested && IsMySeq(seq))
+            {
+                t += Time.deltaTime;
                 yield return null;
             }
         }
     }
 
-    private void CompleteRemainingStatsInstantly()
+    private IEnumerator CompleteRemainingStatsInstantly(int seq)
     {
-        // Fire skip event immediately when skip is detected
         onSkipPressed?.Invoke();
+        yield return null;
 
-        // Complete all remaining stats instantly
-        for (int i = currentStatIndex; i < stats.Count; i++)
+        for (int i = _currentStatIndex; i < stats.Count && IsMySeq(seq); i++)
         {
             var stat = stats[i];
+            bool exists = i < _instantiatedLines.Count && _instantiatedLines[i] != null;
 
-            // Check if this stat was already created (in case we skipped during its creation)
-            bool alreadyExists = i < instantiatedLines.Count;
-            
-            HomeStatLine line;
-            if (alreadyExists)
-            {
-                line = instantiatedLines[i];
-            }
-            else
-            {
-                // Instantiate new line if it doesn't exist
-                line = Instantiate(statLinePrefab, statsContainer);
-                line.gameObject.SetActive(true);
-                instantiatedLines.Add(line);
-            }
+            HomeStatLine line = exists ? _instantiatedLines[i] : Instantiate(statLinePrefab, statsContainer);
+            if (!exists) _instantiatedLines.Add(line);
 
-            // Set label instantly (use ID as fallback)
-            line.SetLabel(stat.id);
-
-            // Value
-            string value = stat.valueGetter?.Invoke() ?? "-";
+            line.SetLabel(string.IsNullOrEmpty(stat.id) ? "-" : stat.id);
+            string value = "-";
+            try { value = stat.valueGetter?.Invoke() ?? "-"; } catch { }
             line.SetValue(value);
 
-            // Add separator if needed
-            if (separatorPrefab != null && i == separatorAfterIndex && instantiatedSeparator == null)
+            if (separatorPrefab != null && i == separatorAfterIndex && _instantiatedSeparator == null)
             {
-                instantiatedSeparator = Instantiate(separatorPrefab, statsContainer);
-                instantiatedSeparator.text = new string('.', separatorDotCount);
+                _instantiatedSeparator = Instantiate(separatorPrefab, statsContainer);
+                _instantiatedSeparator.text = new string('.', Mathf.Max(0, separatorDotCount));
             }
+
+            yield return null;
         }
 
-        // Fire complete event after all stats are shown
-        onDisplayComplete?.Invoke();
+        _currentStatIndex = stats.Count;
     }
 
     public void SkipDisplay()
     {
-        if (isDisplayInProgress && !skipRequested)
-        {
-            skipRequested = true;
-            // Note: onSkipPressed is now called in CompleteRemainingStatsInstantly()
-        }
+        if (_isDisplayInProgress && !_skipRequested)
+            _skipRequested = true;
     }
 
     public void RefreshInstant()
     {
-        for (int i = 0; i < instantiatedLines.Count && i < stats.Count; i++)
+        int count = Mathf.Min(_instantiatedLines.Count, stats.Count);
+        for (int i = 0; i < count; i++)
         {
-            string value = stats[i].valueGetter?.Invoke() ?? "-";
-            instantiatedLines[i].SetValue(value);
+            string val = "-";
+            try { val = stats[i].valueGetter?.Invoke() ?? "-"; } catch { }
+            _instantiatedLines[i].SetValue(val);
         }
     }
 
-    public void Clear()
+    private bool IsMySeq(int seq) => seq == _displaySequenceId;
+
+    private void SafePlay(AudioClip clip)
     {
-        // If display was in progress and we're clearing, fire interrupted event
-        if (isDisplayInProgress)
-        {
-            onDisplayInterrupted?.Invoke();
-            isDisplayInProgress = false;
-        }
-
-        skipRequested = false;
-        currentStatIndex = 0;
-
-        // Stop any running coroutine
-        if (currentDisplayRoutine != null)
-        {
-            StopCoroutine(currentDisplayRoutine);
-            currentDisplayRoutine = null;
-        }
-
-        foreach (var l in instantiatedLines)
-            if (l != null) Destroy(l.gameObject);
-        instantiatedLines.Clear();
-
-        if (instantiatedSeparator != null)
-        {
-            Destroy(instantiatedSeparator.gameObject);
-            instantiatedSeparator = null;
-        }
+        try { AudioManager.Instance?.Play(clip, SoundCategory.SFX); }
+        catch { }
     }
 
     public void PlayAppearSound()
     {
-        if (lineAppearSFX != null)
-            AudioManager.Instance?.Play(lineAppearSFX, SoundCategory.SFX);
-    }
-
-    // Optional: Public method to check if display is currently running
-    public bool IsDisplayInProgress()
-    {
-        return isDisplayInProgress;
-    }
-
-    // Optional: Public method to check if skip was requested
-    public bool WasSkipped()
-    {
-        return skipRequested;
+        AudioManager.Instance?.Play(lineAppearSFX, SoundCategory.SFX);
     }
 }

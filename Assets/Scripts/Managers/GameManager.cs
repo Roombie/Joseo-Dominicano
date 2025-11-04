@@ -93,6 +93,7 @@ public class GameManager : MonoBehaviour
         _playerMoney = 0;
         _playerSack.Clear();
         _playerCurrentWeight = 0;
+        _isDead = false;
     }
 
     #endregion
@@ -245,6 +246,8 @@ public class GameManager : MonoBehaviour
     const string ANIM_RISE_UP = "Coins Obtained Rise Up";
     const string ANIM_RISE_DOWN = "Coins Obtained Rise Down";
 
+    private bool _isDead = false;
+
     private void UpdateTotalCoinsUI(int value)
     {
         if (totalCoinsCollectedText != null)
@@ -283,6 +286,7 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_Display()
     {
+        _isDead = false;
         musicSwitcher?.SwitchTo(MusicState.Gameplay, 0.15f);
         _testGameplayScreen.SetActive(true);
         _playerPhysics.linearVelocity = Vector2.zero;
@@ -583,8 +587,10 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_OnPlayerDeath()
     {
-        if (!inShift) return;
+        if (!inShift || _isDead) return;
+        _isDead = true;
         isInHurry = false;
+        // StopDayTimer();
         musicSwitcher?.SetMusicAudible(false, 0.25f);
         OnGameplayEnd();
         _gameOverDisplay.Set(_gameOverTitleText, _gameOverContextText);
