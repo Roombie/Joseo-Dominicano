@@ -88,12 +88,12 @@ GameObject:
   - component: {fileID: 5254133871333804644}
   - component: {fileID: 5796049237742897219}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Oxygen Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5676113217365036917
 RectTransform:
   m_ObjectHideFlags: 0
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 7109585794986663860}
   - component: {fileID: 3659293674609466593}
   m_Layer: 5
-  m_Name: OxygenText
+  m_Name: OxygenLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -211,7 +211,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -55.98, y: 10.42}
+  m_AnchoredPosition: {x: -55.98, y: 10.3}
   m_SizeDelta: {x: 43.193, y: 19.346}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7109585794986663860
@@ -242,7 +242,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Oxygen
+  m_text: "Ox\xEDgeno"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4c3b6b41c2248804fb499644e7af704d, type: 2}
   m_sharedMaterial: {fileID: 829369850414107206, guid: 4c3b6b41c2248804fb499644e7af704d, type: 2}
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -8.530228, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 2214901887221696522}
   - component: {fileID: 6010889651306077264}
   m_Layer: 5
-  m_Name: OxygenText (1)
+  m_Name: OxygenValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -505,7 +505,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -55.9, y: 10.42}
+  m_AnchoredPosition: {x: -6.6, y: 10.35}
   m_SizeDelta: {x: 43.193, y: 19.346}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2214901887221696522
@@ -536,7 +536,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Oxygen
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4c3b6b41c2248804fb499644e7af704d, type: 2}
   m_sharedMaterial: {fileID: 829369850414107206, guid: 4c3b6b41c2248804fb499644e7af704d, type: 2}
@@ -770,10 +770,45 @@ MonoBehaviour:
   movingDepletionChange: 0.5
   sprintingDepletionChange: 0.1
   currentMoveDepletionModifier: 1
+  hazardDamage: 10
+  oxygenWarningController: {fileID: 0}
+  lowOxygenThreshold: 0.3
+  normalGradientOffset: -1
+  pulseGradientOffset: -0.97
+  normalGradientDerivation: 0
+  pulseGradientDerivation: 0.03
+  pulseSpeed: 0.5
+  lowOxygenWarningSound: {fileID: 0}
+  warningSoundInterval: 3
   oxygenBar: {fileID: 4002492807553023099}
   oxygenLvlText: {fileID: 6010889651306077264}
   oxygenable: {fileID: 0}
+  hazard: {fileID: 0}
   consumingOxygen: 0
   onOxygenDepleted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: DeathScreen, Assembly-CSharp
+        m_MethodName: StartTransition
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: RenableChildrenAndComponents, Assembly-CSharp
+        m_MethodName: Disable
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

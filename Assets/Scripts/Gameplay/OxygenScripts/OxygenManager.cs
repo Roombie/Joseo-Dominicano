@@ -34,19 +34,23 @@ public class OxygenManager : MonoBehaviour
 
     [Header("Low Oxygen Warning")]
     [SerializeField] private UIGradientMultiplyController oxygenWarningController;
-    [SerializeField, Range(0.01f, 0.3f)] private float lowOxygenThreshold = 0.3f; // 30%
-    [SerializeField] private Color normalOxygenColor = new Color(0.2f, 0.4f, 1f, 0f); // Transparent blue
-    [SerializeField] private Color lowOxygenColor = new Color(0.2f, 0.4f, 1f, 0.4f); // More intense blue
-    [SerializeField] private float pulseIntensity = 0.3f;
+    [SerializeField] private float lowOxygenThreshold = 0.3f; // 30%
+    
+    [Header("Gradient Pulse Settings")]
+    [SerializeField] private float normalGradientOffset = 0f;
+    [SerializeField] private float pulseGradientOffset = 0.5f;
+    [SerializeField] private float normalGradientDerivation = 0f;
+    [SerializeField] private float pulseGradientDerivation = 0.3f;
     [SerializeField] private float pulseSpeed = 2f;
+    
+    [Header("Audio Warning")]
     [SerializeField] private AudioClip lowOxygenWarningSound;
     [SerializeField] private float warningSoundInterval = 3f;
 
     private float warningSoundTimer = 0f;
     private bool isLowOxygenWarningActive = false;
-    private Color currentWarningColor;
+    private float currentPulseValue = 0f;
 
-    [Header("UI References")]
     [SerializeField] private Slider oxygenBar;
     [SerializeField] private TextMeshProUGUI oxygenLvlText;
 
@@ -72,9 +76,9 @@ public class OxygenManager : MonoBehaviour
         if (oxygenWarningController != null)
         {
             oxygenWarningController.gameObject.SetActive(false);
-            oxygenWarningController.SetColorA(normalOxygenColor);
-            oxygenWarningController.SetColorB(normalOxygenColor);
-            currentWarningColor = normalOxygenColor;
+            // Reset gradient to normal values
+            oxygenWarningController.SetGradientOffset(normalGradientOffset);
+            oxygenWarningController.SetGradientDerivation(normalGradientDerivation);
         }
     }
 
@@ -127,16 +131,16 @@ public class OxygenManager : MonoBehaviour
         oxygenLvlText.text = oxygenLevel.value.ToString();
         UpdateOxygenBar();
         
-        // Deactivate warning effect
+        // Deactivate warning effect and reset gradient
         if (oxygenWarningController != null)
         {
             oxygenWarningController.gameObject.SetActive(false);
-            oxygenWarningController.SetColorA(normalOxygenColor);
-            oxygenWarningController.SetColorB(normalOxygenColor);
-            currentWarningColor = normalOxygenColor;
+            oxygenWarningController.SetGradientOffset(normalGradientOffset);
+            oxygenWarningController.SetGradientDerivation(normalGradientDerivation);
         }
         isLowOxygenWarningActive = false;
         warningSoundTimer = 0f;
+        currentPulseValue = 0f;
     }
 
     public void PauseOxygen()
@@ -212,16 +216,16 @@ public class OxygenManager : MonoBehaviour
 
             // Calculate pulse effect based on how low oxygen is
             float severity = 1f - (oxygenRatio / lowOxygenThreshold); // 0 to 1 based on how far below threshold
-            float pulse = (Mathf.Sin(Time.time * pulseSpeed) + 1f) * 0.5f * pulseIntensity * severity;
             
-            // Create pulsing color
-            Color targetColor = lowOxygenColor;
-            targetColor.a = lowOxygenColor.a * (1f + pulse) * severity;
-            currentWarningColor = Color.Lerp(currentWarningColor, targetColor, Time.deltaTime * 3f);
+            // Create pulsing effect using sine wave
+            currentPulseValue = (Mathf.Sin(Time.time * pulseSpeed) + 1f) * 0.5f * severity;
             
-            // Apply to gradient controller
-            oxygenWarningController.SetColorA(currentWarningColor);
-            oxygenWarningController.SetColorB(currentWarningColor);
+            // Apply pulse to gradient offset and derivation
+            float pulsedOffset = Mathf.Lerp(normalGradientOffset, pulseGradientOffset, currentPulseValue);
+            float pulsedDerivation = Mathf.Lerp(normalGradientDerivation, pulseGradientDerivation, currentPulseValue);
+            
+            oxygenWarningController.SetGradientOffset(pulsedOffset);
+            oxygenWarningController.SetGradientDerivation(pulsedDerivation);
             
             isLowOxygenWarningActive = true;
 
@@ -235,18 +239,24 @@ public class OxygenManager : MonoBehaviour
         }
         else if (isLowOxygenWarningActive)
         {
-            // Fade out warning when oxygen is restored above threshold
-            currentWarningColor = Color.Lerp(currentWarningColor, normalOxygenColor, Time.deltaTime * 2f);
-            oxygenWarningController.SetColorA(currentWarningColor);
-            oxygenWarningController.SetColorB(currentWarningColor);
+            // Fade out pulse effect when oxygen is restored
+            currentPulseValue = Mathf.Lerp(currentPulseValue, 0f, Time.deltaTime * 2f);
             
-            if (currentWarningColor.a < 0.01f)
+            float pulsedOffset = Mathf.Lerp(normalGradientOffset, pulseGradientOffset, currentPulseValue);
+            float pulsedDerivation = Mathf.Lerp(normalGradientDerivation, pulseGradientDerivation, currentPulseValue);
+            
+            oxygenWarningController.SetGradientOffset(pulsedOffset);
+            oxygenWarningController.SetGradientDerivation(pulsedDerivation);
+            
+            if (currentPulseValue < 0.01f)
             {
                 // Deactivate the object when fully faded out
                 oxygenWarningController.gameObject.SetActive(false);
-                currentWarningColor = normalOxygenColor;
+                oxygenWarningController.SetGradientOffset(normalGradientOffset);
+                oxygenWarningController.SetGradientDerivation(normalGradientDerivation);
                 isLowOxygenWarningActive = false;
                 warningSoundTimer = 0f;
+                currentPulseValue = 0f;
             }
         }
         else if (oxygenWarningController.gameObject.activeInHierarchy)
