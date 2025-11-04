@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -8,6 +7,7 @@ using UnityEngine.Localization.Settings;
 public class LanguageCycler : MonoBehaviour
 {
     [SerializeField] private TMP_Text label;
+    public FlagRegistry flagRegistry;
 
     private async void OnEnable()
     {
@@ -35,9 +35,10 @@ public class LanguageCycler : MonoBehaviour
 
         var cur = LocalizationSettings.SelectedLocale;
         int i = Mathf.Max(0, locales.IndexOf(cur));
-        var next = locales[(i + 1) % locales.Count];
 
+        var next = locales[(i + 1) % locales.Count];
         LocalizationSettings.SelectedLocale = next;
+
         PlayerPrefs.SetString(SettingsKeys.LanguageKey, next.Identifier.Code);
         PlayerPrefs.Save();
 
@@ -46,36 +47,41 @@ public class LanguageCycler : MonoBehaviour
 
     private void RefreshLabel()
     {
-        var l = LocalizationSettings.SelectedLocale;
-        string name = "—";
-        string flagKey = "default";
-
-        if (l != null)
+        var locale = LocalizationSettings.SelectedLocale;
+        if (label == null)
         {
-            var ci = l.Identifier.CultureInfo;
-            if (ci != null && !string.IsNullOrEmpty(ci.NativeName))
-                name = ci.NativeName;
-            else if (!string.IsNullOrEmpty(l.LocaleName))
-                name = l.LocaleName;
-            else
-                name = l.Identifier.Code;
-
-            // Choose icon keys matching your TMP sprite asset names
-            switch (l.Identifier.Code)
-            {
-                case "es":
-                    flagKey = "es"; // Spanish flag sprite name
-                    break;
-                case "en":
-                    flagKey = "us"; // or "gb" depending on your preference
-                    break;
-                default:
-                    flagKey = "globe"; // fallback icon
-                    break;
-            }
+            Debug.LogWarning("[LanguageCycler] Label is not assigned.");
+            return;
         }
 
-        if (label != null)
-            label.text = $"<sprite name=\"{flagKey}\"> {name.ToUpperInvariant()}";
+        if (locale == null)
+        {
+            label.text = "—";
+            return;
+        }
+
+        string code = locale.Identifier.Code;
+        string name = locale.Identifier.CultureInfo != null ?
+                      locale.Identifier.CultureInfo.NativeName :
+                      locale.LocaleName;
+
+        var entry = flagRegistry != null ? flagRegistry.Get(code) : null;
+
+        // Try TMP font sprite asset
+        if (entry != null && entry.HasSprite && label.spriteAsset != null)
+        {
+            label.text = $"<sprite name=\"{entry.spriteName}\"> {name.ToUpperInvariant()}";
+            return;
+        }
+
+        // Try emoji fallback
+        if (entry != null && !string.IsNullOrEmpty(entry.emoji))
+        {
+            label.text = $"{entry.emoji} {name.ToUpperInvariant()}";
+            return;
+        }
+
+        // Pure fallback text
+        label.text = name.ToUpperInvariant();
     }
 }
