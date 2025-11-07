@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 
 public class ShopInteraction : MonoBehaviour, IPlayerInteract
 {
@@ -16,30 +18,35 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
     [Header("Wallet")]
     [SerializeField] PlayerWallet wallet;
 
+    [Header("Shop Visuals")]
+    [SerializeField] LocalizeSpriteEvent shopSpriteLocalizer;
+    [SerializeField] LocalizedSprite nearSpriteLocalized;
+    [SerializeField] LocalizedSprite farSpriteLocalized;
+
     GameManager gm;
     bool isOpen;
+    bool playerInRange;
 
     void Awake()
     {
         gm = FindFirstObjectByType<GameManager>();
         if (shopPanel) shopPanel.SetActive(false);
+        UpdateShopSprite();
     }
 
     public void Interact()
     {
-        if (!isOpen) Open(); else Close();
+        if (!isOpen && playerInRange) Open(); 
+        else if (isOpen) Close();
     }
 
     void Open()
     {
         isOpen = true;
-
-        // Congelar al jugador
         if (playerRB) playerRB.linearVelocity = Vector2.zero;
-        if (mover) { mover.ResetMove(); mover.enabled = false; } // cleans input and deactivate movement
-        gm?._Gameplay_Pause(); // modal pause, just the timer and oxigen pausa modal
+        if (mover) { mover.ResetMove(); mover.enabled = false; }
+        gm?._Gameplay_Pause();
 
-        // UI
         if (shopPanel) shopPanel.SetActive(true);
         if (wallet && moneyLabel) moneyLabel.text = "$" + wallet.Balance;
 
@@ -50,13 +57,36 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
     public void Close()
     {
         isOpen = false;
-
         if (shopPanel) shopPanel.SetActive(false);
         if (mover) mover.enabled = true;
-        gm?._Gameplay_Resume(); // reanuda modal
+        gm?._Gameplay_Resume();
     }
 
-    // Ejemplo simple de compra
+    public void OnPlayerEnter()
+    {
+        playerInRange = true;
+        UpdateShopSprite();
+    }
+
+    public void OnPlayerExit()
+    {
+        playerInRange = false;
+        UpdateShopSprite();
+        if (isOpen) Close();
+    }
+
+    void UpdateShopSprite()
+    {
+        if (shopSpriteLocalizer == null) return;
+
+        // This automatically handles language changes and sprite loading
+        shopSpriteLocalizer.AssetReference = (playerInRange && !isOpen) 
+            ? nearSpriteLocalized 
+            : farSpriteLocalized;
+        
+        // No need to call RefreshSprite() - it happens automatically when AssetReference changes
+    }
+
     public void Buy(TrashItemSO item)
     {
         if (!wallet || !item) return;
@@ -64,7 +94,6 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         {
             wallet.TrySpend(item.Worth);
             if (moneyLabel) moneyLabel.text = "$" + wallet.Balance;
-            // TODO: entregar ítem / mejora
         }
         else
         {
@@ -72,6 +101,5 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         }
     }
 
-    // Botón "Cerrar" en el UI
     public void OnClickClose() => Close();
 }
