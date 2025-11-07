@@ -5313,6 +5313,7 @@ GameObject:
   - component: {fileID: 130400995488398086}
   - component: {fileID: 1222832940419762474}
   - component: {fileID: 7084569434194811994}
+  - component: {fileID: 2427350297778598979}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -5424,8 +5425,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: fb22234bedfb89246b7b257aca219935, type: 3}
   minPitch: 0.8
   maxPitch: 1.2
-  minVolume: 1
-  maxVolume: 1
   sprintStartSFX: {fileID: 8300000, guid: 4722d68eb8307b04d878cedcc31f77be, type: 3}
 --- !u!114 &2415517742074715297
 MonoBehaviour:
@@ -5624,6 +5623,21 @@ MonoBehaviour:
     - rid: 8145009779213336713
       type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+--- !u!114 &2427350297778598979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4594997632702453292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 035693a9d3fc45f41b22f8c5ff489dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHazardListener
+  _onHazardCollided:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5039716928864425226
 GameObject:
   m_ObjectHideFlags: 0

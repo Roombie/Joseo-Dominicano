@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: USA_FlagEntry
   m_EditorClassIdentifier: Assembly-CSharp::FlagEntry
   localeCode: en
-  spriteName: us
+  normalSpriteName: flag_us_normal
+  pressedSpriteName: flag_us_pressed
+  labelSpriteName: flag_us_normal
   emoji: "\U0001F310"

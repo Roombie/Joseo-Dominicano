@@ -130,7 +130,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 9
         width: 11
         height: 9
       alignment: 0
@@ -152,7 +152,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 11
-        y: 0
+        y: 9
         width: 11
         height: 9
       alignment: 0
@@ -165,6 +165,50 @@ TextureImporter:
       bones: []
       spriteID: 948d1fc9e8cd9954a981a4474444253f
       internalID: 592157413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: countryFlagImages_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85e70ac0b27ce1541b022c6989ff4760
+      internalID: -1576679978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: countryFlagImages_1
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 0
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6af72afd1dc99794b8cc9968ad818d79
+      internalID: 614576514
       vertices: []
       indices: 
       edges: []
@@ -183,6 +227,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      countryFlagImages_0: -1576679978
+      countryFlagImages_1: 614576514
       rd_flag: -2840376290565667332
       usa_flag: 592157413
   mipmapLimitGroupName: 
