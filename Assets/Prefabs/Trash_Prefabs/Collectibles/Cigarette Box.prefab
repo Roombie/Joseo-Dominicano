@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &209801197627247350
+--- !u!1 &322905763356734478
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,42 +8,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4351383896100594355}
-  - component: {fileID: 1740549347078325280}
-  - component: {fileID: 8009100110426183344}
-  - component: {fileID: 7574816782397144060}
-  - component: {fileID: -343032725362612979}
-  - component: {fileID: 7710091997310200774}
-  - component: {fileID: 862015153759509686}
+  - component: {fileID: 7381689098159595907}
+  - component: {fileID: 2847220834143674681}
+  - component: {fileID: 2206229308952548023}
+  - component: {fileID: 3526377972279638363}
+  - component: {fileID: -8412620777481808591}
+  - component: {fileID: 7270919786819843327}
+  - component: {fileID: 5308497322225735304}
   m_Layer: 12
-  m_Name: Blue Sandal
-  m_TagString: Untagged
+  m_Name: Cigarette Box
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4351383896100594355
+--- !u!4 &7381689098159595907
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209801197627247350}
+  m_GameObject: {fileID: 322905763356734478}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.1753025, y: -10.88714, z: 0}
+  m_LocalPosition: {x: -10.275732, y: -9.551954, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1740549347078325280
+--- !u!212 &2847220834143674681
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209801197627247350}
+  m_GameObject: {fileID: 322905763356734478}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 11
-  m_Sprite: {fileID: 4291465150672960306, guid: d82bf6f184a114f4f8210ea58547366d, type: 3}
+  m_Sprite: {fileID: 6505327247275478958, guid: d82bf6f184a114f4f8210ea58547366d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -95,14 +95,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
---- !u!50 &8009100110426183344
+--- !u!50 &2206229308952548023
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209801197627247350}
+  m_GameObject: {fileID: 322905763356734478}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -122,13 +122,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &7574816782397144060
+--- !u!58 &3526377972279638363
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209801197627247350}
+  m_GameObject: {fileID: 322905763356734478}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -158,13 +158,13 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.43
---- !u!114 &-343032725362612979
+--- !u!114 &-8412620777481808591
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209801197627247350}
+  m_GameObject: {fileID: 322905763356734478}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
@@ -173,28 +173,28 @@ MonoBehaviour:
   onCollect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7710091997310200774
+--- !u!114 &7270919786819843327
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209801197627247350}
+  m_GameObject: {fileID: 322905763356734478}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56a2d1641e38d4344b29243e6981c8e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashPickup
-  item: {fileID: 11400000, guid: 3d735f5d1a644464e81843735db88b54, type: 2}
+  item: {fileID: 11400000, guid: 3d9e9d85d16a62a488ae8931cbec6fc8, type: 2}
   destroyTime: 10
   selfDestroy: 1
---- !u!114 &862015153759509686
+--- !u!114 &5308497322225735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209801197627247350}
+  m_GameObject: {fileID: 322905763356734478}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
@@ -216,15 +216,15 @@ MonoBehaviour:
   - {x: 0.53125, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_InstanceId: 0
-  m_ShadowShape2DComponent: {fileID: 1740549347078325280}
+  m_ShadowShape2DComponent: {fileID: 2847220834143674681}
   m_ShadowShape2DProvider:
-    rid: 8145009779213336737
+    rid: 8145009779213336730
   m_ShadowCastingSource: 2
   m_ShadowMesh:
     m_Mesh: {fileID: 0}
     m_LocalBounds:
       m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0.54374695, y: 0.32499695, z: 0}
+      m_Extent: {x: 0.26249695, y: 0.35624695, z: 0}
     m_EdgeProcessing: 1
     m_TrimEdge: 0.05
     m_FlipX: 0
@@ -234,10 +234,10 @@ MonoBehaviour:
   m_PreviousTrimEdge: 0.05
   m_PreviousEdgeProcessing: 1
   m_PreviousShadowCastingSource: 2
-  m_PreviousShadowShape2DSource: {fileID: 1740549347078325280}
+  m_PreviousShadowShape2DSource: {fileID: 2847220834143674681}
   references:
     version: 2
     RefIds:
-    - rid: 8145009779213336737
+    - rid: 8145009779213336730
       type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 

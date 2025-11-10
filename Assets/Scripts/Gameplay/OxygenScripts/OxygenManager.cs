@@ -42,14 +42,16 @@ public class OxygenManager : MonoBehaviour
     [SerializeField] private float normalGradientDerivation = 0f;
     [SerializeField] private float pulseGradientDerivation = 0.3f;
     [SerializeField] private float pulseSpeed = 2f;
-    
-    [Header("Audio Warning")]
-    [SerializeField] private AudioClip lowOxygenWarningSound;
-    [SerializeField] private float warningSoundInterval = 3f;
 
-    private float warningSoundTimer = 0f;
+    [Header("Low Oxygen Music")]
+    [SerializeField] private AudioClip lowOxygenMusic;
+    [SerializeField] private float musicFadeDuration = 0.5f;
+    [SerializeField] private float lowOxygenMusicVolume = 0.8f;
+
     private bool isLowOxygenWarningActive = false;
     private float currentPulseValue = 0f;
+    private AudioSource lowOxygenAudioSource;
+    private Coroutine musicFadeCoroutine;
 
     [SerializeField] private Slider oxygenBar;
     [SerializeField] private TextMeshProUGUI oxygenLvlText;
@@ -67,6 +69,13 @@ public class OxygenManager : MonoBehaviour
     {
         if (oxygenable == null)
             oxygenable = FindAnyObjectByType<OxygenableBehaviour>();
+
+        // Crear AudioSource para la música de bajo oxígeno
+        lowOxygenAudioSource = gameObject.AddComponent<AudioSource>();
+        lowOxygenAudioSource.clip = lowOxygenMusic;
+        lowOxygenAudioSource.volume = 0f;
+        lowOxygenAudioSource.loop = true;
+        lowOxygenAudioSource.playOnAwake = false;
 
         ResetOxygen();
         currentDepletionRate = oxygenDepletionRate.value;
@@ -116,6 +125,9 @@ public class OxygenManager : MonoBehaviour
         {
             oxygenWarningController.gameObject.SetActive(false);
         }
+        
+        // Stop low oxygen music
+        StopLowOxygenMusic();
     }
 
     private void Update()
@@ -138,8 +150,11 @@ public class OxygenManager : MonoBehaviour
             oxygenWarningController.SetGradientOffset(normalGradientOffset);
             oxygenWarningController.SetGradientDerivation(normalGradientDerivation);
         }
+        
+        // Stop low oxygen music
+        StopLowOxygenMusic();
+        
         isLowOxygenWarningActive = false;
-        warningSoundTimer = 0f;
         currentPulseValue = 0f;
     }
 
@@ -154,6 +169,9 @@ public class OxygenManager : MonoBehaviour
         {
             oxygenWarningController.gameObject.SetActive(false);
         }
+        
+        // Stop low oxygen music
+        StopLowOxygenMusic();
     }
 
     public void ConsumeOxygen()
@@ -206,6 +224,24 @@ public class OxygenManager : MonoBehaviour
         float oxygenRatio = oxygenLevel.value / maxTotalOxygen.value;
         bool isLowOxygen = oxygenRatio <= lowOxygenThreshold;
 
+        // Handle low oxygen music - inmediato sin intervals
+        if (isLowOxygen && lowOxygenMusic != null)
+        {
+            if (!lowOxygenAudioSource.isPlaying)
+            {
+                StartLowOxygenMusic();
+            }
+            else if (lowOxygenAudioSource.volume < lowOxygenMusicVolume)
+            {
+                // Si ya está sonando pero no a volumen completo, hacer fade in
+                StartLowOxygenMusic();
+            }
+        }
+        else if (!isLowOxygen && lowOxygenAudioSource.isPlaying)
+        {
+            StopLowOxygenMusic();
+        }
+
         if (isLowOxygen)
         {
             // Activate the warning object if not already active
@@ -228,14 +264,6 @@ public class OxygenManager : MonoBehaviour
             oxygenWarningController.SetGradientDerivation(pulsedDerivation);
             
             isLowOxygenWarningActive = true;
-
-            // Play warning sound at intervals
-            warningSoundTimer += Time.deltaTime;
-            if (warningSoundTimer >= warningSoundInterval && lowOxygenWarningSound != null)
-            {
-                AudioManager.Instance?.Play(lowOxygenWarningSound, SoundCategory.SFX, 0.7f);
-                warningSoundTimer = 0f;
-            }
         }
         else if (isLowOxygenWarningActive)
         {
@@ -255,7 +283,6 @@ public class OxygenManager : MonoBehaviour
                 oxygenWarningController.SetGradientOffset(normalGradientOffset);
                 oxygenWarningController.SetGradientDerivation(normalGradientDerivation);
                 isLowOxygenWarningActive = false;
-                warningSoundTimer = 0f;
                 currentPulseValue = 0f;
             }
         }
@@ -263,6 +290,62 @@ public class OxygenManager : MonoBehaviour
         {
             // Safety check: if we're not in low oxygen state but object is active, deactivate it
             oxygenWarningController.gameObject.SetActive(false);
+        }
+    }
+
+    private void StartLowOxygenMusic()
+    {
+        if (lowOxygenMusic != null && lowOxygenAudioSource != null)
+        {
+            // Detener fade anterior si existe
+            if (musicFadeCoroutine != null)
+            {
+                StopCoroutine(musicFadeCoroutine);
+            }
+
+            // Iniciar reproducción si no está sonando
+            if (!lowOxygenAudioSource.isPlaying)
+            {
+                lowOxygenAudioSource.Play();
+            }
+
+            // Fade in inmediato
+            musicFadeCoroutine = StartCoroutine(FadeMusic(lowOxygenAudioSource, lowOxygenAudioSource.volume, lowOxygenMusicVolume, musicFadeDuration));
+        }
+    }
+
+    private void StopLowOxygenMusic()
+    {
+        if (lowOxygenAudioSource != null && lowOxygenAudioSource.isPlaying)
+        {
+            // Detener fade anterior si existe
+            if (musicFadeCoroutine != null)
+            {
+                StopCoroutine(musicFadeCoroutine);
+            }
+
+            // Fade out inmediato
+            musicFadeCoroutine = StartCoroutine(FadeMusic(lowOxygenAudioSource, lowOxygenAudioSource.volume, 0f, musicFadeDuration, true));
+        }
+    }
+
+    private IEnumerator FadeMusic(AudioSource audioSource, float fromVolume, float toVolume, float duration, bool stopAfterFade = false)
+    {
+        float timer = 0f;
+        
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float volume = Mathf.Lerp(fromVolume, toVolume, timer / duration);
+            audioSource.volume = volume;
+            yield return null;
+        }
+        
+        audioSource.volume = toVolume;
+        
+        if (stopAfterFade && toVolume <= 0f)
+        {
+            audioSource.Stop();
         }
     }
 

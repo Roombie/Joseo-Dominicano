@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 3391710572415863035}
   - component: {fileID: 4943875035652850777}
   - component: {fileID: -3440778383675749500}
-  - component: {fileID: 830694941930686853}
+  - component: {fileID: -5711569970883112357}
+  - component: {fileID: 1020060282996622248}
   m_Layer: 12
   m_Name: Green Broken Bottle
   m_TagString: EditorOnly
@@ -172,7 +173,21 @@ MonoBehaviour:
   onCollect:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &830694941930686853
+--- !u!114 &-5711569970883112357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2332355622716903862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239703f434c4e22459f3ec928740b172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Hazard
+  damage: 5
+  coolDownPeriod: 1
+--- !u!114 &1020060282996622248
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
