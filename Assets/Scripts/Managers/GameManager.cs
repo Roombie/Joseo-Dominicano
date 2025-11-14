@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     int _playerMoney;
     int _currentDay = 0;
     // [SerializeField] int _dayCount = 5;
-    [System.Serializable]
+    [Serializable]
     public struct Level
     {
         public int dayQuota;
@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         // RESET
+        ResetCarryCapacity();
         UpdateTotalCoinsUI(0);
         _currentDay = 0;
         _playerWallet.TrySpend(_playerWallet.Balance);
@@ -189,6 +190,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] int collectedInfoDuration = 3; //rafamaster3
     [SerializeField] float _onCollectedItemHoldDuration = 2;
     [SerializeField] float _onCollectedItemFadeDuration = 0.2f;
+    private bool _pauseLocked = false;
     float _shiftTimeDuration = 30;
     [SerializeField] float _displayHurryUpOn = 10;
     float _shiftTimeLeft;
@@ -248,7 +250,7 @@ public class GameManager : MonoBehaviour
 
     private bool _isDead = false;
 
-    private void UpdateTotalCoinsUI(int value)
+    public void UpdateTotalCoinsUI(int value)
     {
         if (totalCoinsCollectedText != null)
             totalCoinsCollectedText.text = $"${value}";
@@ -279,6 +281,12 @@ public class GameManager : MonoBehaviour
         UpdateTotalCoinsUI(_playerMoney + _currentShiftPayment);
         ShowDepositFeedback(totalDepositWorth);
 
+        if (_playerWallet != null && totalDepositWorth > 0)
+        {
+            _playerWallet.AddMoney(totalDepositWorth);
+            Debug.Log($"Added ${totalDepositWorth} to PlayerWallet. New balance: {_playerWallet.Balance}");
+        }
+
         _playerSackLabel.text = _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit;
         if (WhenItemCollectedRoutine != null) StopCoroutine(WhenItemCollectedRoutine);
         WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
@@ -300,6 +308,39 @@ public class GameManager : MonoBehaviour
     public void _Gameplay_StartDayOnDelay()
     {
         StartCoroutine(GameplayStartDayDelay());
+    }
+
+    public void DisallowPause(bool value)
+    {
+        _pauseLocked = value;
+    }
+
+    public void _Gameplay_SilentPause()
+    {
+        if (!inShift) return;
+
+        Time.timeScale = 0;
+        isPaused = true;
+
+        _oxygenManager.PauseOxygen();
+        StopDayTimer();
+
+        bool musicOn = PlayerPrefs.GetInt(SettingsKeys.MusicEnabledKey, 1) == 1;
+        if (musicOn)
+            AudioManager.Instance?.SetVolume(SettingType.MusicEnabledKey, pausedMusicDuck, persist: false);
+    }
+
+    public void _Gameplay_SilentResume()
+    {
+        Time.timeScale = 1;
+        isPaused = false;
+
+        _oxygenManager.ConsumeOxygen();
+        RunDayTimer();
+
+        bool musicOn = PlayerPrefs.GetInt(SettingsKeys.MusicEnabledKey, 1) == 1;
+        if (musicOn)
+            AudioManager.Instance?.SetMuted(SettingType.MusicEnabledKey, false);
     }
 
     public void _Gameplay_Pause()
@@ -328,7 +369,9 @@ public class GameManager : MonoBehaviour
     }
 
     void OnPause()
-    {
+    {        
+        if (_pauseLocked) return;
+        
         if (isPaused) _Gameplay_Resume();
         else _Gameplay_Pause();
     }
@@ -340,8 +383,8 @@ public class GameManager : MonoBehaviour
         OnGameplayEnd();
         UpdateTotalCoinsUI(0);
         _MainMenu_Display();
+        ResetCarryCapacity();
     }
-
 
     IEnumerator GameplayStartDayDelay()
     {
@@ -580,7 +623,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-        if (_testGameSacSpace != null) _testGameSacSpace.text =  "Carga: \n" +_playerSackCarrySpaceUsed.ToString() + "/" + _playerSackCarrySpaceLimit.ToString(); //rafamaster3
+            if (_testGameSacSpace != null) _testGameSacSpace.text = "Carga: \n" + _playerSackCarrySpaceUsed.ToString() + "/" + _playerSackCarrySpaceLimit.ToString(); //rafamaster3
 
         }
     }
@@ -624,7 +667,6 @@ public class GameManager : MonoBehaviour
         _playerCurrentWeight = 0;
         _playerSackCarrySpaceUsed = 0;
         _playerMoney += _currentShiftPayment;
-        _playerWallet.AddMoney(_currentShiftPayment);
         _currentShiftPayment = 0;
         _oxygenManager.ResetOxygen(); //rafamaster3
 
@@ -680,6 +722,28 @@ public class GameManager : MonoBehaviour
         musicSwitcher?.SwitchTo(MusicState.Hurry, 0.15f);
     }
 
+    public void IncreasePlayerCarryCapacity(int amount)
+    {
+        _playerSackCarrySpaceLimit += amount;
+        if (_playerSackCarrySpaceLimit < 1)
+            _playerSackCarrySpaceLimit = 1;
+
+        RefreshCarrySpaceUI();
+    }
+
+    public void RefreshCarrySpaceUI()
+    {
+        if (_testGameSacSpace)
+            _testGameSacSpace.text = _playerSackCarrySpaceUsed + "/" + _playerSackCarrySpaceLimit;
+    }
+
+    public void ResetCarryCapacity()
+    {
+        _playerSackCarrySpaceLimit = 10; // default
+        _playerSackCarrySpaceUsed = 0;
+        RefreshCarrySpaceUI();
+    }
+
     #endregion
     
     #region Home
@@ -717,10 +781,10 @@ public class GameManager : MonoBehaviour
 
         var valueMap = new Dictionary<string, Func<string>>
         {
-            ["money"] = () => _playerMoney.ToString(),
-            ["quota"] = () => days[_currentDay - 1].dayQuota.ToString(),
+            ["money"] = () => "$" + _playerMoney.ToString(),
+            ["quota"] = () => "$" + days[_currentDay - 1].dayQuota.ToString(),
             ["remaining"] = () =>
-                Mathf.Max(0, _playerMoney - days[_currentDay - 1].dayQuota).ToString()
+                "$" + Mathf.Max(0, _playerMoney - days[_currentDay - 1].dayQuota).ToString()
         };
 
         foreach (var stat in homeStatsUI.stats)

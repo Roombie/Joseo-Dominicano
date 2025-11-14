@@ -129,6 +129,10 @@ MonoBehaviour:
     m_Key: roombie-gameplay-5/-- World --/Shop Zone Trigger 1
     m_Metadata:
       m_Items: []
+  - m_Id: 5217980070625280
+    m_Key: roombie-gameplay-5/-- Shop --/Shop Canvas/Shop Container/Image
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items:
     - rid: 6326244251868594403
@@ -257,5 +261,9 @@ MonoBehaviour:
           m_TableCodes:
           - es
           - en
+        - m_KeyId: 5217980070625280
+          m_TableCodes:
+          - en
+          - es
         m_TypeString: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null

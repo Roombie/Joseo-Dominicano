@@ -24,7 +24,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
     // ➡️ Pausa (Button)
     // Un evento para cuando se presiona el botón de Pausa (performed)
     public event System.Action PauseEvent;
-
+    public event System.Action InteractEvent;
 
     // --- Propiedades y Métodos de Inicialización ---
 
@@ -104,17 +104,18 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         }
     }
 
+    public void OnInteract(InputAction.CallbackContext context)
+{
+        if (context.performed)
+            InteractEvent?.Invoke();
+    }
+
     public void OnLook(InputAction.CallbackContext context)
     {
         // throw new System.NotImplementedException();
     }
 
     public void OnAttack(InputAction.CallbackContext context)
-    {
-        // throw new System.NotImplementedException();
-    }
-
-    public void OnInteract(InputAction.CallbackContext context)
     {
         // throw new System.NotImplementedException();
     }

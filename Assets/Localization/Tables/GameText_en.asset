@@ -169,6 +169,14 @@ MonoBehaviour:
     m_Localized: Oxygen
     m_Metadata:
       m_Items: []
+  - m_Id: 4933298187796480
+    m_Localized: Purchased
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5142017534197760
+    m_Localized: $
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

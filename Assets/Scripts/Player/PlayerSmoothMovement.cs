@@ -9,7 +9,7 @@ public class PlayerSmoothMovement : OxygenableBehaviour
     [SerializeField] InputReader input;
     [SerializeField] private GameObject mobileControls;
 
-    public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
+    public float diagonalAnimationAdjustmentTime = 0.099f; // SYSTEM: Delay animation time from diagonal: Adjust this value as needed
     private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
 
     Animator animator;
@@ -243,7 +243,7 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         //Debug.Log("lastDirection changed to: " + lastDirection);
         isUpdatingLastDirection = false;
     }
-    public void OnInteract() => onInteractEvent?.Invoke();
+    
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
@@ -255,6 +255,15 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         else
         {
             SetMoveEvent(false); // Tell listeners moving changed
+        }
+    }
+
+    public void OnInteract(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+        {
+            Debug.Log("INTERACT RECEIVED by PlayerSmoothMovement");
+            onInteractEvent?.Invoke();
         }
     }
 

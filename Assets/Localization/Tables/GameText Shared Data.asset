@@ -150,6 +150,14 @@ MonoBehaviour:
       GameObject/Oxygen Meter/OxygenLabel
     m_Metadata:
       m_Items: []
+  - m_Id: 4933298187796480
+    m_Key: purchased
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5142017534197760
+    m_Key: priceFormat
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

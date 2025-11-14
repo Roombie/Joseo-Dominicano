@@ -1,19 +1,11 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour
 {
-    /// <summary>
-    /// Assign to an object you want to give interaction. 
-    /// This script will handle recognition and activate interaction with the player.
-    /// Should assign specific interaction script to each object
-    /// </summary>
-
-    [Header("Interaction Components")]
-    [SerializeField] private PlayerMovement playerMovement;
-    [SerializeField] private PlayerSmoothMovement playerSmoothMovement;
+    [Header("Components")]
+    [SerializeField] private InputReader inputReader;
     [SerializeField] private MonoBehaviour interactionScript;
 
     [Header("Unity Events")]
@@ -24,54 +16,38 @@ public class PlayerInteract : MonoBehaviour
     private IPlayerInteract interact;
     private bool inRange;
 
-    private void Awake() => interact = interactionScript as IPlayerInteract;
-    
-    private void OnDisable() 
+    private void Awake()
     {
-        if(playerMovement != null) 
-            playerMovement.onInteractEvent -= Interact;
-
-        if (playerSmoothMovement != null) 
-            playerSmoothMovement.onInteractEvent -= Interact;
+        interact = interactionScript as IPlayerInteract;
     }
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             inRange = true;
-            
-            // Subscribe to interact events
-            if (playerMovement != null)
-                playerMovement.onInteractEvent += Interact;
-            if (playerSmoothMovement != null)
-                playerSmoothMovement.onInteractEvent += Interact;
-            
-            // Invoke enter event
+
+            inputReader.InteractEvent += Interact;
+
             onPlayerEnter?.Invoke();
         }
     }
-    
+
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.CompareTag("Player"))
         {
             inRange = false;
             
-            // Unsubscribe from interact events
-            if (playerMovement != null)
-                playerMovement.onInteractEvent -= Interact;
-            if (playerSmoothMovement != null)
-                playerSmoothMovement.onInteractEvent -= Interact;
-            
-            // Invoke exit event
+            inputReader.InteractEvent -= Interact;
+
             onPlayerExit?.Invoke();
         }
     }
-    
+
     public void Interact()
     {
-        if (inRange) 
+        if (inRange)
         {
             interact?.Interact();
             onInteract?.Invoke();
