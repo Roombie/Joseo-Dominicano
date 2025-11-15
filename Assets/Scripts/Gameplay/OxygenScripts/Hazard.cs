@@ -6,6 +6,8 @@ public class Hazard : MonoBehaviour
 {
     [SerializeField] public float damage;
     [SerializeField] public float coolDownPeriod;
+    [SerializeField] private float destroyTime = 10f;
+    [SerializeField] private bool selfDestroy = true;
 
     float normalDamage;
     bool isCooling;
@@ -13,6 +15,7 @@ public class Hazard : MonoBehaviour
     private void Start()
     {
         normalDamage = damage;
+        if (selfDestroy) StartCoroutine(AutoDestroy());
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -32,7 +35,11 @@ public class Hazard : MonoBehaviour
         isCooling = false;
     }
 
-
+    private IEnumerator AutoDestroy()
+    {
+        yield return new WaitForSeconds(destroyTime);
+        if (this != null) Destroy(gameObject);
+    }
 
 }
 

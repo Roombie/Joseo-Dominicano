@@ -201,7 +201,7 @@ public class LevelSpawner : MonoBehaviour
             float randomWiggle = Random.Range(-currentDayConfig.maxVerticalWiggle, currentDayConfig.maxVerticalWiggle);
             
             // Inicializamos el movimiento.
-            movement.InitializeMovement(directionX, randomWiggle);
+            movement.InitializeMovement(directionX, randomWiggle, currentDayConfig.maxWiggleRate);
             
             // Rotar si viene de la derecha
             if (!spawnFromLeft)

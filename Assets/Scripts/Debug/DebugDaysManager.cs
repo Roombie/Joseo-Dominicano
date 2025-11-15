@@ -41,16 +41,16 @@ public class DebugDaysManager : MonoBehaviour
         _debugDaysItems.Clear();
 
         // 2. Poblar ítems a partir del array days del _gameManager
-        for (int i = 0; i < _gameManager.days.Length; i++)
+        for (int i = 0; i < _gameManager.days.Count; i++)
         {
-            GameManager.Level level = _gameManager.days[i];
+            LevelDayConfig level = _gameManager.days[i];
             
             DebugDaysItem newItem = Instantiate(_template, _contentParent);
 
             // 3. Inicializar cada ítem con los valores del día y el título
             newItem.title.text = $"Día {i + 1}";
-            newItem.quotaField.text = level.dayQuota.ToString();
-            newItem.timerField.text = level.dayDuration.ToString();
+            newItem.quotaField.text = level.quota.ToString();
+            newItem.timerField.text = level.duration.ToString();
 
             // 4. Configurar el botón de eliminar usando el método por componente.
             newItem.removeItem.onClick.AddListener(() => RemoveItemByComponent(newItem));
@@ -148,7 +148,7 @@ public class DebugDaysManager : MonoBehaviour
     /// </summary>
     public void ConfirmValues()
     {
-        List<GameManager.Level> newDays = new List<GameManager.Level>();
+        List<LevelDayConfig> newDays = new List<LevelDayConfig>();
 
         foreach (var item in _debugDaysItems)
         {
@@ -171,20 +171,29 @@ public class DebugDaysManager : MonoBehaviour
             }
 
             // Crear el nuevo struct Level y añadirlo a la lista
-            GameManager.Level newLevel = new GameManager.Level
-            {
-                dayQuota = quota,
-                dayDuration = duration
-            };
+            // LevelDayConfig newLevel = new LevelDayConfig
+            // {
+            //     dayQuota = quota,
+            //     dayDuration = duration
+            // };
+            LevelDayConfig newLevel = new LevelDayConfig();
+            newLevel.quota = quota;
+            newLevel.duration = duration;
+
             newDays.Add(newLevel);
         }
 
         // Convertir la lista a un array y asignarla al GameManager
-        _gameManager.days = newDays.ToArray();
+        // _gameManager.days = newDays.ToArray();
+        _gameManager.days.Clear();
+        for (int i = 0; i < newDays.Count; i++)
+        {
+            _gameManager.days.Add(newDays[i]);
+        }
 
         int.TryParse(_sackLimitField.text, out _gameManager._playerSackCarrySpaceLimit);
         float.TryParse(_oxygenField.text, out maxTotalOxygen.value);
         
-        Debug.Log($"¡Valores de días confirmados y guardados en GameManager! Total de días: {_gameManager.days.Length}");
+        Debug.Log($"¡Valores de días confirmados y guardados en GameManager! Total de días: {_gameManager.days.Count}");
     }
 }

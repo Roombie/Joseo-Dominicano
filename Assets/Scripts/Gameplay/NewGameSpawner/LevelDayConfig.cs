@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "DayConfig", menuName = "Juego de Nado/Configuración del Día", order = 1)]
+[CreateAssetMenu(fileName = "DayConfig", menuName = "Scriptable Object/Day Config", order = 1)]
 public class LevelDayConfig : ScriptableObject
 {
     public int quota;
@@ -23,6 +23,6 @@ public class LevelDayConfig : ScriptableObject
     public float moveSpeed = 3f;
 
     [Tooltip("Un factor de velocidad vertical aleatorio para dar la sensación de movimiento en el agua.")]
-    [Range(0f, 1f)]
     public float maxVerticalWiggle = 0.5f;
+    public float maxWiggleRate = 0.5f;
 }

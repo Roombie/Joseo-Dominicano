@@ -21,14 +21,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] InputReader input;
     int _currentDay = 0;
 
-    [Serializable]
-    public struct Level
-    {
-        public int dayQuota;
-        public float dayDuration;
-    }
+    // [Serializable]
+    // public struct Level
+    // {
+    //     public int dayQuota;
+    //     public float dayDuration;
+    // }
+    [SerializeField] LevelDayDB _days;
 
-    public Level[] days;
+    public List<LevelDayConfig> days => _days.days;
+    // public void SetNewDayConfig(List<LevelDayConfig> days) => _days.days = days;
 
     [Header("References")]
     [SerializeField] Rigidbody2D _playerPhysics;
@@ -315,7 +317,7 @@ public class GameManager : MonoBehaviour
         if (!inShift || _currentDay <= 0) return;
 
         int wallet = _playerWallet.Balance;
-        int quota = days[_currentDay - 1].dayQuota;
+        int quota = _days.days[_currentDay - 1].quota;;
 
         string goalValueColor = "#" + ColorUtility.ToHtmlStringRGBA(
             wallet >= quota ? _dayGoalReachedColor : _dayGoalInsufficientColor
@@ -351,7 +353,7 @@ public class GameManager : MonoBehaviour
             _playerWallet.AddMoney(totalDepositWorth);
 
         // Actualizar color y texto de meta con el WALLET actual
-        int quota = days[_currentDay - 1].dayQuota;
+        int quota = _days.days[_currentDay - 1].quota;;
         string goalValueColor = "#" + ColorUtility.ToHtmlStringRGBA(
             _playerWallet.Balance >= quota ? _dayGoalReachedColor : _dayGoalInsufficientColor
         );
@@ -496,7 +498,7 @@ public class GameManager : MonoBehaviour
         _playerSackDebugOutput = "Clear";
         _currentShiftPayment = 0;
 
-        int quota = days[_currentDay - 1].dayQuota;
+        int quota = _days.days[_currentDay - 1].quota;;
         int wallet = _playerWallet != null ? _playerWallet.Balance : 0;
 
         string goalValueColor = "#" + ColorUtility.ToHtmlStringRGBA(
@@ -715,7 +717,7 @@ public class GameManager : MonoBehaviour
 
         if (_testGameplayShiftMoney != null && _currentDay > 0)
         {
-            int quota = days[_currentDay - 1].dayQuota;
+            int quota = _days.days[_currentDay - 1].quota;
             _testGameplayShiftMoney.text =
                 $"Hoy: ${_currentShiftPayment} / Meta ${quota}";
         }
@@ -819,7 +821,7 @@ public class GameManager : MonoBehaviour
     void ResetDayTimer()
     {
         isInHurry = false;
-        _shiftTimeLeft = days[_currentDay - 1].dayDuration;
+        _shiftTimeLeft = _days.days[_currentDay - 1].duration;
     }
 
     void OnHurryUpDisplay()
@@ -929,7 +931,7 @@ public class GameManager : MonoBehaviour
         }
 
         int wallet = _playerWallet != null ? _playerWallet.Balance : 0;
-        int quota = days[_currentDay - 1].dayQuota;
+        int quota = _days.days[_currentDay - 1].quota;
         int result = wallet - quota;
 
         var valueMap = new Dictionary<string, Func<string>>
@@ -964,7 +966,7 @@ public class GameManager : MonoBehaviour
 
     bool CanPayQuota()
     {
-        int quota = days[_currentDay - 1].dayQuota;
+        int quota = _days.days[_currentDay - 1].quota;
         return _playerWallet != null && _playerWallet.Balance >= quota;
     }
 
@@ -984,7 +986,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        int quota = days[_currentDay - 1].dayQuota;
+        int quota = _days.days[_currentDay - 1].quota;
 
         // Pay the quota from wallet (global economy system)
         _playerWallet.TrySpend(quota);
@@ -995,7 +997,7 @@ public class GameManager : MonoBehaviour
             _testGameplayTotalMoney.text = "Ahorrado: $" + _playerWallet.Balance;
 
         // If last day → GOOD END
-        if (_currentDay >= days.Length)
+        if (_currentDay >= _days.days.Count)
         {
             ResetShopPurchases();
             _gameOverDisplay.Set(_winTitleText, _winContextText);

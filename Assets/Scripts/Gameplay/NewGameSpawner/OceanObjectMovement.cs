@@ -10,10 +10,15 @@ public class OceanObjectMovement : MonoBehaviour
     private Rigidbody2D rb;
     private float horizontalSpeed;
     private float verticalWiggle; // Velocidad vertical constante para el bamboleo
+    private float progressOffset;
+    private float amplittudeMultiplier;
+    private float maxWiggleRate;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        progressOffset = Random.Range(0, Mathf.PI);
+        amplittudeMultiplier = Random.Range(0.5f, 1f);
     }
 
     /// <summary>
@@ -21,11 +26,11 @@ public class OceanObjectMovement : MonoBehaviour
     /// </summary>
     /// <param name="speedX">Velocidad horizontal (positiva o negativa).</param>
     /// <param name="wiggleY">Velocidad vertical constante para el bamboleo.</param>
-    public void InitializeMovement(float speedX, float wiggleY)
+    public void InitializeMovement(float speedX, float wiggleY, float wiggleRate)
     {
         horizontalSpeed = speedX;
         verticalWiggle = wiggleY;
-
+        maxWiggleRate = wiggleRate;
         // Establecer la velocidad inicial
         SetVelocity();
     }
@@ -43,6 +48,6 @@ public class OceanObjectMovement : MonoBehaviour
     {
         // Mantenemos la velocidad constante en X y Y.
         // Si queremos un bamboleo más complejo (senoidal), lo aplicaríamos aquí.
-        rb.linearVelocity = new Vector2(horizontalSpeed, verticalWiggle);
+        rb.linearVelocity = new Vector2(horizontalSpeed, amplittudeMultiplier * verticalWiggle * Mathf.Sin((Time.time + progressOffset) * maxWiggleRate));
     }
 }
