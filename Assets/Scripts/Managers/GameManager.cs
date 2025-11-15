@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
         _testGameOverScreen.SetActive(false);
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
         // _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
+        ResetShopPurchases();
         UpdateTotalCoinsUI(0);
         input.PauseEvent += OnPause;
         input.EnablePlayer();
@@ -95,6 +96,18 @@ public class GameManager : MonoBehaviour
         _playerSack.Clear();
         _playerCurrentWeight = 0;
         _isDead = false;
+        ResetShopPurchases();
+    }
+    
+    private void ResetShopPurchases()
+    {
+        // Encontrar todos los ShopItemSO en el proyecto y resetearlos
+        var shopItems = Resources.FindObjectsOfTypeAll<ShopItemSO>();
+        foreach (var item in shopItems)
+        {
+            item.isPurchased = false;
+        }
+        Debug.Log($"Reseteados {shopItems.Length} items de tienda");
     }
 
     #endregion
@@ -176,6 +189,8 @@ public class GameManager : MonoBehaviour
     #endregion
     #region Gameplay
     [Header("Gameplay")]
+    [SerializeField] GameObject pauseButton;
+    public GameObject PauseButton => pauseButton;
     [SerializeField] Vector3 _playerInitialPosition;
     [SerializeField] GameObject _testGameplayScreen;
     [SerializeField] GameObject _pausePanel;
@@ -249,6 +264,16 @@ public class GameManager : MonoBehaviour
     const string ANIM_RISE_DOWN = "Coins Obtained Rise Down";
 
     private bool _isDead = false;
+
+    void OnApplicationPause(bool paused)
+    {
+        if (paused)
+        {
+            // If you're on gameplay, pause
+            if (inShift && !isPaused)
+                _Gameplay_Pause();
+        }
+    }
 
     public void UpdateTotalCoinsUI(int value)
     {
@@ -821,6 +846,7 @@ public class GameManager : MonoBehaviour
 
             if (_currentDay >= days.Length)
             {
+                ResetShopPurchases();
                 _gameOverDisplay.Set(_winTitleText, _winContextText);
                 _GameOver_Display();
             }
@@ -832,6 +858,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            ResetShopPurchases();
             isInHurry = false;
             musicSwitcher?.SetMusicAudible(false, 0.25f);
             _gameOverDisplay.Set(_badEndingTitleText, _badEndingContextText);
@@ -883,6 +910,7 @@ public class GameManager : MonoBehaviour
     {
         _testGameOverScreen.SetActive(false);
         musicSwitcher?.SetMusicAudible(true, 0.25f);
+        ResetShopPurchases();
         ResetGame();
         _MainMenu_Display();
     }

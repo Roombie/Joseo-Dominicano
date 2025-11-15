@@ -144,6 +144,8 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         {
             gm.DisallowPause(true);
             gm._Gameplay_SilentPause();
+            if (gm.PauseButton != null)
+                gm.PauseButton.SetActive(false);
         }
 
         if (shopPanel) 
@@ -204,6 +206,8 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         {
             gm._Gameplay_SilentResume();
             gm.DisallowPause(false);
+            if (gm.PauseButton != null)
+                gm.PauseButton.SetActive(true);
         }   
 
         isClosing = false;
