@@ -855,6 +855,45 @@ public class GameManager : MonoBehaviour
         RefreshCarrySpaceUI();
     }
 
+    public void LoseSackSpaceAndItems(int minLoss, int maxLoss)
+    {
+        if (_playerSack.Count == 0)
+        {
+            // No hay nada que perder
+            _playerSackCarrySpaceUsed = 0;
+            RefreshCarrySpaceUI();
+            return;
+        }
+
+        if (maxLoss < minLoss)
+            maxLoss = minLoss;
+
+        int spaceToLose = UnityEngine.Random.Range(minLoss, maxLoss + 1);
+        int remainingSpaceToRemove = spaceToLose;
+
+        // Delete random items until the space to lose is covered
+        while (remainingSpaceToRemove > 0 && _playerSack.Count > 0)
+        {
+            int index = UnityEngine.Random.Range(0, _playerSack.Count);
+            TrashItemSO item = _playerSack[index];
+
+            remainingSpaceToRemove -= item.PickUpSpace;
+
+            _playerCurrentWeight -= item.WeightKg;
+            _playerSackCarrySpaceUsed -= item.PickUpSpace;
+
+            if (_playerSackCarrySpaceUsed < 0)
+                _playerSackCarrySpaceUsed = 0;
+
+            _playerSack.RemoveAt(index);
+        }
+
+        RefreshCarrySpaceUI();
+
+        Debug.Log($"Hazard stole items worth {spaceToLose} sack space.");
+    }
+
+
     #endregion
 
     #region Home

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1020060282996622248}
   m_Layer: 12
   m_Name: Green Broken Bottle
-  m_TagString: EditorOnly
+  m_TagString: Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

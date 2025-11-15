@@ -8,15 +8,10 @@ using UnityEngine.Events;
 public abstract class OxygenableBehaviour : MonoBehaviour
 {
     public event System.Action<bool> isMovingEvent;
-    protected void SetMoveEvent(bool value)
-    {
-        isMovingEvent?.Invoke(value);
-    }
+    protected void SetMoveEvent(bool value) => isMovingEvent?.Invoke(value);
+
     public event System.Action<bool> isSprintingEvent;
-    protected void SetSprintingEvent(bool value)
-    {
-        isSprintingEvent?.Invoke(value);
-    }
+    protected void SetSprintingEvent(bool value) => isSprintingEvent?.Invoke(value);
 }
 
 public class OxygenManager : MonoBehaviour
@@ -27,15 +22,23 @@ public class OxygenManager : MonoBehaviour
 
     [SerializeField] private float movingDepletionChange = 1.2f;
     [SerializeField] private float sprintingDepletionChange = 1.7f;
-    [SerializeField] private float currentMoveDepletionModifier = 1;
+    private float currentMoveDepletionModifier = 1;
 
     [Header("Hazards")]
-    [SerializeField] float hazardDamage = 10f;
+    [SerializeField] private float hazardDamage = 10f;
+    [SerializeField] private AudioClip hazardDamageSound;
+    [SerializeField] private float invincibilityDuration = 0.5f;
+    [SerializeField] private SpriteRenderer playerSprite;
+
+    private bool isInvincible = false;
+    private float invincibleTimer = 0f;
+    private float flickerTimer = 0f;
+    private bool flickerState = true;
 
     [Header("Low Oxygen Warning")]
     [SerializeField] private UIGradientMultiplyController oxygenWarningController;
-    [SerializeField] private float lowOxygenThreshold = 0.3f; // 30%
-    
+    [SerializeField] private float lowOxygenThreshold = 0.3f;
+
     [Header("Gradient Pulse Settings")]
     [SerializeField] private float normalGradientOffset = 0f;
     [SerializeField] private float pulseGradientOffset = 0.5f;
@@ -62,15 +65,15 @@ public class OxygenManager : MonoBehaviour
     [SerializeField] private bool consumingOxygen = false;
     public UnityEvent onOxygenDepleted;
 
-    bool ismoving = false;
-    float currentDepletionRate = 1;
+    private bool ismoving = false;
+    private float currentDepletionRate = 1;
+
 
     void Start()
     {
         if (oxygenable == null)
             oxygenable = FindAnyObjectByType<OxygenableBehaviour>();
 
-        // Crear AudioSource para la música de bajo oxígeno
         lowOxygenAudioSource = gameObject.AddComponent<AudioSource>();
         lowOxygenAudioSource.clip = lowOxygenMusic;
         lowOxygenAudioSource.volume = 0f;
@@ -81,15 +84,14 @@ public class OxygenManager : MonoBehaviour
         currentDepletionRate = oxygenDepletionRate.value;
         currentMoveDepletionModifier = movingDepletionChange;
 
-        // Initialize warning system - deactivate at start
         if (oxygenWarningController != null)
         {
             oxygenWarningController.gameObject.SetActive(false);
-            // Reset gradient to normal values
             oxygenWarningController.SetGradientOffset(normalGradientOffset);
             oxygenWarningController.SetGradientDerivation(normalGradientDerivation);
         }
     }
+
 
     private void OnEnable()
     {
@@ -97,16 +99,15 @@ public class OxygenManager : MonoBehaviour
         {
             oxygenable.isMovingEvent += UpdateBoolIfMoving;
             oxygenable.isSprintingEvent += ChangeDepletionRateIfSprinting;
+
             if (hazard != null)
             {
-                hazard.OnHazardCollided.AddListener((Hazard) => ChangeOxygenLevel(-Hazard.damage));
+                hazard.OnHazardCollided.AddListener(OnHazardHit);
             }
-            else
-            {
-                Debug.LogWarning("No PlayerHazardListener found in the scene. Please add one to detect hazard collisions.");
-            }
+            else Debug.LogWarning("No PlayerHazardListener found in the scene.");
         }
     }
+
 
     private void OnDisable()
     {
@@ -114,71 +115,144 @@ public class OxygenManager : MonoBehaviour
         {
             oxygenable.isMovingEvent -= UpdateBoolIfMoving;
             oxygenable.isSprintingEvent -= ChangeDepletionRateIfSprinting;
+
             if (hazard != null)
-            {
-                hazard.OnHazardCollided.RemoveListener((Hazard) => ChangeOxygenLevel(-Hazard.damage));
-            }
+                hazard.OnHazardCollided.RemoveListener(OnHazardHit);
         }
-        
-        // Ensure warning is deactivated when OxygenManager is disabled
+
         if (oxygenWarningController != null)
-        {
             oxygenWarningController.gameObject.SetActive(false);
-        }
-        
-        // Stop low oxygen music
+
         StopLowOxygenMusic();
+        ClearInvincibility();
     }
+
 
     private void Update()
     {
+        UpdateInvincibility();  // ← new system here
         UpdateLowOxygenWarning();
     }
+
+
+    // ------------ DAMAGE & INVINCIBILITY ------------
+
+    private void OnHazardHit(Hazard hazardObj)
+    {
+        if (!GameManager.Instance.inShift)
+            return;
+
+        if (isInvincible)
+            return;
+
+        if (hazardDamageSound != null)
+            AudioManager.Instance.Play(hazardDamageSound, SoundCategory.SFX);
+
+        ChangeOxygenLevel(-hazardObj.damage);
+        if (Random.value <= 0.50f)
+        {
+            GameManager.Instance.LoseSackSpaceAndItems(1, 4);
+        }
+        StartInvincibility();
+    }
+
+
+    private void StartInvincibility()
+    {
+        isInvincible = true;
+        invincibleTimer = invincibilityDuration;
+        flickerTimer = 0f;
+        flickerState = true;
+
+        if (playerSprite != null)
+            playerSprite.enabled = true;
+    }
+
+
+    private void ClearInvincibility()
+    {
+        isInvincible = false;
+        invincibleTimer = 0f;
+        flickerTimer = 0f;
+        flickerState = true;
+
+        if (playerSprite != null)
+            playerSprite.enabled = true;
+    }
+
+
+    // ⏳ Flicker + Timer respecting pause (uses deltaTime)
+    private void UpdateInvincibility()
+    {
+        if (!isInvincible) return;
+
+        invincibleTimer -= Time.deltaTime;
+
+        if (invincibleTimer <= 0f)
+        {
+            ClearInvincibility();
+            return;
+        }
+
+        flickerTimer += Time.deltaTime;
+
+        if (flickerTimer >= 0.1f)
+        {
+            flickerTimer = 0f;
+            flickerState = !flickerState;
+
+            if (playerSprite != null)
+                playerSprite.enabled = flickerState;
+        }
+    }
+
+
+    // ------------ OXYGEN SYSTEM ------------
 
     public void ResetOxygen()
     {
         StopAllCoroutines();
         consumingOxygen = false;
+
         oxygenLevel.value = maxTotalOxygen.value;
         oxygenLvlText.text = oxygenLevel.value.ToString();
+
         UpdateOxygenBar();
-        
-        // Deactivate warning effect and reset gradient
+        ClearInvincibility();
+
         if (oxygenWarningController != null)
         {
             oxygenWarningController.gameObject.SetActive(false);
             oxygenWarningController.SetGradientOffset(normalGradientOffset);
             oxygenWarningController.SetGradientDerivation(normalGradientDerivation);
         }
-        
-        // Stop low oxygen music
+
         StopLowOxygenMusic();
-        
         isLowOxygenWarningActive = false;
         currentPulseValue = 0f;
     }
+
 
     public void PauseOxygen()
     {
         StopAllCoroutines();
         consumingOxygen = false;
+
         UpdateOxygenBar();
-        
-        // Deactivate warning when paused
+
         if (oxygenWarningController != null)
-        {
             oxygenWarningController.gameObject.SetActive(false);
-        }
-        
-        // Stop low oxygen music
+
         StopLowOxygenMusic();
     }
+
 
     public void ConsumeOxygen()
     {
         consumingOxygen = true;
         StartCoroutine(OxygenDepletion());
     }
+
 
     private IEnumerator OxygenDepletion()
     {
@@ -189,18 +263,22 @@ public class OxygenManager : MonoBehaviour
         }
     }
 
+
     public void BoostOxygenTotal(float increment)
     {
         oxygenLevel.value += increment;
-        oxygenLvlText.text = oxygenLevel.value.ToString();
         maxTotalOxygen.value += increment;
+        oxygenLvlText.text = oxygenLevel.value.ToString();
     }
+
 
     public void ChangeOxygenLevel(float value)
     {
         if (oxygenLevel.value > 0)
         {
-            oxygenLevel.value = oxygenLevel.value + value > maxTotalOxygen.value ? maxTotalOxygen.value : oxygenLevel.value += value;
+            oxygenLevel.value =
+                Mathf.Clamp(oxygenLevel.value + value, 0, maxTotalOxygen.value);
+
             oxygenLvlText.text = oxygenLevel.value.ToString();
             UpdateOxygenBar();
         }
@@ -212,142 +290,116 @@ public class OxygenManager : MonoBehaviour
         }
     }
 
-    void UpdateOxygenBar()
+
+    private void UpdateOxygenBar()
     {
         oxygenBar.value = oxygenLevel.value / maxTotalOxygen.value;
     }
+
+
+    // ------------ LOW OXYGEN WARNING ------------
 
     private void UpdateLowOxygenWarning()
     {
         if (!consumingOxygen || oxygenWarningController == null) return;
 
         float oxygenRatio = oxygenLevel.value / maxTotalOxygen.value;
-        bool isLowOxygen = oxygenRatio <= lowOxygenThreshold;
+        bool isLow = oxygenRatio <= lowOxygenThreshold;
 
-        // Handle low oxygen music - inmediato sin intervals
-        if (isLowOxygen && lowOxygenMusic != null)
-        {
-            if (!lowOxygenAudioSource.isPlaying)
-            {
-                StartLowOxygenMusic();
-            }
-            else if (lowOxygenAudioSource.volume < lowOxygenMusicVolume)
-            {
-                // Si ya está sonando pero no a volumen completo, hacer fade in
-                StartLowOxygenMusic();
-            }
-        }
-        else if (!isLowOxygen && lowOxygenAudioSource.isPlaying)
-        {
-            StopLowOxygenMusic();
-        }
+        // music
+        if (isLow) StartLowOxygenMusic();
+        else StopLowOxygenMusic();
 
-        if (isLowOxygen)
+        // UI pulse
+        if (isLow)
         {
-            // Activate the warning object if not already active
             if (!oxygenWarningController.gameObject.activeInHierarchy)
-            {
                 oxygenWarningController.gameObject.SetActive(true);
-            }
 
-            // Calculate pulse effect based on how low oxygen is
-            float severity = 1f - (oxygenRatio / lowOxygenThreshold); // 0 to 1 based on how far below threshold
-            
-            // Create pulsing effect using sine wave
+            float severity = 1f - (oxygenRatio / lowOxygenThreshold);
             currentPulseValue = (Mathf.Sin(Time.time * pulseSpeed) + 1f) * 0.5f * severity;
-            
-            // Apply pulse to gradient offset and derivation
-            float pulsedOffset = Mathf.Lerp(normalGradientOffset, pulseGradientOffset, currentPulseValue);
-            float pulsedDerivation = Mathf.Lerp(normalGradientDerivation, pulseGradientDerivation, currentPulseValue);
-            
-            oxygenWarningController.SetGradientOffset(pulsedOffset);
-            oxygenWarningController.SetGradientDerivation(pulsedDerivation);
-            
+
+            float offset = Mathf.Lerp(normalGradientOffset, pulseGradientOffset, currentPulseValue);
+            float deriv = Mathf.Lerp(normalGradientDerivation, pulseGradientDerivation, currentPulseValue);
+
+            oxygenWarningController.SetGradientOffset(offset);
+            oxygenWarningController.SetGradientDerivation(deriv);
+
             isLowOxygenWarningActive = true;
         }
         else if (isLowOxygenWarningActive)
         {
-            // Fade out pulse effect when oxygen is restored
             currentPulseValue = Mathf.Lerp(currentPulseValue, 0f, Time.deltaTime * 2f);
-            
-            float pulsedOffset = Mathf.Lerp(normalGradientOffset, pulseGradientOffset, currentPulseValue);
-            float pulsedDerivation = Mathf.Lerp(normalGradientDerivation, pulseGradientDerivation, currentPulseValue);
-            
-            oxygenWarningController.SetGradientOffset(pulsedOffset);
-            oxygenWarningController.SetGradientDerivation(pulsedDerivation);
-            
+
+            float offset = Mathf.Lerp(normalGradientOffset, pulseGradientOffset, currentPulseValue);
+            float deriv = Mathf.Lerp(normalGradientDerivation, pulseGradientDerivation, currentPulseValue);
+
+            oxygenWarningController.SetGradientOffset(offset);
+            oxygenWarningController.SetGradientDerivation(deriv);
+
             if (currentPulseValue < 0.01f)
             {
-                // Deactivate the object when fully faded out
                 oxygenWarningController.gameObject.SetActive(false);
                 oxygenWarningController.SetGradientOffset(normalGradientOffset);
                 oxygenWarningController.SetGradientDerivation(normalGradientDerivation);
+
                 isLowOxygenWarningActive = false;
                 currentPulseValue = 0f;
             }
         }
-        else if (oxygenWarningController.gameObject.activeInHierarchy)
-        {
-            // Safety check: if we're not in low oxygen state but object is active, deactivate it
-            oxygenWarningController.gameObject.SetActive(false);
-        }
     }
+
+
+    // ------------ LOW OXYGEN MUSIC ------------
 
     private void StartLowOxygenMusic()
     {
-        if (lowOxygenMusic != null && lowOxygenAudioSource != null)
-        {
-            // Detener fade anterior si existe
-            if (musicFadeCoroutine != null)
-            {
-                StopCoroutine(musicFadeCoroutine);
-            }
+        if (lowOxygenMusic == null) return;
 
-            // Iniciar reproducción si no está sonando
-            if (!lowOxygenAudioSource.isPlaying)
-            {
-                lowOxygenAudioSource.Play();
-            }
+        if (musicFadeCoroutine != null)
+            StopCoroutine(musicFadeCoroutine);
 
-            // Fade in inmediato
-            musicFadeCoroutine = StartCoroutine(FadeMusic(lowOxygenAudioSource, lowOxygenAudioSource.volume, lowOxygenMusicVolume, musicFadeDuration));
-        }
+        if (!lowOxygenAudioSource.isPlaying)
+            lowOxygenAudioSource.Play();
+
+        musicFadeCoroutine = StartCoroutine(
+            FadeMusic(lowOxygenAudioSource, lowOxygenAudioSource.volume, lowOxygenMusicVolume, musicFadeDuration)
+        );
     }
+
 
     private void StopLowOxygenMusic()
     {
-        if (lowOxygenAudioSource != null && lowOxygenAudioSource.isPlaying)
-        {
-            // Detener fade anterior si existe
-            if (musicFadeCoroutine != null)
-            {
-                StopCoroutine(musicFadeCoroutine);
-            }
+        if (!lowOxygenAudioSource.isPlaying) return;
 
-            // Fade out inmediato
-            musicFadeCoroutine = StartCoroutine(FadeMusic(lowOxygenAudioSource, lowOxygenAudioSource.volume, 0f, musicFadeDuration, true));
-        }
+        if (musicFadeCoroutine != null)
+            StopCoroutine(musicFadeCoroutine);
+
+        musicFadeCoroutine = StartCoroutine(
+            FadeMusic(lowOxygenAudioSource, lowOxygenAudioSource.volume, 0f, musicFadeDuration, true)
+        );
     }
 
-    private IEnumerator FadeMusic(AudioSource audioSource, float fromVolume, float toVolume, float duration, bool stopAfterFade = false)
+
+    private IEnumerator FadeMusic(AudioSource audioSource, float fromVolume, float toVolume, float duration, bool stopAfter = false)
     {
-        float timer = 0f;
-        
-        while (timer < duration)
+        float t = 0f;
+
+        while (t < duration)
         {
-            timer += Time.deltaTime;
-            float volume = Mathf.Lerp(fromVolume, toVolume, timer / duration);
-            audioSource.volume = volume;
+            t += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(fromVolume, toVolume, t / duration);
             yield return null;
         }
-        
+
         audioSource.volume = toVolume;
-        
-        if (stopAfterFade && toVolume <= 0f)
-        {
+
+        if (stopAfter && toVolume <= 0f)
             audioSource.Stop();
-        }
     }
+
+
+    // ------------ MOVEMENT ------------
 
     void UpdateBoolIfMoving(bool movingState)
     {
@@ -369,14 +421,7 @@ public class OxygenManager : MonoBehaviour
 
     public void ChangeDepletionRateIfSprinting(bool isSprinting)
     {
-        if (isSprinting)
-        {
-            currentMoveDepletionModifier = sprintingDepletionChange;
-        }
-        else
-        {
-            currentMoveDepletionModifier = movingDepletionChange;
-        }
+        currentMoveDepletionModifier = isSprinting ? sprintingDepletionChange : movingDepletionChange;
         ChangeDepletionRateIfMoving();
     }
 
