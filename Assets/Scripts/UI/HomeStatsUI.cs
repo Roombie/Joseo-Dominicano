@@ -347,8 +347,14 @@ public class HomeStatsUI : MonoBehaviour
     public void SkipDisplay()
     {
         if (_isDisplayInProgress && !_skipRequested)
+        {
             _skipRequested = true;
+
+            if (_instantiatedSeparator != null)
+                _instantiatedSeparator.text = new string('.', Mathf.Max(0, separatorDotCount));
+        }
     }
+
 
     public void RefreshInstant()
     {

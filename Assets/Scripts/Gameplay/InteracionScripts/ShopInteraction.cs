@@ -260,7 +260,7 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
             Debug.Log("ShopInteraction: Item already purchased");
             return;
         }
-        
+
         if (wallet == null)
         {
             Debug.LogError("ShopInteraction: Cannot buy - wallet reference is null");
@@ -270,12 +270,11 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         if (wallet.Balance < item.price)
         {
             Debug.Log($"ShopInteraction: Not enough money. Have: {wallet.Balance}, Need: {item.price}");
-            // TODO: feedback (not enough money)
             return;
         }
 
         bool spent = wallet.TrySpend(item.price);
-        
+
         if (spent)
         {
             if (item.effect != null)
@@ -285,8 +284,15 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
                 else
                     Debug.LogWarning("ShopInteraction: Cannot apply effect - mover reference is null");
             }
-            
+
+            // Force carry-space UI update immediately
+            GameManager.Instance.RefreshCarrySpaceUI();
+
+            // Update money UI immediately
+            GameManager.Instance.UpdateTotalCoinsUI();
+
             item.isPurchased = true;
+
             Debug.Log($"ShopInteraction: Successfully purchased {item.name} for ${item.price}");
         }
         else
@@ -294,6 +300,7 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
             Debug.LogError("ShopInteraction: TrySpend failed unexpectedly");
         }
     }
+
 
     public void OnClickClose()
     {

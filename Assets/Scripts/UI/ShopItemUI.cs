@@ -219,7 +219,6 @@ public class ShopItemUI : MonoBehaviour
         {
             Debug.Log("ShopItemUI: Purchase failed - not enough money or other issue");
             PlayPurchaseSound(purchaseFailSound);
-            ShakeButton();
             OnPurchaseFailed?.Invoke(item);
         }
     }
@@ -228,25 +227,7 @@ public class ShopItemUI : MonoBehaviour
     {
         if (clip != null)
         {
-            // You might want to use your AudioManager here
-            AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
-        }
-    }
-
-    private void ShakeButton()
-    {
-        if (buyButton == null) return;
-
-        Debug.Log("ShopItemUI: Not enough money! Shaking button.");
-        RectTransform rt = buyButton.GetComponent<RectTransform>();
-
-        if (rt != null)
-        {
-            Tween.ShakeLocalPosition(
-                target: rt,
-                duration: 0.25f,
-                strength: new Vector3(12f, 0f, 0f) // horizontal shake only
-            );
+            AudioManager.Instance.Play(clip, SoundCategory.SFX);
         }
     }
 

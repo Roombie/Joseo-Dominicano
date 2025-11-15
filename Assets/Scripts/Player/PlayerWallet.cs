@@ -9,16 +9,15 @@ public class PlayerWallet : MonoBehaviour, IWallet
 
     public void AddMoney(int amount)
     {
-        if (amount <= 0) return;
         balance += amount;
-        OnBalanceChanged?.Invoke(balance);
+        OnBalanceChanged?.Invoke(Balance);
     }
 
     public bool TrySpend(int amount)
     {
-        if (amount <= 0 || amount > balance) return false;
+        if (balance < amount) return false;
         balance -= amount;
-        OnBalanceChanged?.Invoke(balance);
+        OnBalanceChanged?.Invoke(Balance);
         return true;
     }
 }
