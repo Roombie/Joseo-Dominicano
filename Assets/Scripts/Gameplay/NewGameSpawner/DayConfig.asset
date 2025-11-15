@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08be57d2eebb2644199552c1857898b6, type: 3}
+  m_Name: DayConfig
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDayConfig
+  quota: 0
+  duration: 0
+  spawnableObjects:
+  - prefab: {fileID: 160163271522881491, guid: 665ad085161ba404eb1d3cdbf3d4505e, type: 3}
+    weight: 1
+    canSpawn: 1
+  - prefab: {fileID: 209801197627247350, guid: 9cc2f480b8463fc449ae254f21c3c246, type: 3}
+    weight: 1
+    canSpawn: 1
+  - prefab: {fileID: 4604369798694375657, guid: 97754dcad8794c14ba2b62d547c140b3, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 8377498005828144882, guid: 869ba932d74b2bf46a7d357df08adfa2, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 322905763356734478, guid: 1193c06ba1b79a640870a85cbef6fe75, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 1740871035598803086, guid: d06a6b851d05b394bb2ceda7c6304cfc, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 8510229694340251893, guid: 2d99f792e916c3244b74058cae19c12b, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 2918630204667654297, guid: 77f9ebc887c6ad747b3dc58632b446f4, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 6847468297573457130, guid: 96ffeaec8544c2148a1379b6a05be174, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 6847468297573457130, guid: 96ffeaec8544c2148a1379b6a05be174, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 8377498005828144882, guid: f08368139bb22794caf47cf4eb6bd2c2, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 8377498005828144882, guid: f08368139bb22794caf47cf4eb6bd2c2, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 2332355622716903862, guid: 5d06d34a52a1dd44bb84c24bbe3e870a, type: 3}
+    weight: 0
+    canSpawn: 1
+  - prefab: {fileID: 2332355622716903862, guid: 5d06d34a52a1dd44bb84c24bbe3e870a, type: 3}
+    weight: 1
+    canSpawn: 1
+  minSpawnInterval: 1
+  maxSpawnInterval: 2.5
+  moveSpeed: 4
+  maxVerticalWiggle: 0.5

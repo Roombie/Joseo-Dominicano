@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -3136884800011814250}
   - component: {fileID: -9201690065677472318}
   - component: {fileID: 5401932296586369370}
+  - component: {fileID: 349884842411601612}
   m_Layer: 12
   m_Name: Soda Bottle
   m_TagString: Untagged
@@ -241,3 +242,15 @@ MonoBehaviour:
     - rid: 8145009779213336736
       type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+--- !u!114 &349884842411601612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2348519147166527074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c84bdda1e57e4042afc69d67872bc24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OceanObjectMovement

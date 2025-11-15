@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4590088049046274404}
   - component: {fileID: -1460342323234402805}
   - component: {fileID: 9070920888333249774}
+  - component: {fileID: -3799268147851529314}
   m_Layer: 12
   m_Name: Boot
   m_TagString: Untagged
@@ -170,9 +171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0eacba666dc734db1ae4430426f7a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCollect
-  _onCollect:
-    m_PersistentCalls:
-      m_Calls: []
   onCollect:
     m_PersistentCalls:
       m_Calls: []
@@ -244,3 +242,15 @@ MonoBehaviour:
     - rid: 6326243873519304778
       type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+--- !u!114 &-3799268147851529314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4604369798694375657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c84bdda1e57e4042afc69d67872bc24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OceanObjectMovement

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -343032725362612979}
   - component: {fileID: 7710091997310200774}
   - component: {fileID: 8766797199849609523}
+  - component: {fileID: 3857478531823970990}
   m_Layer: 12
   m_Name: Blue Sandal
   m_TagString: Untagged
@@ -241,3 +242,15 @@ MonoBehaviour:
     - rid: 8145009779213336737
       type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+--- !u!114 &3857478531823970990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209801197627247350}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c84bdda1e57e4042afc69d67872bc24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OceanObjectMovement

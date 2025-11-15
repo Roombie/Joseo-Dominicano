@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -3440778383675749500}
   - component: {fileID: -5711569970883112357}
   - component: {fileID: 1020060282996622248}
+  - component: {fileID: 8203551938549497046}
   m_Layer: 12
   m_Name: Green Broken Bottle
   m_TagString: Hazard
@@ -240,3 +241,15 @@ MonoBehaviour:
     - rid: 8145009779213336729
       type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
+--- !u!114 &8203551938549497046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2332355622716903862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c84bdda1e57e4042afc69d67872bc24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OceanObjectMovement
