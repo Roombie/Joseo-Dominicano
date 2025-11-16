@@ -281,6 +281,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] UnityEvent _onGameplayTimesUp;
     [SerializeField] UnityEvent _onPlay;
     [SerializeField] UnityEvent _onStartDay;
+    [SerializeField] UnityEvent<LevelDayConfig> _onDayChange; 
     [SerializeField] UnityEvent _onEndGameplay;
     [HideInInspector] public bool isPaused;
 
@@ -484,6 +485,7 @@ public class GameManager : MonoBehaviour
         inShift = true;
 
         _currentDay++;
+        _onDayChange?.Invoke(_days.days[_currentDay - 1]);
         ResetDayTimer();
         RunDayTimer();
         _oxygenManager.ResetOxygen();

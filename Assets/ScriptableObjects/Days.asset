@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c413617504ce3b488e9bc16ce7eb54d, type: 3}
   m_Name: Days
   m_EditorClassIdentifier: Assembly-CSharp::LevelDayDB
-  _days: []
+  _days:
+  - {fileID: 11400000, guid: 1959936d79cb55a4fa15b00e3c7b6355, type: 2}

@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashPickup
   item: {fileID: 11400000, guid: 1538211eee3158a43ab2bc2cc9066ba6, type: 2}
-  destroyTime: 10
+  destroyTime: 25
   selfDestroy: 0
 --- !u!114 &5401932296586369370
 MonoBehaviour:
@@ -254,3 +254,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c84bdda1e57e4042afc69d67872bc24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OceanObjectMovement
+  minWiggleMultiplier: 0.7
