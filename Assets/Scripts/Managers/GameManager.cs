@@ -484,7 +484,8 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift) return;
 
-        _currentDay--;
+        _currentDay = -1;
+        Time.timeScale = 0;
         OnGameplayEnd();
         UpdateTotalCoinsUI();
         ResetCarryCapacity();
@@ -794,7 +795,7 @@ public class GameManager : MonoBehaviour
         _playerSack.Clear();
         _playerCurrentWeight = 0;
         _playerSackCarrySpaceUsed = 0;
-        _currentShiftPayment = 0;
+        _shiftTimeLeft = 0;
         _oxygenManager.ResetOxygen();
 
         foreach (Spawner spawner in _spawners)
