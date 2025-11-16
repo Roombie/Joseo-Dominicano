@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrashPickup
   item: {fileID: 11400000, guid: 1538211eee3158a43ab2bc2cc9066ba6, type: 2}
   destroyTime: 25
-  selfDestroy: 0
+  selfDestroy: 1
 --- !u!114 &5401932296586369370
 MonoBehaviour:
   m_ObjectHideFlags: 0

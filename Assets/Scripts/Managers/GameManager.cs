@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     //     public int dayQuota;
     //     public float dayDuration;
     // }
+    [SerializeField] LevelDayConfig _dayTemplate;
     [SerializeField] LevelDayDB _days;
 
     public List<LevelDayConfig> days => _days.days;
@@ -48,6 +49,23 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
+
+        for (int i = 0; i < _days.days.Count; i++)
+        {
+            if (_days.days[i] == null) _days.days.RemoveAt(i);
+        }
+
+        // LevelDayConfig firstDefaultDay = new LevelDayConfig();
+        LevelDayConfig firstDefaultDay = ScriptableObject.CreateInstance<LevelDayConfig>();
+        firstDefaultDay.quota = _dayTemplate.quota;
+        firstDefaultDay.duration = _dayTemplate.duration;
+        firstDefaultDay.spawnableObjects = _dayTemplate.spawnableObjects;
+        firstDefaultDay.minSpawnInterval = _dayTemplate.minSpawnInterval;
+        firstDefaultDay.maxSpawnInterval = _dayTemplate.maxSpawnInterval;
+        firstDefaultDay.moveSpeed = _dayTemplate.moveSpeed;
+        firstDefaultDay.maxVerticalWiggle = _dayTemplate.maxVerticalWiggle;
+        firstDefaultDay.maxWiggleRate = _dayTemplate.maxWiggleRate;
+        if (_days.days.Count == 0) _days.days.Add(firstDefaultDay);
 
         _testGameplayScreen.SetActive(false);
         _testHomeScreen.SetActive(false);
