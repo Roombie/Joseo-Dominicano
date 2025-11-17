@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Rigidbody2D _playerPhysics;
     [SerializeField] PlayerWallet _playerWallet; //rafamaster3
     [SerializeField] PlayerCollect _playerCollect;
-    [SerializeField] OxygenManager _oxygenManager; //rafamaster3
+    public OxygenManager _oxygenManager; //rafamaster3
     [SerializeField] List<Spawner> _spawners; //rafamaster3-modified
     [SerializeField] UnityEvent _onStart;
 
@@ -314,7 +314,7 @@ public class GameManager : MonoBehaviour
     const string ANIM_RISE_UP = "Coins Obtained Rise Up";
     const string ANIM_RISE_DOWN = "Coins Obtained Rise Down";
 
-    private bool _isDead = false;
+    [HideInInspector] public bool _isDead = false;
 
     void OnApplicationPause(bool paused)
     {
@@ -763,7 +763,9 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift || _isDead) return;
         _isDead = true;
-        isInHurry = false;
+        isInHurry = false; 
+
+        _oxygenManager.ForceStopOxygenCompletely();
 
         musicSwitcher?.SetMusicAudible(false, 0.25f);
         OnGameplayEnd();

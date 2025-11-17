@@ -33,6 +33,9 @@ public class DeathScreen : MonoBehaviour
 
     public void StartTransition()
     {
+        if (GameManager.Instance != null && GameManager.Instance._oxygenManager != null)
+            GameManager.Instance._oxygenManager.ForceStopOxygenCompletely();
+
         StopAllCoroutines();
         StartCoroutine(TransitionRoutine());
     }

@@ -27,6 +27,7 @@ public class OxygenManager : MonoBehaviour
     [Header("Hazards")]
     [SerializeField] private float hazardDamage = 10f;
     [SerializeField] private AudioClip hazardDamageSound;
+    [SerializeField] private AudioClip loseObjectSound;
     [SerializeField] private float invincibilityDuration = 0.5f;
     [SerializeField] private SpriteRenderer playerSprite;
 
@@ -130,12 +131,12 @@ public class OxygenManager : MonoBehaviour
 
     private void Update()
     {
-        UpdateInvincibility();  // ← new system here
+        UpdateInvincibility();
         UpdateLowOxygenWarning();
     }
 
 
-    // ------------ DAMAGE & INVINCIBILITY ------------
+    // Damage
 
     private void OnHazardHit(Hazard hazardObj)
     {
@@ -152,6 +153,8 @@ public class OxygenManager : MonoBehaviour
         if (Random.value <= 0.50f)
         {
             GameManager.Instance.LoseSackSpaceAndItems(1, 4);
+            if (loseObjectSound != null)    
+                AudioManager.Instance.Play(loseObjectSound, SoundCategory.SFX);
         }
         StartInvincibility();
     }
@@ -181,7 +184,7 @@ public class OxygenManager : MonoBehaviour
     }
 
 
-    // ⏳ Flicker + Timer respecting pause (uses deltaTime)
+    // Flicker logic
     private void UpdateInvincibility()
     {
         if (!isInvincible) return;
@@ -207,7 +210,7 @@ public class OxygenManager : MonoBehaviour
     }
 
 
-    // ------------ OXYGEN SYSTEM ------------
+    // Oxygen system
 
     public void ResetOxygen()
     {
@@ -297,7 +300,7 @@ public class OxygenManager : MonoBehaviour
     }
 
 
-    // ------------ LOW OXYGEN WARNING ------------
+    // Low oxygen warning
 
     private void UpdateLowOxygenWarning()
     {
@@ -350,7 +353,7 @@ public class OxygenManager : MonoBehaviour
     }
 
 
-    // ------------ LOW OXYGEN MUSIC ------------
+    // Low Oxygen Music
 
     private void StartLowOxygenMusic()
     {
@@ -399,7 +402,7 @@ public class OxygenManager : MonoBehaviour
     }
 
 
-    // ------------ MOVEMENT ------------
+    // Movement
 
     void UpdateBoolIfMoving(bool movingState)
     {
@@ -428,5 +431,25 @@ public class OxygenManager : MonoBehaviour
     void TemporaryChangeOxygenDepletionRate(float value)
     {
         currentDepletionRate = oxygenDepletionRate.value * value;
+    }
+
+    public void ForceStopOxygenCompletely()
+    {
+        StopAllCoroutines();
+        consumingOxygen = false;
+
+        // Turn off visual warning
+        if (oxygenWarningController != null)
+        {
+            oxygenWarningController.gameObject.SetActive(false);
+            oxygenWarningController.SetGradientOffset(normalGradientOffset);
+            oxygenWarningController.SetGradientDerivation(normalGradientDerivation);
+        }
+
+        StopLowOxygenMusic();
+        
+        // Avoid UpdateLowOxygenWarning from reactivating
+        isLowOxygenWarningActive = false;
+        currentPulseValue = 0f;
     }
 }
