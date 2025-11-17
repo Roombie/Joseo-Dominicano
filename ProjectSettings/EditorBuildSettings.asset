@@ -12,11 +12,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Set Scenes/Lore.unity
     guid: 723805fc5512c0d4989c210b4105ed5f
   - enabled: 1
-    path: Assets/Scenes/Old Scenes/dobleadev-GameplayTest 4.unity
-    guid: a677413d325d58b44a43c6cb94b1d196
-  - enabled: 1
     path: Assets/Scenes/Set Scenes/roombie-gameplay-5.unity
     guid: cf5894bfb4cf6944b8064194eed6a641
+  - enabled: 0
+    path: Assets/Scenes/Old Scenes/dobleadev-GameplayTest 4.unity
+    guid: a677413d325d58b44a43c6cb94b1d196
   - enabled: 0
     path: Assets/Scenes/Old Scenes/rafamaster3-UPDATED_MergedScenes1.unity
     guid: bdf0528a7a9a37343a624fbb16c0e91a
