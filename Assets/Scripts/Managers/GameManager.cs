@@ -342,7 +342,7 @@ public class GameManager : MonoBehaviour
             wallet >= quota ? _dayGoalReachedColor : _dayGoalInsufficientColor
         );
 
-        _dayGoalValue.text = $"<color={goalValueColor}>${wallet}/$${quota}</color>";
+        _dayGoalValue.text = $"<color={goalValueColor}>${wallet}/${quota}</color>";
     }
     
     public void _Gameplay_DepositValuables()

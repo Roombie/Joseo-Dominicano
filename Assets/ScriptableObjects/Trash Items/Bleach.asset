@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Bleach
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: 15503501-7733-4d0b-b747-a6f120e2259d
-  weightKg: 2.5
+  weightKg: 2
   worth: 40
-  pickUpSpace: 3
+  pickUpSpace: 2
   minRandomPitch: 0.96
   maxRandomPitch: 1.04
   pickUpSound: {fileID: 8300000, guid: 1a6ee7b79cf0cf6449c1b3e03c58d3f0, type: 3}

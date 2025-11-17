@@ -277,7 +277,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5585065624439391000}
   - component: {fileID: 7371864351049814447}
-  - component: {fileID: 4948526577081498000}
+  - component: {fileID: 731922365527761929}
   m_Layer: 0
   m_Name: -- Shop --
   m_TagString: Untagged
@@ -360,7 +360,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4948526577081498000
+--- !u!114 &731922365527761929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -376,10 +376,10 @@ MonoBehaviour:
     m_TableReference:
       m_TableCollectionName: GUID:933db0d4d780a554aa48a089f0f915d0
     m_TableEntryReference:
-      m_KeyId: 2932705789345792
+      m_KeyId: 2932694615719936
       m_Key: 
     m_FallbackState: 0
-    m_WaitForCompletion: 0
+    m_WaitForCompletion: 1
   m_UpdateAsset:
     m_PersistentCalls:
       m_Calls:

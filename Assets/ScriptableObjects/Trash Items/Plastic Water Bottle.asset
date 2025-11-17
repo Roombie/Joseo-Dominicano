@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Plastic Water Bottle
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: a77ffdb5-3d73-4dae-9cca-cd93ce7d0f94
-  weightKg: 0.8
-  worth: 7
-  pickUpSpace: 2
+  weightKg: 1
+  worth: 5
+  pickUpSpace: 1
   minRandomPitch: 0.96
   maxRandomPitch: 1.04
   pickUpSound: {fileID: 8300000, guid: 1a6ee7b79cf0cf6449c1b3e03c58d3f0, type: 3}

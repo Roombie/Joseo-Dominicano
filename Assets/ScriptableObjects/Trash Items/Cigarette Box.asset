@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Cigarette Box
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: 650f05ee-9e8e-441a-8cd5-710cc61a75c4
-  weightKg: 0.1
-  worth: 10
+  weightKg: 1
+  worth: 1
   pickUpSpace: 1
   minRandomPitch: 0.96
   maxRandomPitch: 1.04

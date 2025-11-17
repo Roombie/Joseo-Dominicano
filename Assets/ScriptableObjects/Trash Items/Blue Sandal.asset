@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cc34011874fa5f47a4d5b0b7c6576ee, type: 3}
-  m_Name: Plastic Bag
+  m_Name: Blue Sandal
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
-  id: ca946650-5315-4793-ac59-39cc1f784a29
+  id: b06585cc-420b-4696-bd8f-0bdc36d0d1dc
   weightKg: 1
-  worth: 19
+  worth: 10
   pickUpSpace: 1
   minRandomPitch: 0.96
   maxRandomPitch: 1.04

@@ -16,121 +16,71 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 933db0d4d780a554aa48a089f0f915d0
   m_Entries:
   - m_Id: 8686203174912
-    m_Key: Lore/Canvas/Story Page 1 Image
+    m_Key: Story_Page01_Image
     m_Metadata:
       m_Items: []
   - m_Id: 8797134127104
-    m_Key: Lore/Canvas/Story Page 2 Image
+    m_Key: Story_Page02_Image
     m_Metadata:
       m_Items: []
   - m_Id: 8902679592960
-    m_Key: Lore/Canvas/Story Page 3 Image
+    m_Key: Story_Page03_Image
     m_Metadata:
       m_Items: []
   - m_Id: 44456599224320
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST CREDITS MENU/Credits Menu Background
-      Image/CreditsTitle Image
+    m_Key: UI_Credits_Title
     m_Metadata:
       m_Items: []
   - m_Id: 44927233687552
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST OPTIONS MENU/OptionsTitle Image
-    m_Metadata:
-      m_Items: []
-  - m_Id: 52504218697728
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Jugar
+    m_Key: UI_Options_Title
     m_Metadata:
       m_Items: []
   - m_Id: 52541942267904
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Jugar 1
+    m_Key: UI_Button_Play_Normal
     m_Metadata:
       m_Items: []
-  - m_Id: 52574079025152
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Jugar 2
-    m_Metadata:
-      m_Items: []
-  - m_Id: 52586825515008
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Jugar 3
-    m_Metadata:
-      m_Items: []
-  - m_Id: 52892267315200
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Jugar 4
+  - m_Id: 52504218697728
+    m_Key: UI_Button_Play_Pressed
     m_Metadata:
       m_Items: []
   - m_Id: 52995363307520
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Opciones
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53062518308864
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Creditos
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53113776898048
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Salir
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53197369376768
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Opciones 1
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53210359136256
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Opciones 2
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53216650592256
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Opciones 3
+    m_Key: UI_Button_Options_Normal
     m_Metadata:
       m_Items: []
   - m_Id: 53238511304704
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Opciones 4
+    m_Key: UI_Button_Options_Pressed
     m_Metadata:
       m_Items: []
-  - m_Id: 53420841893888
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Creditos 1
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53436130131968
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Creditos 2
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53446158712832
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Creditos 3
+  - m_Id: 53062518308864
+    m_Key: UI_Button_Credits_Normal
     m_Metadata:
       m_Items: []
   - m_Id: 53461430173696
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Creditos 4
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53608838987776
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Salir 1
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53614862008320
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Salir 2
+    m_Key: UI_Button_Credits_Pressed
     m_Metadata:
       m_Items: []
   - m_Id: 53621010857984
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Salir 3
+    m_Key: UI_Button_Exit_Normal
     m_Metadata:
       m_Items: []
   - m_Id: 53698739699712
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST MAIN MENU/Buttons/Salir 4
+    m_Key: UI_Button_Exit_Pressed
     m_Metadata:
       m_Items: []
   - m_Id: 427128370626560
-    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Fourth Instruction
-      Gameobject/Shop Image
+    m_Key: ShopSprite_Objective
     m_Metadata:
       m_Items: []
   - m_Id: 2932694615719936
-    m_Key: roombie-gameplay-5/-- World --/Shop Zone Trigger
+    m_Key: ShopSprite_Far
     m_Metadata:
       m_Items: []
   - m_Id: 2932705789345792
-    m_Key: roombie-gameplay-5/-- World --/Shop Zone Trigger 1
+    m_Key: ShopSprite_Near
     m_Metadata:
       m_Items: []
   - m_Id: 5217980070625280
-    m_Key: roombie-gameplay-5/-- Shop --/Shop Canvas/Shop Container/Image
+    m_Key: UI_Shop_MenuBG
     m_Metadata:
       m_Items: []
   m_Metadata:
@@ -177,18 +127,6 @@ MonoBehaviour:
           m_TableCodes:
           - es
           - en
-        - m_KeyId: 52574079025152
-          m_TableCodes:
-          - es
-          - en
-        - m_KeyId: 52586825515008
-          m_TableCodes:
-          - es
-          - en
-        - m_KeyId: 52892267315200
-          m_TableCodes:
-          - en
-          - es
         - m_KeyId: 52995363307520
           m_TableCodes:
           - en
@@ -197,50 +135,14 @@ MonoBehaviour:
           m_TableCodes:
           - en
           - es
-        - m_KeyId: 53113776898048
-          m_TableCodes:
-          - en
-          - es
-        - m_KeyId: 53197369376768
-          m_TableCodes:
-          - es
-          - en
-        - m_KeyId: 53210359136256
-          m_TableCodes:
-          - es
-          - en
-        - m_KeyId: 53216650592256
-          m_TableCodes:
-          - es
-          - en
         - m_KeyId: 53238511304704
           m_TableCodes:
           - en
           - es
-        - m_KeyId: 53420841893888
-          m_TableCodes:
-          - es
-          - en
-        - m_KeyId: 53436130131968
-          m_TableCodes:
-          - es
-          - en
-        - m_KeyId: 53446158712832
-          m_TableCodes:
-          - es
-          - en
         - m_KeyId: 53461430173696
           m_TableCodes:
           - en
           - es
-        - m_KeyId: 53608838987776
-          m_TableCodes:
-          - es
-          - en
-        - m_KeyId: 53614862008320
-          m_TableCodes:
-          - es
-          - en
         - m_KeyId: 53621010857984
           m_TableCodes:
           - es

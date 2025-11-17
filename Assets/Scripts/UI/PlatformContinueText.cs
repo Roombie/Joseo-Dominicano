@@ -5,6 +5,7 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.InputSystem.LowLevel;
+using System.Collections;
 
 public class PlatformContinueText : MonoBehaviour
 {
@@ -12,13 +13,15 @@ public class PlatformContinueText : MonoBehaviour
     [SerializeField] private TMP_Text targetText;
 
     [Header("Localized Strings")]
-    [SerializeField] private LocalizedString tapToContinue;         // “Tap to continue”
-    [SerializeField] private LocalizedString pressKeyToContinue;    // “Press {0} to continue”
+    [SerializeField] private LocalizedString tapToContinue;
+    [SerializeField] private LocalizedString pressKeyToContinue;
 
     [Header("Input Action")]
     [SerializeField] private InputActionReference continueAction;
 
     private string lastDevice = "";
+    private bool localizationReady = false;
+    private bool inputReady = false;
 
     private void OnEnable()
     {
@@ -27,7 +30,33 @@ public class PlatformContinueText : MonoBehaviour
 
         LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
         InputSystem.onEvent += OnInputDeviceChanged;
+
+        StartCoroutine(Initialize());
+    }
+
+    IEnumerator Initialize()
+    {
+        // Wait for localization
+        yield return LocalizationSettings.InitializationOperation;
+        localizationReady = true;
+
+        // Wait until an input device actually exists
+        while (!HasInputDevice())
+        {
+            yield return null;
+        }
+
+        inputReady = true;
+
         UpdateLocalizedText();
+    }
+
+    private bool HasInputDevice()
+    {
+        return Keyboard.current != null ||
+               Gamepad.current != null ||
+               Mouse.current != null ||
+               Touchscreen.current != null;
     }
 
     private void OnDisable()
@@ -38,14 +67,18 @@ public class PlatformContinueText : MonoBehaviour
 
     private void OnLocaleChanged(Locale locale)
     {
-        UpdateLocalizedText();
+        if (localizationReady && inputReady)
+            UpdateLocalizedText();
     }
 
     private void OnInputDeviceChanged(InputEventPtr eventPtr, InputDevice device)
     {
-        if (device == null) return;
+        if (!localizationReady) return;
+        if (!inputReady) return;
 
+        if (device == null) return;
         string deviceName = device.layout;
+
         if (deviceName != lastDevice)
         {
             lastDevice = deviceName;
@@ -55,9 +88,10 @@ public class PlatformContinueText : MonoBehaviour
 
     private void UpdateLocalizedText()
     {
-        bool isMobile = Application.isMobilePlatform;
+        if (!localizationReady || !inputReady)
+            return;
 
-        if (isMobile)
+        if (Application.isMobilePlatform)
         {
             LoadLocalizedText(tapToContinue, null);
         }
@@ -70,59 +104,37 @@ public class PlatformContinueText : MonoBehaviour
 
     private void LoadLocalizedText(LocalizedString localizedString, string argument)
     {
-        AsyncOperationHandle<string> handle = localizedString.GetLocalizedStringAsync();
+        var handle = localizedString.GetLocalizedStringAsync();
+
         handle.Completed += op =>
         {
-            if (argument != null)
-                targetText.text = string.Format(op.Result, argument);
-            else
-                targetText.text = op.Result;
+            if (op.Status == AsyncOperationStatus.Succeeded)
+            {
+                if (argument != null)
+                    targetText.text = string.Format(op.Result, argument);
+                else
+                    targetText.text = op.Result;
+            }
         };
     }
 
     private string GetReadableBinding()
     {
-        if (continueAction?.action == null)
+        var action = continueAction?.action;
+        if (action == null)
             return "Key";
 
-        var action = continueAction.action;
-
-        // Try to detect what control scheme is being used
-        if (Gamepad.current != null)
+        foreach (var binding in action.bindings)
         {
-            // Try to get gamepad binding
-            foreach (var binding in action.bindings)
+            if (!string.IsNullOrEmpty(binding.effectivePath))
             {
-                if (binding.effectivePath.Contains("Gamepad"))
-                {
-                    return ToReadable(binding.effectivePath);
-                }
+                return InputControlPath.ToHumanReadableString(
+                    binding.effectivePath,
+                    InputControlPath.HumanReadableStringOptions.OmitDevice
+                );
             }
         }
-        else if (Keyboard.current != null)
-        {
-            // Try to get keyboard binding
-            foreach (var binding in action.bindings)
-            {
-                if (binding.effectivePath.Contains("Keyboard"))
-                {
-                    return ToReadable(binding.effectivePath);
-                }
-            }
-        }
-
-        // Fallback to first usable binding
-        if (action.bindings.Count > 0)
-            return ToReadable(action.bindings[0].effectivePath);
 
         return "Key";
-    }
-
-    private string ToReadable(string path)
-    {
-        return InputControlPath.ToHumanReadableString(
-            path,
-            InputControlPath.HumanReadableStringOptions.OmitDevice
-        );
     }
 }

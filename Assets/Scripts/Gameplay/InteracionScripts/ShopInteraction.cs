@@ -9,8 +9,6 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
 {
     [Header("UI")]
     [SerializeField] GameObject shopPanel;
-    [SerializeField] GameObject firstSelected;
-    [SerializeField] TMP_Text moneyLabel;
 
     [Header("Catalog")]
     [SerializeField] ShopItemUI itemUI;
@@ -64,31 +62,6 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         if (itemSO == null)
         {
             Debug.LogError("ShopInteraction: ItemSO reference is missing!", this);
-        }
-    }
-
-    void OnEnable()
-    {
-        if (wallet != null)
-        {
-            wallet.OnBalanceChanged += UpdateMoneyDisplay;
-        }
-    }
-
-    void OnDisable()
-    {
-        if (wallet != null)
-        {
-            wallet.OnBalanceChanged -= UpdateMoneyDisplay;
-        }
-    }
-
-    void Start()
-    {
-        // Initialize money display if wallet is available
-        if (wallet != null)
-        {
-            UpdateMoneyDisplay(wallet.Balance);
         }
     }
 
@@ -239,14 +212,6 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
             : farSpriteLocalized;
     }
 
-    public void UpdateMoneyDisplay(int newBalance)
-    {
-        if (moneyLabel != null)
-        {
-            moneyLabel.text = "$" + newBalance;
-        }
-    }
-
     public void TryBuy(ShopItemSO item)
     {
         if (item == null)
@@ -313,11 +278,6 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         if (itemUI != null && itemSO != null)
         {
             itemUI.Setup(itemSO, this);
-        }
-        
-        if (wallet != null)
-        {
-            UpdateMoneyDisplay(wallet.Balance);
         }
     }
 

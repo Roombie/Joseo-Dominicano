@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: CD
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: c4d9fab9-1bfc-4d36-acd7-1f945c0f64ee
-  weightKg: 1.5
-  worth: 12
+  weightKg: 1
+  worth: 100
   pickUpSpace: 1
   minRandomPitch: 0.96
   maxRandomPitch: 1.04

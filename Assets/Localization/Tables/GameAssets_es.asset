@@ -46,18 +46,6 @@ MonoBehaviour:
     m_Localized: '80b981c0a4c4a904886359f32df0a1d2[image_0]'
     m_Metadata:
       m_Items: []
-  - m_Id: 52574079025152
-    m_Localized: '80b981c0a4c4a904886359f32df0a1d2[image_0]'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 52586825515008
-    m_Localized: '80b981c0a4c4a904886359f32df0a1d2[image_0]'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 52892267315200
-    m_Localized: '80b981c0a4c4a904886359f32df0a1d2[image_0]'
-    m_Metadata:
-      m_Items: []
   - m_Id: 52995363307520
     m_Localized: '521f20cae5980dd4885c806ea7f54d77[ui-settings-button_0]'
     m_Metadata:
@@ -66,48 +54,12 @@ MonoBehaviour:
     m_Localized: '3e054839b4025e047b97625bcb220114[ui-credits-button_0]'
     m_Metadata:
       m_Items: []
-  - m_Id: 53113776898048
-    m_Localized: '408f3057b0821cb45974c5a6442e49b8[ui-quit-button_0]'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53197369376768
-    m_Localized: '521f20cae5980dd4885c806ea7f54d77[ui-settings-button_0]'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53210359136256
-    m_Localized: '521f20cae5980dd4885c806ea7f54d77[ui-settings-button_0]'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53216650592256
-    m_Localized: '521f20cae5980dd4885c806ea7f54d77[ui-settings-button_0]'
-    m_Metadata:
-      m_Items: []
   - m_Id: 53238511304704
     m_Localized: '521f20cae5980dd4885c806ea7f54d77[ui-settings-button_1]'
     m_Metadata:
       m_Items: []
-  - m_Id: 53420841893888
-    m_Localized: '3e054839b4025e047b97625bcb220114[ui-credits-button_0]'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53436130131968
-    m_Localized: '3e054839b4025e047b97625bcb220114[ui-credits-button_0]'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53446158712832
-    m_Localized: '3e054839b4025e047b97625bcb220114[ui-credits-button_0]'
-    m_Metadata:
-      m_Items: []
   - m_Id: 53461430173696
     m_Localized: '3e054839b4025e047b97625bcb220114[ui-credits-button_1]'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53608838987776
-    m_Localized: '408f3057b0821cb45974c5a6442e49b8[ui-quit-button_0]'
-    m_Metadata:
-      m_Items: []
-  - m_Id: 53614862008320
-    m_Localized: '408f3057b0821cb45974c5a6442e49b8[ui-quit-button_0]'
     m_Metadata:
       m_Items: []
   - m_Id: 53621010857984
