@@ -1,0 +1,171 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: GameText Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: GameText
+  m_TableCollectionNameGuidString: 8838e1a860fa6104199f73a640b0e443
+  m_Entries:
+  - m_Id: 492559007744
+    m_Key: Intro/Intro Canvas/Text container/Un juego Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 573358080000
+    m_Key: Intro/Intro Canvas/Text container/hecho para Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9552708632576
+    m_Key: roombie-gameplay-5/Tutorial Canva/Controls Container/Controls Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9699916120064
+    m_Key: roombie-gameplay-5/Tutorial Canva/Controls Container/Boost GameObject/Boost
+      Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9788806004736
+    m_Key: roombie-gameplay-5/Tutorial Canva/Controls Container/Interact GameObject/Mover
+      Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 9896725446656
+    m_Key: roombie-gameplay-5/Tutorial Canva/Controls Container/Move GameObject/Mover
+      Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10009325731840
+    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Objectives Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 10587003027456
+    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/First Instruction
+      GameObject/Title Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 11171240214528
+    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Second Instruction
+      GameObject/Title Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12423747469312
+    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Third Instruction
+      Gameobject/Title Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 12632615419904
+    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Fourth Instruction
+      Gameobject/Title Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18925010944000
+    m_Key: BackButton
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19728090136576
+    m_Key: roombie-gameplay-5/-- UI --/Final UI/HUD/Header/Goal/Today Goal Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19970176974848
+    m_Key: roombie-gameplay-5/-- UI --/Final UI/HUD/Header/Timer/Timer Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20070315982848
+    m_Key: roombie-gameplay-5/-- UI --/Final UI/HUD/HURRY UP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 20626359058432
+    m_Key: roombie-gameplay-5/-- UI --/Final UI/HUD/TIME'S UP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 23498928816128
+    m_Key: roombie-gameplay-5/-- UI --/Final UI/DROWNED TEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 43572666433536
+    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST CREDITS MENU/Credits Menu Background
+      Image/People who work on the gameText (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 60747011719168
+    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST HOME SCREEN/Image/Terminar dia/Text
+      (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 61273149407232
+    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST HOME SCREEN/Image/TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 66849279442944
+    m_Key: roombie-gameplay-5/-- UI --/Final UI/Mobile Skip Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88509474799616
+    m_Key: TapToContinue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 88616215642112
+    m_Key: PressKeyToContinue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148415905136640
+    m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Seguir/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148463263023104
+    m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Ir al Menu/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 148697661702144
+    m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Opciones/Text (TMP)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 180446135451648
+    m_Key: roombie-gameplay-5/-- UI --/Final UI/Day Container/Gameplay Day
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704740879892480
+    m_Key: home_current_money
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704747880185856
+    m_Key: home_day_quota
+    m_Metadata:
+      m_Items: []
+  - m_Id: 704769036255232
+    m_Key: home_remaining_balance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1490206319312896
+    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Second Instruction
+      GameObject/Oxygen Meter/OxygenLabel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4933298187796480
+    m_Key: purchased
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5142017534197760
+    m_Key: priceFormat
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 6326244251868594393
+  references:
+    version: 2
+    RefIds:
+    - rid: 6326244251868594393
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1761831411901

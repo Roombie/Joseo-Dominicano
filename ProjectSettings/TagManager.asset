@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Deliver
   - Store
+  - Hazard
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - WaterSurface
   - 
   - 
   - 

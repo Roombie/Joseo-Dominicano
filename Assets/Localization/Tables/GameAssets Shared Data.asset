@@ -1,0 +1,171 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: GameAssets Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: GameAssets
+  m_TableCollectionNameGuidString: 933db0d4d780a554aa48a089f0f915d0
+  m_Entries:
+  - m_Id: 8686203174912
+    m_Key: Story_Page01_Image
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8797134127104
+    m_Key: Story_Page02_Image
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8902679592960
+    m_Key: Story_Page03_Image
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44456599224320
+    m_Key: UI_Credits_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 44927233687552
+    m_Key: UI_Options_Title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52541942267904
+    m_Key: UI_Button_Play_Normal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52504218697728
+    m_Key: UI_Button_Play_Pressed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52995363307520
+    m_Key: UI_Button_Options_Normal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53238511304704
+    m_Key: UI_Button_Options_Pressed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53062518308864
+    m_Key: UI_Button_Credits_Normal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53461430173696
+    m_Key: UI_Button_Credits_Pressed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53621010857984
+    m_Key: UI_Button_Exit_Normal
+    m_Metadata:
+      m_Items: []
+  - m_Id: 53698739699712
+    m_Key: UI_Button_Exit_Pressed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 427128370626560
+    m_Key: ShopSprite_Objective
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2932694615719936
+    m_Key: ShopSprite_Far
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2932705789345792
+    m_Key: ShopSprite_Near
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5217980070625280
+    m_Key: UI_Shop_MenuBG
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items:
+    - rid: 6326244251868594403
+  m_KeyGenerator:
+    rid: 6326244251868594394
+  references:
+    version: 2
+    RefIds:
+    - rid: 6326244251868594394
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1761831433233
+    - rid: 6326244251868594403
+      type: {class: AssetTypeMetadata, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries:
+        - m_KeyId: 8686203174912
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 8797134127104
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 8902679592960
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 44456599224320
+          m_TableCodes:
+          - es
+          - en
+        - m_KeyId: 44927233687552
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 52504218697728
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 52541942267904
+          m_TableCodes:
+          - es
+          - en
+        - m_KeyId: 52995363307520
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 53062518308864
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 53238511304704
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 53461430173696
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 53621010857984
+          m_TableCodes:
+          - es
+          - en
+        - m_KeyId: 53698739699712
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 427128370626560
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 2932694615719936
+          m_TableCodes:
+          - es
+          - en
+        - m_KeyId: 2932705789345792
+          m_TableCodes:
+          - es
+          - en
+        - m_KeyId: 5217980070625280
+          m_TableCodes:
+          - en
+          - es
+        m_TypeString: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null

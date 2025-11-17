@@ -1,0 +1,224 @@
+using UnityEngine;
+using UnityEngine.InputSystem;
+using System.Collections;
+using System;
+using Unity.VisualScripting;
+
+
+public class PlayerMovement : OxygenableBehaviour
+{
+    [SerializeField] private GameObject mobileControls;
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private float accelerationSpeed = 0.2f;
+    [SerializeField] private bool nonRotationMovement;
+
+    public float diagonalAnimationAdjustmentTime = 0.099f; //SYSTEM: Delay animation time from diagonal: Adjust this value as needed
+    private bool isUpdatingLastDirection = false; // System: Prevent multiple coroutines
+
+    public bool forceDiagonalMovement; //TEST: Immediately makes movement diagonal to test animations
+
+    Animator animator;
+    private Rigidbody2D rb;
+    private Vector2 movement;
+    private float lastDirection;
+    private float currentSpeed;
+    public float walkSpeed = 5f;
+    public float runSpeed = 10f;
+    private Vector2 velocityRef; //To use with SmoothDamp to soften acceleration
+
+    //Events
+    // public event Action<bool> isMovingEvent;
+    // public event Action<bool> isSprintingEvent;
+    public event Action onInteractEvent;
+
+    void Awake()
+    {
+        if (mobileControls == null)
+            return;
+        if (Application.isMobilePlatform)
+        {
+            mobileControls.SetActive(true);
+        }
+        else
+        {
+            mobileControls.SetActive(false);
+        }
+
+    }
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
+        
+        currentSpeed = walkSpeed; // Set initial speed               
+    }
+
+    private void FixedUpdate()
+    {
+        //Controls movement
+        rb.linearVelocity = Vector2.SmoothDamp(rb.linearVelocity, movement * currentSpeed, ref velocityRef, accelerationSpeed);
+
+        
+
+    }
+
+    private void Update()
+    {
+        if(!nonRotationMovement)
+            LookForward();
+
+        //Note: Animator should create a blend tree for the 8 directions and set motion values according to values on DefineLastDirection()
+        animator.SetFloat("Blend", lastDirection);
+        animator.SetFloat("X", rb.linearVelocity.x/currentSpeed);
+        animator.SetFloat("Y", rb.linearVelocity.y/currentSpeed);
+        animator.SetFloat("Speed", rb.linearVelocity.magnitude);
+
+
+
+
+        if (!isUpdatingLastDirection) // If moving away from diagonal, delay before switching to avoid animation flicker
+        {
+            StartCoroutine(DelayDirectionChange());
+        }
+
+    }
+           
+    private IEnumerator DelayDirectionChange()
+    {
+        isUpdatingLastDirection = true;
+        yield return new WaitForSecondsRealtime(diagonalAnimationAdjustmentTime); // Wait before changing direction
+
+        DefineLastDirection();
+
+        //Debug.Log("lastDirection changed to: " + lastDirection);
+        isUpdatingLastDirection = false;
+    }
+    public void OnInteract() => onInteractEvent?.Invoke();
+    public void OnMove(InputValue value)
+    {
+        //Debug.Log("InputValue: " + value);
+        //Debug.Log("X: " + animator.GetFloat("X"));
+        //Debug.Log("Y: " + animator.GetFloat("Y"));
+        //Debug.Log("Blend: " + animator.GetFloat("Blend"));
+        //Debug.Log("Speed: " + animator.GetFloat("Speed"));
+
+        movement = value.Get<Vector2>();
+        //Debug.Log("movement: " + movement);
+        //Debug.Log("X: " + animator.GetFloat("X"));
+        //Debug.Log("Y: " + animator.GetFloat("Y"));
+        //Debug.Log("Blend: " + animator.GetFloat("Blend"));
+        //Debug.Log("Speed: " + animator.GetFloat("Speed"));
+
+        if(movement != Vector2.zero)
+        {
+            SetMoveEvent(true); // Tell listeners moving changed
+        }
+        else
+        {
+            SetMoveEvent(false); // Tell listeners moving changed
+        }
+    }
+
+    //NOTE: needs a Press and release interaction on the action map button to work
+    public void OnSprint(InputValue value)
+    {        
+        Sprint();
+    }
+
+    public void Sprint()
+    {
+        if (currentSpeed == walkSpeed)
+        {
+            currentSpeed = runSpeed;
+            //Debug.Log("Sprint started");
+
+            SetSprintingEvent(true); // Tell listeners sprinting changed
+        }
+        else
+        {
+            currentSpeed = walkSpeed;
+            //Debug.Log("Sprint canceled");
+
+            SetSprintingEvent(false); // Tell listeners sprinting changed
+        }
+    }
+
+    void LookForward()
+    {
+        if (movement.sqrMagnitude > 0.01f) // only rotate if moving
+        {
+            // Calculate target angle from movement vector
+            float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
+
+            // Convert to Quaternion (Z axis rotation for 2D)
+            Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
+
+            // Smoothly rotate toward target
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation,
+                targetRotation,
+                Time.deltaTime * rotationSpeed
+            );
+        }
+    }
+
+
+    void DefineLastDirection()
+    {
+        float tolerance = 0.2f;
+
+        // Determine new direction after delay
+
+        //Down
+        if (Mathf.Abs(rb.linearVelocity.x - 0) < tolerance && Mathf.Abs(rb.linearVelocity.y - -1 * currentSpeed) < tolerance)
+        {
+            lastDirection = 0f;
+        }
+
+        //Right-Down
+        else if (Mathf.Abs(rb.linearVelocity.x - .707f * currentSpeed) < tolerance && Mathf.Abs(rb.linearVelocity.y - (-.707f * currentSpeed)) < tolerance)
+        {
+            lastDirection = 0.5f;
+        }
+
+        //Right
+        else if (Mathf.Abs(rb.linearVelocity.x - 1 * currentSpeed) < tolerance && Mathf.Abs(rb.linearVelocity.y - 0) < tolerance)
+        {
+            lastDirection = 1;
+        }
+
+        //Right-Up
+        else if (Mathf.Abs(rb.linearVelocity.x - (0.707f * currentSpeed)) < tolerance && Mathf.Abs(rb.linearVelocity.y - (0.707f * currentSpeed)) < tolerance)
+        {
+            lastDirection = 1.5f;
+            //Debug.Log(lastDirection);
+
+        }
+
+        //Up
+        else if (Mathf.Abs(rb.linearVelocity.x - 0) < tolerance && Mathf.Abs(rb.linearVelocity.y - 1 * currentSpeed) < tolerance)
+        {
+            lastDirection = 2;
+        }
+
+        //Left-Up
+        else if (Mathf.Abs(rb.linearVelocity.x - (-0.707f * currentSpeed)) < tolerance && Mathf.Abs(rb.linearVelocity.y - (0.707f * currentSpeed)) < tolerance)
+        {
+            lastDirection = 2.5f;
+        }
+
+        //Left
+        else if (Mathf.Abs(rb.linearVelocity.x - -1 * currentSpeed) < tolerance && Mathf.Abs(rb.linearVelocity.y - 0) < tolerance)
+        {
+            lastDirection = 3f;
+        }
+
+        //Left-Down
+        else if (Mathf.Abs(rb.linearVelocity.x - (-0.707f * currentSpeed)) < tolerance && Mathf.Abs(rb.linearVelocity.y - (-0.707f * currentSpeed)) < tolerance)
+        {
+            lastDirection = 3.5f;
+        }
+    }
+
+}
