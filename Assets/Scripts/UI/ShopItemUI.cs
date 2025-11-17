@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using PrimeTween;
 using UnityEngine.Localization;
 using System;
 

@@ -763,9 +763,7 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift || _isDead) return;
         _isDead = true;
-        isInHurry = false; 
-
-        _oxygenManager.ForceStopOxygenCompletely();
+        isInHurry = false;
 
         musicSwitcher?.SetMusicAudible(false, 0.25f);
         OnGameplayEnd();
