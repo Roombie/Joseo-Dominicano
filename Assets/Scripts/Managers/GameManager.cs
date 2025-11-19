@@ -484,8 +484,11 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift) return;
 
-        _currentDay = -1;
-        Time.timeScale = 0;
+        _currentDay = 0;
+        isPaused = false;
+        _pausePanel.SetActive(false);
+        Time.timeScale = 1;
+        ResetShopPurchases();
         OnGameplayEnd();
         UpdateTotalCoinsUI();
         ResetCarryCapacity();
@@ -501,8 +504,8 @@ public class GameManager : MonoBehaviour
     public void _Gameplay_StartDay()
     {
         if (inShift) return;
-        inShift = true;
 
+        inShift = true;
         _currentDay++;
         _onDayChange?.Invoke(_days.days[_currentDay - 1]);
         ResetDayTimer();
