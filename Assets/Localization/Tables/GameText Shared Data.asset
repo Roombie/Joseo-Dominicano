@@ -16,146 +16,135 @@ MonoBehaviour:
   m_TableCollectionNameGuidString: 8838e1a860fa6104199f73a640b0e443
   m_Entries:
   - m_Id: 492559007744
-    m_Key: Intro/Intro Canvas/Text container/Un juego Text (TMP)
+    m_Key: INTRO_A_GAME
     m_Metadata:
       m_Items: []
   - m_Id: 573358080000
-    m_Key: Intro/Intro Canvas/Text container/hecho para Text (TMP)
+    m_Key: INTRO_MADE_FOR
     m_Metadata:
       m_Items: []
   - m_Id: 9552708632576
-    m_Key: roombie-gameplay-5/Tutorial Canva/Controls Container/Controls Text (TMP)
+    m_Key: UI_CONTROLS_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 9699916120064
-    m_Key: roombie-gameplay-5/Tutorial Canva/Controls Container/Boost GameObject/Boost
-      Text (TMP)
+    m_Key: UI_BOOST_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 9788806004736
-    m_Key: roombie-gameplay-5/Tutorial Canva/Controls Container/Interact GameObject/Mover
-      Text (TMP)
+    m_Key: UI_INTERACT_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 9896725446656
-    m_Key: roombie-gameplay-5/Tutorial Canva/Controls Container/Move GameObject/Mover
-      Text (TMP)
+    m_Key: UI_MOVE_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 10009325731840
-    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Objectives Text
-      (TMP)
+    m_Key: UI_OBJECTIVES_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 10587003027456
-    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/First Instruction
-      GameObject/Title Text (TMP)
+    m_Key: UI_COLLECT_TRASH_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 11171240214528
-    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Second Instruction
-      GameObject/Title Text (TMP)
+    m_Key: UI_MANAGE_OXYGEN_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 12423747469312
-    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Third Instruction
-      Gameobject/Title Text (TMP)
+    m_Key: UI_GET_TO_SURFACE_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 12632615419904
-    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Fourth Instruction
-      Gameobject/Title Text (TMP)
+    m_Key: UI_BUY_IN_SHOP_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 18925010944000
-    m_Key: BackButton
+    m_Key: UI_BACK_BUTTON
     m_Metadata:
       m_Items: []
   - m_Id: 19728090136576
-    m_Key: roombie-gameplay-5/-- UI --/Final UI/HUD/Header/Goal/Today Goal Text
+    m_Key: UI_GOAL_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 19970176974848
-    m_Key: roombie-gameplay-5/-- UI --/Final UI/HUD/Header/Timer/Timer Text
+    m_Key: UI_TIME_LEFT_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 20070315982848
-    m_Key: roombie-gameplay-5/-- UI --/Final UI/HUD/HURRY UP
+    m_Key: UI_ABOUT_TO_END_DAY
     m_Metadata:
       m_Items: []
   - m_Id: 20626359058432
-    m_Key: roombie-gameplay-5/-- UI --/Final UI/HUD/TIME'S UP
+    m_Key: UI_END_OF_DAY_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 23498928816128
-    m_Key: roombie-gameplay-5/-- UI --/Final UI/DROWNED TEXT
+    m_Key: UI_LOSE_MESSAGE
     m_Metadata:
       m_Items: []
   - m_Id: 43572666433536
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST CREDITS MENU/Credits Menu Background
-      Image/People who work on the gameText (TMP)
+    m_Key: UI_CREDITS
     m_Metadata:
       m_Items: []
   - m_Id: 60747011719168
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST HOME SCREEN/Image/Terminar dia/Text
-      (TMP)
+    m_Key: BUTTON_END_DAY
     m_Metadata:
       m_Items: []
   - m_Id: 61273149407232
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/TEST HOME SCREEN/Image/TITLE
+    m_Key: UI_HOME_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 66849279442944
-    m_Key: roombie-gameplay-5/-- UI --/Final UI/Mobile Skip Text (TMP)
+    m_Key: TOUCH_SCREEN_TO_SKIP
     m_Metadata:
       m_Items: []
   - m_Id: 88509474799616
-    m_Key: TapToContinue
+    m_Key: TAP_TO_CONTINUE
     m_Metadata:
       m_Items: []
   - m_Id: 88616215642112
-    m_Key: PressKeyToContinue
+    m_Key: PRESS_KEY_TO_CONTINUE
     m_Metadata:
       m_Items: []
   - m_Id: 148415905136640
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Seguir/Text (TMP)
+    m_Key: BUTTON_CONTINUE_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 148463263023104
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Ir al Menu/Text (TMP)
+    m_Key: BUTTON_GO_TO_MENU_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 148697661702144
-    m_Key: roombie-gameplay-5/-- UI --/Test UI/PAUSE PANEL/Opciones/Text (TMP)
+    m_Key: BUTTON_OPTIONS_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 180446135451648
-    m_Key: roombie-gameplay-5/-- UI --/Final UI/Day Container/Gameplay Day
+    m_Key: UI_DAY_TITLE
     m_Metadata:
       m_Items: []
   - m_Id: 704740879892480
-    m_Key: home_current_money
+    m_Key: HOME_CURRENT_DAY
     m_Metadata:
       m_Items: []
   - m_Id: 704747880185856
-    m_Key: home_day_quota
+    m_Key: HOME_DAY_QUOTA
     m_Metadata:
       m_Items: []
   - m_Id: 704769036255232
-    m_Key: home_remaining_balance
+    m_Key: HOME_REMAINING_BALANCE
     m_Metadata:
       m_Items: []
   - m_Id: 1490206319312896
-    m_Key: roombie-gameplay-5/Tutorial Canva/Objectives Container/Second Instruction
-      GameObject/Oxygen Meter/OxygenLabel
+    m_Key: UI_OXYGEN
     m_Metadata:
       m_Items: []
   - m_Id: 4933298187796480
-    m_Key: purchased
+    m_Key: PURCHASED
     m_Metadata:
       m_Items: []
   - m_Id: 7498411990188032
-    m_Key: playerNearShop
+    m_Key: PLAYER_NEAR_SHOP
     m_Metadata:
       m_Items: []
   m_Metadata:

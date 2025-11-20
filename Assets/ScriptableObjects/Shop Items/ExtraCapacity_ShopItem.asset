@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e1c167f55864de47a128619df5d5fee, type: 3}
   m_Name: ExtraCapacity_ShopItem
   m_EditorClassIdentifier: Assembly-CSharp::ShopItemSO
-  price: 20
+  price: 400
   effect: {fileID: 11400000, guid: 90cc59e5a215dae4393a0f934d769e69, type: 2}
   isPurchased: 0
