@@ -154,10 +154,6 @@ MonoBehaviour:
     m_Localized: Comprado
     m_Metadata:
       m_Items: []
-  - m_Id: 5142017534197760
-    m_Localized: $
-    m_Metadata:
-      m_Items: []
   references:
     version: 2
     RefIds: []

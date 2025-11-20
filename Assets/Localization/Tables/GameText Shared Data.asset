@@ -154,10 +154,6 @@ MonoBehaviour:
     m_Key: purchased
     m_Metadata:
       m_Items: []
-  - m_Id: 5142017534197760
-    m_Key: priceFormat
-    m_Metadata:
-      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
