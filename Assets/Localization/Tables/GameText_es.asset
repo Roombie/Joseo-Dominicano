@@ -154,6 +154,10 @@ MonoBehaviour:
     m_Localized: Comprado
     m_Metadata:
       m_Items: []
+  - m_Id: 7498411990188032
+    m_Localized: Jugador
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

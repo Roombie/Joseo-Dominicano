@@ -154,6 +154,10 @@ MonoBehaviour:
     m_Key: purchased
     m_Metadata:
       m_Items: []
+  - m_Id: 7498411990188032
+    m_Key: playerNearShop
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

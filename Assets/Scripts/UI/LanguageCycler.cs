@@ -10,7 +10,13 @@ public class LanguageCyclerTMP : MonoBehaviour, IPointerDownHandler, IPointerUpH
     public TMP_Text label; // the label next to the flag
     public FlagRegistry flagRegistry; // drag your registry here
 
+    [Header("Spam control")]
+    [Tooltip("Tiempo minimo entre cambios de idioma (en segundos, tiempo real).")]
+    public float minChangeInterval = 0.4f;
+
     private bool isPressed = false;
+    private bool isChangingLanguage = false;
+    private float lastChangeTime = -999f;
 
     private async void OnEnable()
     {
@@ -26,27 +32,52 @@ public class LanguageCyclerTMP : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
     private void OnLocaleChanged(Locale _) => RefreshLabel(isPressed);
 
-    // Switches to the next language
+    // Llamado por el OnClick del boton en la UI
     public async void CycleLanguage()
     {
+        // Si ya hay un cambio en curso, ignoramos este click
+        if (isChangingLanguage)
+            return;
+
+        // Pequeño cooldown para no disparar cambios demasiado seguidos
+        if (Time.unscaledTime - lastChangeTime < minChangeInterval)
+            return;
+
+        isChangingLanguage = true;
+        lastChangeTime = Time.unscaledTime;
+
         await LocalizationSettings.InitializationOperation.Task;
 
         var locales = LocalizationSettings.AvailableLocales.Locales;
-        if (locales.Count == 0) return;
+        if (locales.Count == 0)
+        {
+            isChangingLanguage = false;
+            return;
+        }
 
         var current = LocalizationSettings.SelectedLocale;
         int index = Mathf.Max(0, locales.IndexOf(current));
         var next = locales[(index + 1) % locales.Count];
 
+        // Tu forma original de cambiar idioma (tu version del package no tiene ChangeLocaleAsync)
         LocalizationSettings.SelectedLocale = next;
 
         PlayerPrefs.SetString(SettingsKeys.LanguageKey, next.Identifier.Code);
         PlayerPrefs.Save();
 
         RefreshLabel(isPressed);
+
+        // Dejamos un pelin de margen antes de permitir otro cambio
+        // para que el sistema de variants/Addressables termine tranquilo.
+        await System.Threading.Tasks.Task.Delay(
+            Mathf.RoundToInt(minChangeInterval * 1000f)
+        );
+
+        isChangingLanguage = false;
     }
 
     // Refresh label according to state (normal/pressed)
+    // ⬇️ ESTE ES TU CODIGO ORIGINAL, NO LO TOCAMOS
     private void RefreshLabel(bool pressed)
     {
         if (label == null || flagRegistry == null)
@@ -65,8 +96,8 @@ public class LanguageCyclerTMP : MonoBehaviour, IPointerDownHandler, IPointerUpH
 
         string displayName =
             locale.Identifier.CultureInfo != null ?
-            locale.Identifier.CultureInfo.NativeName.ToUpperInvariant() :
-            locale.LocaleName.ToUpperInvariant();
+                locale.Identifier.CultureInfo.NativeName.ToUpperInvariant() :
+                locale.LocaleName.ToUpperInvariant();
 
         // choose the TMP sprite name according to pressed state
         string spriteName = pressed ? entry.pressedSpriteName : entry.normalSpriteName;

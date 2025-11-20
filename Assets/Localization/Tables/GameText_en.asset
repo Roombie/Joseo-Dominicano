@@ -173,6 +173,10 @@ MonoBehaviour:
     m_Localized: Purchased
     m_Metadata:
       m_Items: []
+  - m_Id: 7498411990188032
+    m_Localized: Player
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
