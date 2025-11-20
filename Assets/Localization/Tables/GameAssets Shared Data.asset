@@ -67,10 +67,6 @@ MonoBehaviour:
     m_Key: UI_Button_Exit_Pressed
     m_Metadata:
       m_Items: []
-  - m_Id: 427128370626560
-    m_Key: ShopSprite_Objective
-    m_Metadata:
-      m_Items: []
   - m_Id: 2932694615719936
     m_Key: ShopSprite_Far
     m_Metadata:
@@ -81,6 +77,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 5217980070625280
     m_Key: UI_Shop_MenuBG
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7677967699148800
+    m_Key: ShopSprite_Objective
     m_Metadata:
       m_Items: []
   m_Metadata:
@@ -151,10 +151,10 @@ MonoBehaviour:
           m_TableCodes:
           - en
           - es
-        - m_KeyId: 427128370626560
+        - m_KeyId: 7677967699148800
           m_TableCodes:
-          - en
           - es
+          - en
         - m_KeyId: 2932694615719936
           m_TableCodes:
           - es
