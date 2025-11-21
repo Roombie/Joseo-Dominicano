@@ -500,17 +500,15 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_GoToMenu()
     {
-        if (!inShift) return;
-
-        _currentDay = 0;
         isPaused = false;
         _pausePanel.SetActive(false);
         Time.timeScale = 1;
-        ResetShopPurchases();
-        OnGameplayEnd();
-        UpdateTotalCoinsUI();
-        ResetCarryCapacity();
-        _MainMenu_Display();
+
+        if (inShift)
+            OnGameplayEnd(); // limpia estado de gameplay
+
+        ResetGame(); // limpia progreso, economía y compras
+        _MainMenu_Display(); // muestra el menú
     }
 
     IEnumerator GameplayStartDayDelay()
