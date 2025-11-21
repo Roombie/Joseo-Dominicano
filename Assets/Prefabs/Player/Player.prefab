@@ -5430,6 +5430,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5160920843800393246}
+        m_TargetAssemblyTypeName: PlayerBoostFlash, Assembly-CSharp
+        m_MethodName: StopBoostFlash
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   swimSFXVariations:
   - {fileID: 8300000, guid: 341a897dd351ab04799b3674ede66cca, type: 3}
   - {fileID: 8300000, guid: 47cc4a3a7ce2b2840a438af17178fc0f, type: 3}

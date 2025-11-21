@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Rigidbody2D _playerPhysics;
+    [SerializeField] PlayerSmoothMovement _playerMovement;
     [SerializeField] PlayerWallet _playerWallet; //rafamaster3
     [SerializeField] PlayerCollect _playerCollect;
     public OxygenManager _oxygenManager; //rafamaster3
@@ -131,6 +132,9 @@ public class GameManager : MonoBehaviour
         _isDead = false;
         _currentShiftPayment = 0;
         ResetShopPurchases();
+
+        if (_playerMovement != null)
+            _playerMovement.ForceStopSprint();
     }
 
     private void OnWalletChanged(int newBalance)
@@ -814,6 +818,9 @@ public class GameManager : MonoBehaviour
         _playerSackCarrySpaceUsed = 0;
         _shiftTimeLeft = 0;
         _oxygenManager.ResetOxygen();
+
+        if (_playerMovement != null)
+            _playerMovement.ForceStopSprint();
 
         foreach (Spawner spawner in _spawners)
         {

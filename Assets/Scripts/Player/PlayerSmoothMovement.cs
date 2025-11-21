@@ -229,11 +229,6 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         }
     }
 
-    void LateUpdate()
-    {
-        
-    }
-
     private IEnumerator DelayDirectionChange()
     {
         isUpdatingLastDirection = true;
@@ -245,20 +240,6 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         isUpdatingLastDirection = false;
     }
     
-    public void OnMove(InputValue value)
-    {
-        moveInput = value.Get<Vector2>();
-
-        if (moveInput != Vector2.zero)
-        {
-            SetMoveEvent(true); // Tell listeners moving changed
-        }
-        else
-        {
-            SetMoveEvent(false); // Tell listeners moving changed
-        }
-    }
-
     public void OnInteract(InputAction.CallbackContext ctx)
     {
         if (ctx.performed)
@@ -292,51 +273,67 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         }
     }
 
-    //NOTE: needs a Press and release interaction on the action map button to work
-    public void OnSprint(InputValue value)
-    {
-        Sprint();
-    }
-
-    public void Sprint()
-    {
-        if (currentSpeed == walkSpeed)
-        {
-            currentSpeed = runSpeed;
-            //Debug.Log("Sprint started");
-            if (sprintStartSFX != null)
-                AudioManager.Instance.Play(sprintStartSFX, SoundCategory.SFX);
-
-            SetSprintingEvent(true); // Tell listeners sprinting changed
-        }
-        else
-        {
-            currentSpeed = walkSpeed;
-            //Debug.Log("Sprint canceled");
-
-            SetSprintingEvent(false); // Tell listeners sprinting changed
-        }
-    }
-
     public void SprintPressed()
     {
-        if (_isSprinting) return;
-        Debug.Log("Sprint pressed");
-        if (rb.linearVelocity.sqrMagnitude <= movementDeadZone) return;
+        // Solo en gameplay activo y sin pausa
+        if (GameManager.Instance == null || 
+            !GameManager.Instance.inShift || 
+            GameManager.Instance.isPaused)
+        {
+            return;
+        }
+
+        // Ya estoy sprintando → nada
+        if (_isSprinting) 
+            return;
+
+        // Si no hay input de movimiento AHORA MISMO, no activamos sprint
+        if (moveInput.sqrMagnitude <= movementDeadZone)
+            return;
+
+        Debug.Log("Sprint pressed (valid)");
+
         _isSprinting = true;
         currentSpeed = runSpeed;
+
+        // Avisar a OxygenManager que estamos sprintando
         SetSprintingEvent(true);
-        _onSprintStart?.Invoke();
+
+        _onSprintStart?.Invoke(); // aquí va tu efecto de boost
     }
-    
+
     public void SprintReleased()
     {
-        if (!_isSprinting) return;
+        // Solo hacemos algo si realmente llegamos a estar en sprint
+        if (!_isSprinting) 
+            return;
+
         Debug.Log("Sprint released");
         _isSprinting = false;
         currentSpeed = walkSpeed;
+
+        // Avisar que dejamos de sprintar
         SetSprintingEvent(false); 
-        _onSprintEnd?.Invoke();
+
+        _onSprintEnd?.Invoke();   // aquí se apaga el boost
     }
 
+    // Para cuando se acaba el turno / se resetea el juego
+    public void ForceStopSprint()
+    {
+        if (_isSprinting)
+        {
+            // Usa el flujo normal para que dispare evento y UnityEvents
+            SprintReleased();
+        }
+        else
+        {
+            // Por si quedó en runSpeed sin flag
+            if (currentSpeed == runSpeed)
+                currentSpeed = walkSpeed;
+
+            // Asegura que el evento quede en "no sprint"
+            SetSprintingEvent(false);
+        }
+    }
 }
