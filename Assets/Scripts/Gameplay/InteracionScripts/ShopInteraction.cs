@@ -30,6 +30,10 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
     [Header("Animator")]
     [SerializeField] Animator shopAnimator;
 
+    [Header("Sound effects")]
+    [SerializeField] AudioClip openSound;
+    [SerializeField] AudioClip closeSound;
+
     [Header("Extra")]
     [SerializeField] bool pauseGameWhenOpen = true;
     [SerializeField] bool closeOnTimerEnd = true; // New option to auto-close when timer ends
@@ -129,6 +133,8 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
                 EventSystem.current.SetSelectedGameObject(null);
         }
 
+        AudioManager.Instance.Play(openSound, SoundCategory.SFX);
+
         StartCoroutine(OpenRoutine());
     }
 
@@ -155,6 +161,8 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
 
         if (shopAnimator)
             shopAnimator.SetTrigger("close");
+        
+        AudioManager.Instance.Play(closeSound, SoundCategory.SFX);
 
         StartCoroutine(CloseRoutine());
     }

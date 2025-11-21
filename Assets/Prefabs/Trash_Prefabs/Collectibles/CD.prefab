@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 2164877756470956420}
   - component: {fileID: 7332173174229374273}
   - component: {fileID: 2231287664240518224}
-  - component: {fileID: -5650663434513952641}
   - component: {fileID: -1188340115562192474}
+  - component: {fileID: -8090641405366269117}
   m_Layer: 12
   m_Name: CD
   m_TagString: Untagged
@@ -189,7 +189,20 @@ MonoBehaviour:
   item: {fileID: 11400000, guid: 30067aac390899740a404558500c76e4, type: 2}
   destroyTime: 25
   selfDestroy: 1
---- !u!114 &-5650663434513952641
+--- !u!114 &-1188340115562192474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8377498005828144882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c84bdda1e57e4042afc69d67872bc24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OceanObjectMovement
+  minWiggleMultiplier: 0.7
+--- !u!114 &-8090641405366269117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,26 +224,26 @@ MonoBehaviour:
   m_AlphaCutoff: 0.1
   m_ApplyToSortingLayers: e97ec15200000000
   m_ShapePath:
-  - {x: -0.65625, y: -0.4375, z: 0}
-  - {x: -0.65625, y: 0.4375, z: 0}
-  - {x: 0.65625, y: 0.4375, z: 0}
-  - {x: 0.65625, y: -0.4375, z: 0}
+  - {x: -0.53125, y: -0.53125, z: 0}
+  - {x: -0.53125, y: 0.53125, z: 0}
+  - {x: 0.53125, y: 0.53125, z: 0}
+  - {x: 0.53125, y: -0.53125, z: 0}
   m_ShapePathHash: 0
   m_InstanceId: 0
   m_ShadowShape2DComponent: {fileID: 684856138852671323}
   m_ShadowShape2DProvider:
-    rid: 5075597841414750317
+    rid: 513250298881900690
   m_ShadowCastingSource: 2
   m_ShadowMesh:
     m_Mesh: {fileID: 0}
     m_LocalBounds:
-      m_Center: {x: 0, y: 0, z: 0}
-      m_Extent: {x: 0.5537567, y: 0.3350067, z: 0}
+      m_Center: {x: -0.03125, y: -0.03125, z: 0}
+      m_Extent: {x: 0.44999695, y: 0.44999695, z: 0}
     m_EdgeProcessing: 1
     m_TrimEdge: 0.05
     m_FlipX: 0
     m_FlipY: 0
-    m_InitialTrim: 0.04
+    m_InitialTrim: 0.05
   m_CastingOption: 1
   m_PreviousTrimEdge: 0
   m_PreviousEdgeProcessing: -1
@@ -239,19 +252,6 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5075597841414750317
+    - rid: 513250298881900690
       type: {class: ShadowShape2DProvider_SpriteRenderer, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data: 
---- !u!114 &-1188340115562192474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8377498005828144882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c84bdda1e57e4042afc69d67872bc24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::OceanObjectMovement
-  minWiggleMultiplier: 0.7

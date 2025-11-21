@@ -31,6 +31,7 @@ public class PlayerSmoothMovement : OxygenableBehaviour
     [Range(0, 1)] public float flipDirectionThreshold = 0.2f;
     public enum MoveToForwardType { FollowInputDirection, FollowPhysicsRotation }
     public MoveToForwardType _forwardTraslationType;
+    private bool _isSprinting = false;
     [SerializeField] public UnityEvent _onSprintStart;
     [SerializeField] public UnityEvent _onSprintEnd;
 
@@ -272,6 +273,7 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         moveInput = Vector2.zero;
         currentSpeed = walkSpeed;
         animator.SetFloat("Speed", 0);
+        _isSprinting = false;
         SetMoveEvent(false);
         SetSprintingEvent(false); 
     }
@@ -318,7 +320,10 @@ public class PlayerSmoothMovement : OxygenableBehaviour
 
     public void SprintPressed()
     {
+        if (_isSprinting) return;
+        Debug.Log("Sprint pressed");
         if (rb.linearVelocity.sqrMagnitude <= movementDeadZone) return;
+        _isSprinting = true;
         currentSpeed = runSpeed;
         SetSprintingEvent(true);
         _onSprintStart?.Invoke();
@@ -326,6 +331,9 @@ public class PlayerSmoothMovement : OxygenableBehaviour
     
     public void SprintReleased()
     {
+        if (!_isSprinting) return;
+        Debug.Log("Sprint released");
+        _isSprinting = false;
         currentSpeed = walkSpeed;
         SetSprintingEvent(false); 
         _onSprintEnd?.Invoke();
