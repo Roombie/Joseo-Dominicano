@@ -228,9 +228,9 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
             return;
         }
 
-        if (item.isPurchased)
+        if (!item.CanPurchase)
         {
-            Debug.Log("ShopInteraction: Item already purchased");
+            Debug.Log("ShopInteraction: Item cannot be purchased (already maxed or purchased)");
             return;
         }
 
@@ -240,40 +240,37 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
             return;
         }
 
-        if (wallet.Balance < item.price)
+        int price = item.CurrentPrice;
+
+        if (wallet.Balance < price)
         {
-            Debug.Log($"ShopInteraction: Not enough money. Have: {wallet.Balance}, Need: {item.price}");
+            Debug.Log($"ShopInteraction: Not enough money. Have: {wallet.Balance}, Need: {price}");
             return;
         }
 
-        bool spent = wallet.TrySpend(item.price);
+        bool spent = wallet.TrySpend(price);
 
         if (spent)
         {
-            if (item.effect != null)
+            // Aplica el efecto del nivel actual y avanza
+            if (item.ApplyPurchase(mover != null ? mover.gameObject : null))
             {
-                if (mover != null)
-                    item.effect.ApplyEffect(mover.gameObject);
-                else
-                    Debug.LogWarning("ShopInteraction: Cannot apply effect - mover reference is null");
+                // Actualizar UI de carry space y dinero
+                GameManager.Instance.RefreshCarrySpaceUI();
+                GameManager.Instance.UpdateTotalCoinsUI();
+
+                Debug.Log($"ShopInteraction: Successfully purchased/leveled {item.name} for ${price}");
             }
-
-            // Force carry-space UI update immediately
-            GameManager.Instance.RefreshCarrySpaceUI();
-
-            // Update money UI immediately
-            GameManager.Instance.UpdateTotalCoinsUI();
-
-            item.isPurchased = true;
-
-            Debug.Log($"ShopInteraction: Successfully purchased {item.name} for ${item.price}");
+            else
+            {
+                Debug.LogError("ShopInteraction: ApplyPurchase returned false unexpectedly");
+            }
         }
         else
         {
             Debug.LogError("ShopInteraction: TrySpend failed unexpectedly");
         }
     }
-
 
     public void OnClickClose()
     {

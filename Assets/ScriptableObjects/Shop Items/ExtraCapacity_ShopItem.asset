@@ -15,3 +15,16 @@ MonoBehaviour:
   price: 400
   effect: {fileID: 11400000, guid: 90cc59e5a215dae4393a0f934d769e69, type: 2}
   isPurchased: 0
+  useLevels: 1
+  levels:
+  - price: 50
+    effect: {fileID: 11400000, guid: 90cc59e5a215dae4393a0f934d769e69, type: 2}
+  - price: 100
+    effect: {fileID: 11400000, guid: 27b55a70e328af64ca66ed7335789452, type: 2}
+  - price: 150
+    effect: {fileID: 11400000, guid: b19e8e96194760b4da918c4fcff4f7bc, type: 2}
+  - price: 200
+    effect: {fileID: 11400000, guid: ca535e7c03c552649a9f2b4ae33e5dd4, type: 2}
+  - price: 250
+    effect: {fileID: 11400000, guid: d5ab6a236f5bc184fb8d9076427aeea8, type: 2}
+  currentLevel: 3

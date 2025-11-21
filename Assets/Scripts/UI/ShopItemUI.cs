@@ -105,24 +105,6 @@ public class ShopItemUI : MonoBehaviour
         isInitialized = false;
     }
 
-    public void RefreshUI()
-    {
-        if (!isInitialized || item == null)
-        {
-            Debug.LogWarning("ShopItemUI: Cannot refresh - not properly initialized");
-            return;
-        }
-
-        if (item.isPurchased)
-        {
-            SetPurchasedState();
-        }
-        else
-        {
-            SetAvailableState();
-        }
-    }
-
     private void SetPurchasedState()
     {
         if (buyButton != null)
@@ -138,7 +120,7 @@ public class ShopItemUI : MonoBehaviour
             }
             else
             {
-                priceLabel.text = "PURCHASED";
+                priceLabel.text = "MAX";
             }
         }
     }
@@ -152,14 +134,33 @@ public class ShopItemUI : MonoBehaviour
 
         if (priceLabel != null && item != null)
         {
-            priceLabel.text = $"${item.price}";
+            int priceToShow = item.CurrentPrice;
+            priceLabel.text = $"${priceToShow}";
+        }
+    }
+
+    public void RefreshUI()
+    {
+        if (!isInitialized || item == null)
+        {
+            Debug.LogWarning("ShopItemUI: Cannot refresh - not properly initialized");
+            return;
+        }
+
+        if (!item.CanPurchase)
+        {
+            SetPurchasedState();
+        }
+        else
+        {
+            SetAvailableState();
         }
     }
 
     private void OnPurchasedStringChanged(string localizedText)
     {
         // Refresh UI when localization changes
-        if (isInitialized && item != null && item.isPurchased)
+        if (isInitialized && item != null && !item.CanPurchase)
         {
             if (priceLabel != null)
             {
@@ -193,9 +194,9 @@ public class ShopItemUI : MonoBehaviour
         // Notify listeners about purchase attempt
         OnPurchaseAttempt?.Invoke(item);
 
-        if (item.isPurchased)
+        if (!item.CanPurchase)
         {
-            Debug.Log("ShopItemUI: Item already purchased");
+            Debug.Log("ShopItemUI: Item cannot be purchased (already purchased or at max level)");
             PlayPurchaseSound(purchaseFailSound);
             OnPurchaseFailed?.Invoke(item);
             return;
@@ -206,12 +207,15 @@ public class ShopItemUI : MonoBehaviour
         // Try to purchase through shop system
         shop.TryBuy(item);
 
-        // Check if purchase was successful
-        if (item.isPurchased && shop.Wallet != null && shop.Wallet.Balance != oldBalance)
+        // Consider purchase successful only if wallet balance changed
+        if (shop.Wallet != null && shop.Wallet.Balance != oldBalance)
         {
-            Debug.Log("ShopItemUI: Purchase successful!");
+            Debug.Log("ShopItemUI: Purchase/upgrade successful!");
             PlayPurchaseSound(purchaseSuccessSound);
+
+            // Actualizar inmediatamente el precio / estado
             RefreshUI();
+
             OnPurchaseSuccess?.Invoke(item);
         }
         else

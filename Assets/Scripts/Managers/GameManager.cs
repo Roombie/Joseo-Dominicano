@@ -142,11 +142,25 @@ public class GameManager : MonoBehaviour
     private void ResetShopPurchases()
     {
         var shopItems = Resources.FindObjectsOfTypeAll<ShopItemSO>();
+        int resetCount = 0;
+
         foreach (var item in shopItems)
         {
+            if (item == null) 
+                continue;
+
             item.isPurchased = false;
+
+            // If use levels, reset to level 0
+            if (item.useLevels)
+            {
+                item.currentLevel = 0;
+            }
+
+            resetCount++;
         }
-        Debug.Log($"Reseteados {shopItems.Length} items de tienda");
+
+        Debug.Log($"Reseteados {resetCount} items de tienda (compras y niveles)");
     }
 
     #endregion
