@@ -2126,6 +2126,7 @@ MonoBehaviour:
   playOnAwake: 1
   allowPointerSubmit: 1
   safetyCooldown: 0.05
+  submitSfx: {fileID: 8300000, guid: 52eaeafc783a058419178bea010e3b9a, type: 3}
   onAllPagesFinished:
     m_PersistentCalls:
       m_Calls:

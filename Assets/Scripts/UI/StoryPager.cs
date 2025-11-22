@@ -17,6 +17,9 @@ public class StoryPager : MonoBehaviour
     public bool allowPointerSubmit = true;
     public float safetyCooldown = 0.05f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip submitSfx;
+
     [Header("Events")]
     public UnityEvent onAllPagesFinished;
     public UnityEvent<int> onPageStart;
@@ -102,6 +105,7 @@ public class StoryPager : MonoBehaviour
                 break;
             case FlowState.WaitingForAdvance:
                 Debug.Log("[StoryPager] Advance requested");
+                AudioManager.Instance?.Play(submitSfx, SoundCategory.SFX);
                 advanceRequested = true;
                 break;
         }
