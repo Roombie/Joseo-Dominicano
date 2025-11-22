@@ -147,6 +147,10 @@ MonoBehaviour:
     m_Key: PLAYER_NEAR_SHOP
     m_Metadata:
       m_Items: []
+  - m_Id: 8155636639334400
+    m_Key: UI_SKIP
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

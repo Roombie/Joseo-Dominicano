@@ -20,6 +20,7 @@ public class StoryPager : MonoBehaviour
     [Header("Events")]
     public UnityEvent onAllPagesFinished;
     public UnityEvent<int> onPageStart;
+    public UnityEvent onReachFinalPage;
 
     enum FlowState { Idle, Transitioning, WaitingForAdvance, Finished }
     FlowState state = FlowState.Idle;
@@ -128,6 +129,12 @@ public class StoryPager : MonoBehaviour
 
         state = FlowState.WaitingForAdvance;
 
+        if (pages.Count == 1)
+        {
+            Debug.Log("[StoryPager] Reached final (only) page");
+            onReachFinalPage?.Invoke();
+        }
+
         while (currentIndex < pages.Count - 1)
         {
             Debug.Log($"[StoryPager] Waiting for user to advance from page {currentIndex}");
@@ -144,6 +151,12 @@ public class StoryPager : MonoBehaviour
 
             currentIndex++;
             state = FlowState.WaitingForAdvance;
+
+            if (currentIndex == pages.Count - 1)
+            {
+                Debug.Log("[StoryPager] Reached final page");
+                onReachFinalPage?.Invoke();
+            }
         }
 
         Debug.Log("[StoryPager] Waiting for final press to finish...");
@@ -214,5 +227,34 @@ public class StoryPager : MonoBehaviour
         while (!advanceRequested) yield return null;
         Debug.Log("[StoryPager] Advance input confirmed");
         advanceRequested = false;
+    }
+
+    public void SkipAll()
+    {
+        // If already finished, do nothing
+        if (state == FlowState.Finished || state == FlowState.Idle)
+            return;
+
+        Debug.Log("[StoryPager] Skip ALL requested");
+
+        // Stop the main flow
+        if (flowRoutine != null)
+        {
+            StopCoroutine(flowRoutine);
+            flowRoutine = null;
+        }
+
+        // Skip any current animations on all pages
+        foreach (var page in pages)
+        {
+            if (page != null)
+            {
+                page.SkipCurrent();
+            }
+        }
+
+        // Mark as finished and invoke the final event
+        state = FlowState.Finished;
+        onAllPagesFinished?.Invoke();
     }
 }
