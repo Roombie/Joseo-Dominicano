@@ -1,22 +1,22 @@
 using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.Localization;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using TMPro;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
 using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.Localization;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Events;
 
 public class HomeStatsUI : MonoBehaviour
 {
     [Serializable]
     public class HomeStat
     {
-        public string id;                               
+        public string id;
         public LocalizedString label;
         [NonSerialized] public Func<string> valueGetter;
     }
@@ -26,7 +26,6 @@ public class HomeStatsUI : MonoBehaviour
     [SerializeField] private HomeStatLine statLinePrefab;
 
     [Header("Separator Settings")]
-    [Tooltip("If set, will appear after the specified stat index.")]
     [SerializeField] private TMP_Text separatorPrefab;
     [SerializeField, Min(0)] private int separatorAfterIndex = 1;
     [SerializeField, Range(1, 200)] private int separatorDotCount = 69;
@@ -45,7 +44,7 @@ public class HomeStatsUI : MonoBehaviour
     [SerializeField] private InputActionReference skipAction;
     [SerializeField] private bool allowSkip = true;
     [SerializeField] private bool skipOnAnyTouch = true;
-    [SerializeField] private bool skipOnAnyKey = false;
+    [SerializeField] private bool skipOnAnyKey = true;
 
     [Header("Events")]
     public UnityEvent onDisplayEnable;
@@ -64,24 +63,120 @@ public class HomeStatsUI : MonoBehaviour
     private int _displaySequenceId = 0;
     private bool _weEnabledSkipAction;
 
-    private void OnEnable()
+    void OnEnable()
     {
         ResetVisualState();
+        SetupSkipInput();
+    }
 
-        // Setup skip input
-        if (allowSkip && skipAction?.action != null)
+    void OnDisable()
+    {
+        TeardownSkipInput();
+
+        if (_isDisplayInProgress)
+            onDisplayInterrupted?.Invoke();
+
+        ResetVisualState();
+    }
+
+    void Start()
+    {
+        for (int i = 0; i < stats.Count; i++)
         {
-            var action = skipAction.action;
-            if (!action.enabled)
-            {
-                action.Enable();
-                _weEnabledSkipAction = true;
-            }
-            action.performed += OnSkipAction;
+            var stat = stats[i];
+            bool hasLocalization = stat.label != null &&
+                                   !string.IsNullOrEmpty(stat.label.TableEntryReference) &&
+                                   !string.IsNullOrEmpty(stat.label.TableReference);
+
+            Debug.Log($"Stat {i} - ID: '{stat.id}', Localización: {(hasLocalization ? "CONFIGURADA" : "NO CONFIGURADA")}");
         }
     }
 
-    private void ResetVisualState()
+    void SetupSkipInput()
+    {
+        if (!allowSkip || skipAction == null || skipAction.action == null)
+            return;
+
+        var action = skipAction.action;
+        action.performed -= OnSkipAction;
+        action.performed += OnSkipAction;
+
+        if (!action.enabled)
+        {
+            action.Enable();
+            _weEnabledSkipAction = true;
+        }
+    }
+
+    void TeardownSkipInput()
+    {
+        if (skipAction?.action != null)
+        {
+            skipAction.action.performed -= OnSkipAction;
+            if (_weEnabledSkipAction)
+            {
+                skipAction.action.Disable();
+                _weEnabledSkipAction = false;
+            }
+        }
+    }
+
+    void OnSkipAction(InputAction.CallbackContext context)
+    {
+        if (_isDisplayInProgress && !_skipRequested && allowSkip)
+        {
+            SkipDisplay();
+        }
+    }
+
+    void Update()
+    {
+        if (!_isDisplayInProgress || !allowSkip || _skipRequested)
+            return;
+
+        // Skip por cualquier tecla, evitando duplicar con skipAction
+        if (skipOnAnyKey && Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
+        {
+            if (skipAction != null && skipAction.action != null)
+            {
+                bool isSkipActionKey = false;
+                foreach (var binding in skipAction.action.bindings)
+                {
+                    if (binding.path.Contains("Keyboard"))
+                    {
+                        var key = Keyboard.current.FindKeyOnCurrentKeyboardLayout(binding.path);
+                        if (key != null && key.wasPressedThisFrame)
+                        {
+                            isSkipActionKey = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (isSkipActionKey)
+                    return;
+            }
+
+            SkipDisplay();
+            return;
+        }
+
+        // Skip por toque si no hay skipAction
+        if (skipOnAnyTouch && Touchscreen.current != null && skipAction == null)
+        {
+            if (Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+            {
+                bool overUI = EventSystem.current != null &&
+                              EventSystem.current.IsPointerOverGameObject(
+                                  Touchscreen.current.primaryTouch.touchId.ReadValue());
+
+                if (!overUI)
+                    SkipDisplay();
+            }
+        }
+    }
+
+    void ResetVisualState()
     {
         StopAllCoroutines();
         ++_displaySequenceId;
@@ -101,65 +196,13 @@ public class HomeStatsUI : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        if (skipAction?.action != null)
-        {
-            skipAction.action.performed -= OnSkipAction;
-            if (_weEnabledSkipAction)
-            {
-                skipAction.action.Disable();
-                _weEnabledSkipAction = false;
-            }
-        }
-
-        // Trigger interrupt if animation mid-run
-        if (_isDisplayInProgress)
-            onDisplayInterrupted?.Invoke();
-
-        ResetVisualState();
-    }
-
-    private void Update()
-    {
-        if (!_isDisplayInProgress || !allowSkip || _skipRequested) return;
-
-        // Keyboard skip
-        if (skipOnAnyKey && Input.anyKeyDown)
-        {
-            SkipDisplay();
-            return;
-        }
-
-        // Touch skip that ignores UI
-        if (skipOnAnyTouch && Input.touchCount > 0)
-        {
-            var touch = Input.GetTouch(0);
-            if (touch.phase == UnityEngine.TouchPhase.Began)
-            {
-                bool overUI = false;
-#if ENABLE_INPUT_SYSTEM
-                if (EventSystem.current != null)
-                    overUI = EventSystem.current.IsPointerOverGameObject(touch.fingerId);
-#else
-                if (EventSystem.current != null)
-                    overUI = EventSystem.current.IsPointerOverGameObject();
-#endif
-                if (!overUI)
-                    SkipDisplay();
-            }
-        }
-    }
-
-    private void OnSkipAction(InputAction.CallbackContext _)
-    {
-        if (_isDisplayInProgress && !_skipRequested)
-            SkipDisplay();
-    }
-
     public void DisplayStats()
     {
         ResetVisualState();
+        SetupSkipInput();
+
+        _isDisplayInProgress = true;
+
         if (!isActiveAndEnabled)
         {
             StartCoroutine(WaitUntilActiveThenDisplay());
@@ -170,7 +213,7 @@ public class HomeStatsUI : MonoBehaviour
         _currentDisplayRoutine = StartCoroutine(DisplayRoutineDelayed(2f));
     }
 
-    private IEnumerator WaitUntilActiveThenDisplay()
+    IEnumerator WaitUntilActiveThenDisplay()
     {
         while (this != null && !isActiveAndEnabled)
             yield return null;
@@ -180,13 +223,13 @@ public class HomeStatsUI : MonoBehaviour
         _currentDisplayRoutine = StartCoroutine(DisplayRoutineDelayed(2f));
     }
 
-    private IEnumerator DisplayRoutineDelayed(float delay)
+    IEnumerator DisplayRoutineDelayed(float delay)
     {
         yield return new WaitForSeconds(delay);
         _currentDisplayRoutine = StartCoroutine(DisplayRoutine());
     }
 
-    private IEnumerator DisplayRoutine()
+    IEnumerator DisplayRoutine()
     {
         int mySeq = ++_displaySequenceId;
         _isDisplayInProgress = true;
@@ -214,14 +257,12 @@ public class HomeStatsUI : MonoBehaviour
         }
 
         if (!IsMySeq(mySeq)) yield break;
-
-        if (_currentStatIndex >= stats.Count)
-            onDisplayComplete?.Invoke();
-
+        if (_currentStatIndex >= stats.Count) onDisplayComplete?.Invoke();
         _isDisplayInProgress = false;
     }
 
-    private IEnumerator DisplaySingleStat(int index, int seq)
+    // ====== VERSIÓN ORIGINAL QUE YA FUNCIONABA (no la tocamos) ======
+    IEnumerator DisplaySingleStat(int index, int seq)
     {
         var stat = stats[index];
         var line = Instantiate(statLinePrefab, statsContainer);
@@ -231,19 +272,23 @@ public class HomeStatsUI : MonoBehaviour
         AsyncOperationHandle<string> op = stat.label.GetLocalizedStringAsync();
         bool labelSet = false;
 
-        while (!op.IsDone && !_skipRequested && IsMySeq(seq)) yield return null;
+        while (!op.IsDone && !_skipRequested && IsMySeq(seq))
+            yield return null;
 
         try
         {
-            if (IsMySeq(seq) && op.Status == AsyncOperationStatus.Succeeded && !string.IsNullOrEmpty(op.Result))
+            if (IsMySeq(seq) &&
+                op.Status == AsyncOperationStatus.Succeeded &&
+                !string.IsNullOrEmpty(op.Result))
             {
-                line.SetLabel(op.Result);
+                line.SetLabel(op.Result);   // Texto localizado
                 labelSet = true;
             }
         }
         finally
         {
-            if (op.IsValid()) Addressables.Release(op);
+            if (op.IsValid())
+                Addressables.Release(op);
         }
 
         if (!labelSet)
@@ -257,20 +302,13 @@ public class HomeStatsUI : MonoBehaviour
             SafePlay(lineAppearSFX);
 
         if (!_skipRequested && IsMySeq(seq))
-        {
-            float t = 0f;
-            while (t < lineDelay && !_skipRequested && IsMySeq(seq))
-            {
-                t += Time.deltaTime;
-                yield return null;
-            }
-        }
+            yield return new WaitForSeconds(lineDelay);
 
         if (IsMySeq(seq) && separatorPrefab != null && index == separatorAfterIndex)
             yield return StartCoroutine(DisplaySeparator(seq));
     }
 
-    private IEnumerator DisplaySeparator(int seq)
+    IEnumerator DisplaySeparator(int seq)
     {
         if (_skipRequested || !IsMySeq(seq))
         {
@@ -288,33 +326,21 @@ public class HomeStatsUI : MonoBehaviour
         for (int i = 0; i < separatorDotCount && IsMySeq(seq); i++)
         {
             if (_skipRequested) break;
-
             sb.Append('.');
             _instantiatedSeparator.text = sb.ToString();
 
             if (dotSFX != null && (i % dotSoundEveryNDots) == 0)
                 SafePlay(dotSFX);
 
-            float t = 0f;
-            while (t < dotDelay && !_skipRequested && IsMySeq(seq))
-            {
-                t += Time.deltaTime;
-                yield return null;
-            }
+            yield return new WaitForSeconds(dotDelay);
         }
 
         if (!_skipRequested && IsMySeq(seq))
-        {
-            float t = 0f;
-            while (t < lineDelay && !_skipRequested && IsMySeq(seq))
-            {
-                t += Time.deltaTime;
-                yield return null;
-            }
-        }
+            yield return new WaitForSeconds(lineDelay);
     }
 
-    private IEnumerator CompleteRemainingStatsInstantly(int seq)
+    // ====== NUEVO: SKIP PERO USANDO LOCALIZACIÓN ======
+    IEnumerator CompleteRemainingStatsInstantly(int seq)
     {
         onSkipPressed?.Invoke();
         yield return null;
@@ -324,10 +350,39 @@ public class HomeStatsUI : MonoBehaviour
             var stat = stats[i];
             bool exists = i < _instantiatedLines.Count && _instantiatedLines[i] != null;
 
-            HomeStatLine line = exists ? _instantiatedLines[i] : Instantiate(statLinePrefab, statsContainer);
-            if (!exists) _instantiatedLines.Add(line);
+            HomeStatLine line = exists
+                ? _instantiatedLines[i]
+                : Instantiate(statLinePrefab, statsContainer);
 
-            line.SetLabel(string.IsNullOrEmpty(stat.id) ? "-" : stat.id);
+            if (!exists)
+                _instantiatedLines.Add(line);
+
+            // Igual que DisplaySingleStat, pero sin chequear _skipRequested
+            AsyncOperationHandle<string> op = stat.label.GetLocalizedStringAsync();
+            bool labelSet = false;
+
+            while (!op.IsDone && IsMySeq(seq))
+                yield return null;
+
+            try
+            {
+                if (IsMySeq(seq) &&
+                    op.Status == AsyncOperationStatus.Succeeded &&
+                    !string.IsNullOrEmpty(op.Result))
+                {
+                    line.SetLabel(op.Result);
+                    labelSet = true;
+                }
+            }
+            finally
+            {
+                if (op.IsValid())
+                    Addressables.Release(op);
+            }
+
+            if (!labelSet)
+                line.SetLabel(string.IsNullOrEmpty(stat.id) ? "-" : stat.id);
+
             string value = "-";
             try { value = stat.valueGetter?.Invoke() ?? "-"; } catch { }
             line.SetValue(value);
@@ -338,10 +393,13 @@ public class HomeStatsUI : MonoBehaviour
                 _instantiatedSeparator.text = new string('.', Mathf.Max(0, separatorDotCount));
             }
 
+            // Un frame para que la UI se actualice
             yield return null;
         }
 
         _currentStatIndex = stats.Count;
+        onDisplayComplete?.Invoke();
+        _isDisplayInProgress = false;
     }
 
     public void SkipDisplay()
@@ -349,12 +407,10 @@ public class HomeStatsUI : MonoBehaviour
         if (_isDisplayInProgress && !_skipRequested)
         {
             _skipRequested = true;
-
             if (_instantiatedSeparator != null)
                 _instantiatedSeparator.text = new string('.', Mathf.Max(0, separatorDotCount));
         }
     }
-
 
     public void RefreshInstant()
     {
@@ -367,16 +423,10 @@ public class HomeStatsUI : MonoBehaviour
         }
     }
 
-    private bool IsMySeq(int seq) => seq == _displaySequenceId;
+    bool IsMySeq(int seq) => seq == _displaySequenceId;
 
-    private void SafePlay(AudioClip clip)
+    void SafePlay(AudioClip clip)
     {
-        try { AudioManager.Instance?.Play(clip, SoundCategory.SFX); }
-        catch { }
-    }
-
-    public void PlayAppearSound()
-    {
-        AudioManager.Instance?.Play(lineAppearSFX, SoundCategory.SFX);
+        try { AudioManager.Instance?.Play(clip, SoundCategory.SFX); } catch { }
     }
 }

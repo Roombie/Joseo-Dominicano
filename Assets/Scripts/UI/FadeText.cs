@@ -15,6 +15,17 @@ public class FadeText : MonoBehaviour
     private TMP_Text tmpText;
     private Coroutine fadeRoutine;
 
+    private void OnDisable()
+    {
+        // Ensure no coroutine keeps running while disabled
+        StopCurrentFade();
+    }
+
+    private void OnEnable()
+    {
+        InitializeFadeState();
+    }
+
     private void Awake()
     {
         tmpText = GetComponent<TMP_Text>();
@@ -22,10 +33,17 @@ public class FadeText : MonoBehaviour
 
     private void Start()
     {
-        Color color = tmpText.color;
-        color.a = startVisible ? 1f : 0f;
-        tmpText.color = color;
+        InitializeFadeState();
+    }
+    
+    private void InitializeFadeState()
+    {
+        // Reset alpha based on startVisible
+        Color c = tmpText.color;
+        c.a = startVisible ? 1f : 0f;
+        tmpText.color = c;
 
+        // Run fade if requested
         if (fadeOnStart)
         {
             if (loop)

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TrashItemSO
   id: 15503501-7733-4d0b-b747-a6f120e2259d
   weightKg: 2
-  worth: 40
+  worth: 25
   pickUpSpace: 2
   minRandomPitch: 0.96
   maxRandomPitch: 1.04

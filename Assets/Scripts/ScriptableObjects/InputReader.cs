@@ -7,24 +7,25 @@ using UnityEngine.InputSystem; // Importante para usar Input System
 //
 
 [CreateAssetMenu(fileName = "InputReader", menuName = "Game/Input Reader")]
-public class InputReader : ScriptableObject, GameInput.IPlayerActions
+public class InputReader : ScriptableObject, GameInput.IPlayerActions, GameInput.IUIActions 
 {
     // Las Actions se exponen como C# Actions (events)
     // El '?' indica que puede ser nulo, lo que es útil para eventos.
 
-    // ➡️ Movimiento (Vector2)
+    // Movimiento (Vector2)
     public event System.Action<Vector2> MoveEvent;
 
-    // ➡️ Sprint (Button)
+    // Sprint (Button)
     // Un evento para cuando se presiona el botón de Sprint (started/performed)
     public event System.Action SprintStartedEvent;
     // Un evento para cuando se suelta el botón de Sprint (canceled)
     public event System.Action SprintCanceledEvent;
 
-    // ➡️ Pausa (Button)
+    // Pausa (Button)
     // Un evento para cuando se presiona el botón de Pausa (performed)
     public event System.Action PauseEvent;
     public event System.Action InteractEvent;
+    public event System.Action UISubmitEvent;
 
     // --- Propiedades y Métodos de Inicialización ---
 
@@ -41,6 +42,7 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
             // Esto asigna la implementación de la interfaz a esta clase (InputReader)
             // para que los callbacks del Input System lleguen aquí.
             gameInput.Player.SetCallbacks(this);
+            gameInput.UI.SetCallbacks(this);
         }
 
         // Activamos el Action Map "Gameplay" por defecto.
@@ -63,7 +65,15 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
         gameInput.Player.Disable();
     }
 
+    public void EnableUI()
+    {
+        gameInput.UI.Enable();
+    }
 
+    public void DisableUI()
+    {
+        gameInput.UI.Disable();
+    }
 
     // --- Implementación de la Interfaz IGameplayActions ---
     // Estos métodos son los callbacks automáticos que llama el Input System.
@@ -136,6 +146,57 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions
     }
 
     public void OnNext(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnSubmit(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed)
+            UISubmitEvent?.Invoke();
+    }
+
+    public void OnCancel(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnNavigate(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnPoint(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnClick(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnScrollWheel(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnMiddleClick(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnRightClick(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnTrackedDevicePosition(InputAction.CallbackContext context)
+    {
+        // throw new System.NotImplementedException();
+    }
+
+    public void OnTrackedDeviceOrientation(InputAction.CallbackContext context)
     {
         // throw new System.NotImplementedException();
     }

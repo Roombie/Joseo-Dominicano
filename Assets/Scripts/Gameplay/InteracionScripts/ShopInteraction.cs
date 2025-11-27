@@ -83,6 +83,9 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
     {
         if (isOpening || isClosing)
             return;
+        
+        if (gm != null && gm.isPaused && !isOpen)
+            return;
 
         if (!isOpen && playerInRange)
             Open();
@@ -115,7 +118,7 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         isOpening = true;
 
         if (playerRB) playerRB.linearVelocity = Vector2.zero;
-        if (mover) { mover.ResetMove(); mover.enabled = false; }
+        if (mover) { mover.ForceStopSprint(); mover.ResetMove(); mover.enabled = false; }
 
         if (pauseGameWhenOpen && gm != null)
         {

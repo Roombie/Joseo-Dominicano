@@ -14,3 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelDayDB
   _days:
   - {fileID: 11400000, guid: cf402cec93cd9f345b4f52ba599f129c, type: 2}
+  - {fileID: 11400000, guid: 8a8a9c5b8495a9146bdce9abc1be4556, type: 2}
+  - {fileID: 11400000, guid: 0e944a5827ecbac408bbfb4194950e9e, type: 2}
+  - {fileID: 11400000, guid: 6ecdce6ea8045884bbe0b8714ce2fff0, type: 2}
+  - {fileID: 11400000, guid: d69aeb927af4b53498156ea6d0b4b0c2, type: 2}
+  - {fileID: 11400000, guid: 8b6e5b2656eefc8419936239a910d8ef, type: 2}

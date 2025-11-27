@@ -141,6 +141,15 @@ public class GameManager : MonoBehaviour
     {
         UpdateTotalCoinsUI();
         UpdateDayGoalUI();
+
+        if (inShift)
+        {
+            int quota = _days.days[_currentDay - 1].quota;
+
+            // Si el wallet está por debajo de la cuota, reseteamos wasAboveQuota
+            if (newBalance < quota)
+                wasAboveQuota = false;
+        }
     }
 
     private void ResetShopPurchases()
@@ -320,6 +329,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] UnityEvent<LevelDayConfig> _onDayChange; 
     [SerializeField] UnityEvent _onEndGameplay;
     [HideInInspector] public bool isPaused;
+    [SerializeField] private AudioClip pauseSFX;
+    [SerializeField] private AudioClip resumeSFX;
+    [SerializeField] private AudioClip depositItems;
+    [SerializeField] private AudioClip goalCompleted;
+    bool wasAboveQuota = false;
 
     [Header("Deposit Feedback")]
     [SerializeField] private TMP_Text totalCoinsCollectedText;
@@ -391,12 +405,31 @@ public class GameManager : MonoBehaviour
 
         // Actualizar color y texto de meta con el WALLET actual
         int quota = _days.days[_currentDay - 1].quota;;
+
+        // Solo si realmente depositaste algo
+        if (totalDepositWorth > 0)
+        {
+            bool nowAboveQuota = _playerWallet.Balance >= quota;
+
+            // Si antes NO estabas por encima y ahora sí → CRUZASTE LA META
+            if (!wasAboveQuota && nowAboveQuota)
+            {
+                AudioManager.Instance?.Play(goalCompleted,SoundCategory.SFX);
+            }
+
+            // Sonido al depositar items (siempre que haya algo)
+            AudioManager.Instance?.Play(depositItems, SoundCategory.SFX);
+
+            // Actualizamos el estado para el próximo depósito
+            wasAboveQuota = nowAboveQuota;
+        }
+
         string goalValueColor = "#" + ColorUtility.ToHtmlStringRGBA(
             _playerWallet.Balance >= quota ? _dayGoalReachedColor : _dayGoalInsufficientColor
         );
         _dayGoalValue.text =
             $"<color={goalValueColor}>${_playerWallet.Balance}/${quota}</color>";
-
+        
         // UI
         UpdateTotalCoinsUI();
         ShowDepositFeedback(totalDepositWorth);
@@ -467,6 +500,7 @@ public class GameManager : MonoBehaviour
         if (!inShift) return;
 
         Time.timeScale = 0;
+        AudioManager.Instance?.Play(pauseSFX, SoundCategory.SFX);
         _pausePanel.SetActive(true);
         _oxygenManager.PauseOxygen();
         StopDayTimer();
@@ -480,6 +514,7 @@ public class GameManager : MonoBehaviour
     public void _Gameplay_Resume()
     {
         Time.timeScale = 1;
+        AudioManager.Instance?.Play(resumeSFX, SoundCategory.SFX);
         _pausePanel.SetActive(false);
         _oxygenManager.ConsumeOxygen();
         RunDayTimer();
@@ -522,6 +557,7 @@ public class GameManager : MonoBehaviour
         if (inShift) return;
 
         inShift = true;
+        wasAboveQuota = false;
         _currentDay++;
         _onDayChange?.Invoke(_days.days[_currentDay - 1]);
         ResetDayTimer();
@@ -803,6 +839,8 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift) return;
         isInHurry = false;
+        input.EnableUI();
+        input.DisablePlayer();
         StopDayTimer();
         OnGameplayEnd();
         _Home_Display();
@@ -895,7 +933,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetCarryCapacity()
     {
-        _playerSackCarrySpaceLimit = 10;
+        _playerSackCarrySpaceLimit = 2;
         _playerSackCarrySpaceUsed = 0;
         RefreshCarrySpaceUI();
     }
@@ -952,6 +990,9 @@ public class GameManager : MonoBehaviour
     public void _Home_Display()
     {
         isInHome = true;
+
+        input.EnableUI();
+        input.DisablePlayer();
 
         if (_testHomeScreen == null)
         {
@@ -1016,6 +1057,9 @@ public class GameManager : MonoBehaviour
     public void _Home_EndDay()
     {
         _testHomeScreen.SetActive(false);
+
+        input.DisableUI();
+        input.EnablePlayer();
 
         // If cannot pay quota → BAD END
         if (!CanPayQuota())
