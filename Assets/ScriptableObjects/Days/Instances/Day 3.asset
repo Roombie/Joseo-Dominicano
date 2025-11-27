@@ -23,15 +23,15 @@ MonoBehaviour:
     canSpawn: 1
   - prefab: {fileID: 4604369798694375657, guid: 97754dcad8794c14ba2b62d547c140b3, type: 3}
     weight: 1
-    canSpawn: 1
+    canSpawn: 0
   - prefab: {fileID: 8377498005828144882, guid: 869ba932d74b2bf46a7d357df08adfa2, type: 3}
     weight: 1
-    canSpawn: 1
+    canSpawn: 0
   - prefab: {fileID: 322905763356734478, guid: 1193c06ba1b79a640870a85cbef6fe75, type: 3}
-    weight: 1
+    weight: 2
     canSpawn: 1
   - prefab: {fileID: 1740871035598803086, guid: d06a6b851d05b394bb2ceda7c6304cfc, type: 3}
-    weight: 1
+    weight: 2
     canSpawn: 1
   - prefab: {fileID: 8510229694340251893, guid: 2d99f792e916c3244b74058cae19c12b, type: 3}
     weight: 1

@@ -429,4 +429,14 @@ public class HomeStatsUI : MonoBehaviour
     {
         try { AudioManager.Instance?.Play(clip, SoundCategory.SFX); } catch { }
     }
+
+    // for animation events
+    public void AppearSound()
+    {
+        if (lineAppearSFX != null)
+        {
+            SafePlay(lineAppearSFX);
+            Debug.Log("Appear sound played");
+        }
+    }
 }
