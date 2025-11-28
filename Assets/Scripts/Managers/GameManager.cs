@@ -317,6 +317,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] float _startDayDelay = 2;
     [SerializeField] TMP_Text _dayLabel;
+    [SerializeField] GameObject _dayObject;
+    [SerializeField] GameObject _lastDayObject;
     [SerializeField] TMP_Text _dayGoalValue;
     [SerializeField] TMP_Text _dayTimerValue;
     [SerializeField] Color _dayGoalInsufficientColor = Color.red;
@@ -450,11 +452,31 @@ public class GameManager : MonoBehaviour
         _playerPhysics.angularVelocity = 0;
         _playerCollect.transform.position = _playerInitialPosition;
         _playerCollect.transform.rotation = Quaternion.identity;
-
-        if (_dayLabel != null)
-            _dayLabel.text = (_currentDay + 1).ToString();
+        
+        ShowDayBanner(true);
 
         _onPlay?.Invoke();
+    }
+
+    public void ShowDayBanner(bool show)
+    {
+        if (!show)
+        {
+            if (_dayObject != null) _dayObject.SetActive(false);
+            if (_lastDayObject != null) _lastDayObject.SetActive(false);
+            return;
+        }
+
+        int totalDays = _days.days.Count;
+        int displayDay = _currentDay + 1; // el dia que va a comenzar
+
+        bool isLastDay = displayDay >= totalDays;
+
+        if (_dayObject != null) _dayObject.SetActive(!isLastDay);
+        if (_lastDayObject != null) _lastDayObject.SetActive(isLastDay);
+
+        if (!isLastDay && _dayLabel != null)
+            _dayLabel.text = $"{displayDay}/{totalDays}";
     }
 
     public void _Gameplay_StartDayOnDelay()
@@ -516,6 +538,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
         AudioManager.Instance?.Play(resumeSFX, SoundCategory.SFX);
         _pausePanel.SetActive(false);
+        _PauseMenu_CloseOptions();
         _oxygenManager.ConsumeOxygen();
         RunDayTimer();
         isPaused = false;
