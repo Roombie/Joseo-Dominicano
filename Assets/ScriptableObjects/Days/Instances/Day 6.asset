@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08be57d2eebb2644199552c1857898b6, type: 3}
   m_Name: Day 6
   m_EditorClassIdentifier: Assembly-CSharp::LevelDayConfig
-  quota: 1200
+  quota: 1140
   duration: 150
   spawnableObjects:
   - prefab: {fileID: 160163271522881491, guid: 665ad085161ba404eb1d3cdbf3d4505e, type: 3}
