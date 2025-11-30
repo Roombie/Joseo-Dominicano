@@ -134,7 +134,7 @@ public class HomeStatsUI : MonoBehaviour
         if (!_isDisplayInProgress || !allowSkip || _skipRequested)
             return;
 
-        // Skip por cualquier tecla, evitando duplicar con skipAction
+        // Skip by any key (keyboard/gamepad), avoiding duplicating the bound skipAction key
         if (skipOnAnyKey && Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
         {
             if (skipAction != null && skipAction.action != null)
@@ -161,19 +161,20 @@ public class HomeStatsUI : MonoBehaviour
             return;
         }
 
-        // Skip por toque si no hay skipAction
-        if (skipOnAnyTouch && Touchscreen.current != null && skipAction == null)
+        // Skip by touch / pointer (mobile & WebGL on phone), similar to StoryPager / TimelineSkipTrigger
+#if UNITY_EDITOR
+        if (skipOnAnyTouch && PointerPressedThisFrameNotOverUI())
         {
-            if (Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
-            {
-                bool overUI = EventSystem.current != null &&
-                              EventSystem.current.IsPointerOverGameObject(
-                                  Touchscreen.current.primaryTouch.touchId.ReadValue());
-
-                if (!overUI)
-                    SkipDisplay();
-            }
+            SkipDisplay();
+            return;
         }
+#else
+        if (skipOnAnyTouch && IsMobileUser() && PointerPressedThisFrameNotOverUI())
+        {
+            SkipDisplay();
+            return;
+        }
+#endif
     }
 
     void ResetVisualState()
@@ -421,6 +422,57 @@ public class HomeStatsUI : MonoBehaviour
             try { val = stats[i].valueGetter?.Invoke() ?? "-"; } catch { }
             _instantiatedLines[i].SetValue(val);
         }
+    }
+
+    // "Mobile" = real mobile OR WebGL running on a touchscreen device
+    bool IsMobileUser()
+    {
+        // Real mobile platforms
+        if (Application.isMobilePlatform || SystemInfo.deviceType == DeviceType.Handheld)
+            return true;
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        // WebGL build running on a touchscreen device (phone/tablet browser)
+        if (Touchscreen.current != null)
+            return true;
+#endif
+
+        return false;
+    }
+
+    // Unified pointer detection for skipping: touch or mouse, ignoring taps over UI
+    bool PointerPressedThisFrameNotOverUI()
+    {
+        // Touch devices (mobile, WebGL on phone, etc.)
+        if (Touchscreen.current != null)
+        {
+            var touch = Touchscreen.current.primaryTouch;
+            if (touch.press.wasPressedThisFrame)
+            {
+                // If there's an EventSystem, avoid skipping when tapping over UI
+                if (EventSystem.current != null)
+                {
+                    int touchId = touch.touchId.ReadValue();
+                    if (EventSystem.current.IsPointerOverGameObject(touchId))
+                        return false;
+                }
+
+                return true;
+            }
+        }
+
+#if UNITY_EDITOR
+        // Editor / desktop fallback: mouse click, also respecting UI
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+                return false;
+
+            return true;
+        }
+#endif
+
+        return false;
     }
 
     bool IsMySeq(int seq) => seq == _displaySequenceId;

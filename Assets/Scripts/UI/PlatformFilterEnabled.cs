@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem; // For Touchscreen
 
 [System.Flags]
 public enum PlatformMask
@@ -6,7 +7,7 @@ public enum PlatformMask
     None        = 0,
     Editor      = 1 << 0,
     Standalone  = 1 << 1,  // Windows/Mac/Linux players
-    Mobile      = 1 << 2,  // Android / iOS
+    Mobile      = 1 << 2,  // Android / iOS (+ WebGL on phone via extra check)
     WebGL       = 1 << 3,
     Console     = 1 << 4,  // PS / Xbox / Switch, etc.
 }
@@ -55,6 +56,11 @@ public class PlatformFilterEnabler : MonoBehaviour
 
             case RuntimePlatform.WebGLPlayer:
                 currentMask |= PlatformMask.WebGL;
+
+                // Extra: if this WebGL build is running on a touch device (phone/tablet),
+                // also mark it as "Mobile".
+                if (IsWebGLMobileLike())
+                    currentMask |= PlatformMask.Mobile;
                 break;
 
             // Ajusta según los consoles que uses
@@ -83,5 +89,19 @@ public class PlatformFilterEnabler : MonoBehaviour
             if (extraTargets[i] != null)
                 extraTargets[i].SetActive(enable);
         }
+    }
+
+    /// <summary>
+    /// Returns true when running as WebGL on a *touch* device (phone/tablet).
+    /// Used to treat WebGL-on-phone as "Mobile" as well.
+    /// </summary>
+    private bool IsWebGLMobileLike()
+    {
+#if UNITY_WEBGL && !UNITY_EDITOR
+        // New Input System: if there's a Touchscreen, assume it's a mobile-like device
+        return Touchscreen.current != null;
+#else
+        return false;
+#endif
     }
 }

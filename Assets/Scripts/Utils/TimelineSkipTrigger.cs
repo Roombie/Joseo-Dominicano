@@ -62,38 +62,52 @@ public class TimelineSkipTrigger : MonoBehaviour
 
     private IEnumerator DelayedTimelineStart()
     {
-        yield return null; // Wait one frame for AudioManager to finish setup
+        // Wait one frame for AudioManager to finish setup
+        yield return null;
         director.Play();
     }
 
     void Update()
     {
-        // If no InputActionReference is assigned, fallback to default new Input System keys/touch
-        if (submitAction == null)
+        // 1) Pointer / tap path – same idea as StoryPager
+
+#if UNITY_EDITOR
+        // In editor: allow pointer skip always (mouse or touch)
+        if (!hasSkipped && PointerPressedThisFrame())
+        {
+            SkipOrJumpTimeline();
+        }
+#else
+        // In builds: only allow pointer skip for "mobile" users (real mobile + WebGL phone)
+        if (!hasSkipped && IsMobileUser() && PointerPressedThisFrame())
+        {
+            SkipOrJumpTimeline();
+        }
+#endif
+
+        // 2) Extra keyboard / gamepad fallback when there is no submitAction bound
+        if (submitAction == null && !hasSkipped)
         {
             bool submitPressed = false;
-            bool touchPressed = false;
 
+            // Keyboard
             if (Keyboard.current != null)
             {
-                if (Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.spaceKey.wasPressedThisFrame)
+                if (Keyboard.current.enterKey.wasPressedThisFrame ||
+                    Keyboard.current.spaceKey.wasPressedThisFrame)
+                {
                     submitPressed = true;
+                }
             }
 
+            // Gamepad (South button, usually A / Cross)
             if (!submitPressed && Gamepad.current != null)
             {
                 if (Gamepad.current.buttonSouth.wasPressedThisFrame)
                     submitPressed = true;
             }
 
-            if (Touchscreen.current != null)
-            {
-                var t = Touchscreen.current.primaryTouch;
-                if (t.press.wasPressedThisFrame)
-                    touchPressed = true;
-            }
-
-            if ((submitPressed || touchPressed) && !hasSkipped)
+            if (submitPressed)
             {
                 SkipOrJumpTimeline();
             }
@@ -117,7 +131,8 @@ public class TimelineSkipTrigger : MonoBehaviour
 
         if (!string.IsNullOrEmpty(markerName))
         {
-            if (double.TryParse(markerName, System.Globalization.NumberStyles.Float,
+            if (double.TryParse(markerName,
+                                System.Globalization.NumberStyles.Float,
                                 System.Globalization.CultureInfo.InvariantCulture,
                                 out double parsedSeconds))
             {
@@ -187,8 +202,11 @@ public class TimelineSkipTrigger : MonoBehaviour
             if (prop != null)
             {
                 var val = prop.GetValue(marker, null) as string;
-                if (!string.IsNullOrEmpty(val) && val.Equals(name, System.StringComparison.Ordinal))
+                if (!string.IsNullOrEmpty(val) &&
+                    val.Equals(name, System.StringComparison.Ordinal))
+                {
                     return marker.time;
+                }
             }
 
             if (marker.ToString().IndexOf(name, System.StringComparison.OrdinalIgnoreCase) >= 0)
@@ -202,5 +220,52 @@ public class TimelineSkipTrigger : MonoBehaviour
         }
 
         return -1;
+    }
+
+    // "Mobile" = real mobile OR WebGL on phone
+    bool IsMobileUser()
+    {
+        // Real mobile platforms
+        if (Application.isMobilePlatform || SystemInfo.deviceType == DeviceType.Handheld)
+            return true;
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        // WebGL build running on a touchscreen device (phone/tablet browser)
+        if (Touchscreen.current != null)
+            return true;
+#endif
+
+        return false;
+    }
+
+    // Unified pointer detection (touch + mouse) using the new Input System
+    bool PointerPressedThisFrame()
+    {
+        // EnhancedTouch (works in editor + devices)
+        if (EnhancedTouchSupport.enabled)
+        {
+            foreach (var t in UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches)
+            {
+                if (t.phase == UnityEngine.InputSystem.TouchPhase.Began)
+                    return true;
+            }
+        }
+
+        // Fallback: Touchscreen.primaryTouch (devices, including WebGL on phone)
+        if (Touchscreen.current != null)
+        {
+            var t = Touchscreen.current.primaryTouch;
+            if (t.press.wasPressedThisFrame)
+                return true;
+        }
+
+        // Fallback: mouse click (editor / desktop / WebGL desktop)
+        if (Mouse.current != null &&
+            Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -11,6 +11,10 @@ public class OnInputActionPressed : MonoBehaviour
     [Header("Behavior")]
     public bool oneShot = true;
 
+    [Header("Pointer / Touch")]
+    [Tooltip("If active, also shoot with tap/click (depending on platform)")]
+    public bool allowPointer = true;
+
     private bool _hasFired = false;
     private System.Action<InputAction.CallbackContext> _handler;
 
@@ -32,32 +36,87 @@ public class OnInputActionPressed : MonoBehaviour
         }
     }
 
+    void OnEnable()
+    {
+        if (input != null && input.action != null && !input.action.enabled)
+        {
+            input.action.Enable();
+        }
+    }
+
+    void OnDisable()
+    {
+        
+    }
+
+    void Update()
+    {
+        if (oneShot && _hasFired)
+            return;
+
+        if (!allowPointer)
+            return;
+
+#if UNITY_EDITOR
+        if (PointerPressedThisFrame())
+        {
+            Fire();
+        }
+#else
+        if (IsMobileUser() && PointerPressedThisFrame())
+        {
+            Fire();
+        }
+#endif
+    }
+
     private void OnInputPerformed(InputAction.CallbackContext ctx)
     {
-        // If it's one-shot and has already fired, ignore
+        Fire();
+    }
+
+    private void Fire()
+    {
         if (oneShot && _hasFired)
             return;
 
         _hasFired = true;
         OnPressed?.Invoke();
+    }
 
-        // disconnect the input so it NEVER fires again
-        if (oneShot && input != null && _handler != null)
+    private bool IsMobileUser()
+    {
+        if (Application.isMobilePlatform || SystemInfo.deviceType == DeviceType.Handheld)
+            return true;
+
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        if (Touchscreen.current != null)
+            return true;
+    #endif
+
+        return false;
+    }
+
+    private bool PointerPressedThisFrame()
+    {
+        if (Touchscreen.current != null)
         {
-            input.action.performed -= _handler;
-            input.action.Disable();
+            var touch = Touchscreen.current.primaryTouch;
+            if (touch.press.wasPressedThisFrame)
+                return true;
         }
+
+        if (Mouse.current != null &&
+            Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public void ResetOneShot()
     {
         _hasFired = false;
-
-        if (input && _handler != null)
-        {
-            input.action.performed -= _handler;
-            input.action.performed += _handler;
-            input.action.Enable();
-        }
     }
 }

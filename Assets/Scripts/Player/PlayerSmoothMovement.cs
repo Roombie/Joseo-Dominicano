@@ -55,19 +55,10 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         rb = GetComponent<Rigidbody2D>();
         if (sprite == null) sprite = GetComponent<SpriteRenderer>();
 
-    #if UNITY_IOS || UNITY_ANDROID
-        // Only show on actual mobile devices
         if (mobileControls != null)
         {
-            mobileControls.gameObject.SetActive(true);
+            mobileControls.SetActive(false);
         }
-    #else
-        // Hide on PC, WebGL, Mac, Linux, etc.
-        if (mobileControls != null)
-        {
-            mobileControls.gameObject.SetActive(false);
-        }
-    #endif
     }
     
     void OnEnable()
@@ -335,5 +326,47 @@ public class PlayerSmoothMovement : OxygenableBehaviour
             // Asegura que el evento quede en "no sprint"
             SetSprintingEvent(false);
         }
+    }
+
+    [SerializeField]
+    bool simulateMobileInEditor = false;
+
+    bool IsMobileUser()
+    {
+    #if UNITY_EDITOR
+        if (simulateMobileInEditor)
+            return true;
+    #endif
+
+        if (Application.isMobilePlatform || SystemInfo.deviceType == DeviceType.Handheld)
+            return true;
+
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        if (Touchscreen.current != null)
+            return true;
+    #endif
+
+        return false;
+    }
+
+    /// <summary>
+    /// Called by GameManager when entering/exiting gameplay.
+    /// Only shows the mobile controls when:
+    /// - This is a mobile-like user (including WebGL on phone), AND
+    /// - 'enable' is true.
+    /// </summary>
+    public void SetMobileControlsForGameplay(bool enable)
+    {
+        if (mobileControls == null)
+            return;
+
+        if (!IsMobileUser())
+        {
+            // Never show mobile controls on desktop / WebGL PC, etc.
+            mobileControls.SetActive(false);
+            return;
+        }
+
+        mobileControls.SetActive(enable);
     }
 }

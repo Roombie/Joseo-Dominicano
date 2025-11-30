@@ -81,6 +81,8 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
 
     public void Interact()
     {
+        Debug.Log($"[ShopInteraction] Interact() called - inRange={playerInRange}, inShift={gm?.inShift}");
+        
         if (isOpening || isClosing)
             return;
         
