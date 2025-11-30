@@ -33,12 +33,24 @@ public class SceneTransitionManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        if (this == null)
+        {
+            Debug.LogWarning("SceneTransitionManager was destroyed, ignoring LoadScene call.");
+            return;
+        }
+
         if (isTransitioning) return;
         StartCoroutine(PerformSceneTransition(sceneName));
     }
 
     public void LoadScene(int sceneIndex)
     {
+        if (this == null)
+        {
+            Debug.LogWarning("SceneTransitionManager was destroyed, ignoring LoadScene call.");
+            return;
+        }
+
         if (isTransitioning) return;
         StartCoroutine(PerformSceneTransition(sceneIndex));
     }

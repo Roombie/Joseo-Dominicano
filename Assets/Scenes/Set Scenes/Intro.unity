@@ -765,6 +765,8 @@ GameObject:
   - component: {fileID: 1720614998}
   - component: {fileID: 1720615002}
   - component: {fileID: 1720615001}
+  - component: {fileID: 1720615003}
+  - component: {fileID: 1720615004}
   m_Layer: 5
   m_Name: Intro Canvas
   m_TagString: Untagged
@@ -1058,6 +1060,30 @@ MonoBehaviour:
           m_BoolArgument: 1
         m_CallState: 2
   submitAction: {fileID: 392368643174621059, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+--- !u!222 &1720615003
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720614993}
+  m_CullTransparentMesh: 1
+--- !u!114 &1720615004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720614993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f619d2ed0fcbb6e4ab0967466976deee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BackgroundUVScaler
+  referenceResolution: {x: 1920, y: 1080}
+  baseUVWidth: 4
+  baseUVHeight: 2.14
+  rawImage: {fileID: 2035704795}
 --- !u!1 &1799944934
 GameObject:
   m_ObjectHideFlags: 0
