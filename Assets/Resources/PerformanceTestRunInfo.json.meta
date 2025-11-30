@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/PerformanceTestRunInfo.json.meta
 guid: 144209694f6dee244aadfcb5b74487a1
 TextScriptImporter:
+========
+guid: e3c1abdfe9b58034ca67fa9c19361775
+folderAsset: yes
+DefaultImporter:
+>>>>>>>> main:Assets/AddressableAssetsData/Android.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

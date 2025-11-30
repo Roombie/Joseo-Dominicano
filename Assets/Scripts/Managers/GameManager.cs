@@ -446,8 +446,7 @@ public class GameManager : MonoBehaviour
     {
         _isDead = false;
         musicSwitcher?.SwitchTo(MusicState.Gameplay, 0.15f);
-        _testGameplayScreen.SetActive(true);
-
+        _testGameplayScreen.SetActive(true);   
         _playerPhysics.linearVelocity = Vector2.zero;
         _playerPhysics.angularVelocity = 0;
         _playerCollect.transform.position = _playerInitialPosition;
@@ -606,6 +605,9 @@ public class GameManager : MonoBehaviour
         _dayGoalValue.text = $"<color={goalValueColor}>${wallet}/${quota}</color>";
 
         _onStartDay?.Invoke();
+        
+        if (_playerMovement != null)
+            _playerMovement.SetMobileControlsForGameplay(true);
     }
 
     TrashPickup lastRejectedValuable;
@@ -879,7 +881,10 @@ public class GameManager : MonoBehaviour
         _oxygenManager.ResetOxygen();
 
         if (_playerMovement != null)
+        {
             _playerMovement.ForceStopSprint();
+            _playerMovement.SetMobileControlsForGameplay(false);
+        }
 
         foreach (Spawner spawner in _spawners)
         {

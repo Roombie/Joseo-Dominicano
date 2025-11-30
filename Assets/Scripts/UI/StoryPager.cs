@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class StoryPager : MonoBehaviour
 {
@@ -45,6 +47,18 @@ public class StoryPager : MonoBehaviour
             StartCoroutine(WaitForSceneTransitionThenBegin());
     }
 
+    void OnEnable()
+    {
+        // Enable Enhanced Touch so taps work nicely in editor + devices
+        EnhancedTouchSupport.Enable();
+    }
+
+    void OnDisable()
+    {
+        // Match the Enable call
+        EnhancedTouchSupport.Disable();
+    }
+
     IEnumerator WaitForSceneTransitionThenBegin()
     {
         // If scene transition manager doesn't exist, skip waiting
@@ -70,20 +84,65 @@ public class StoryPager : MonoBehaviour
 
     void Update()
     {
-        if (!submit && allowPointerSubmit)
+        if (!allowPointerSubmit)
+            return;
+
+#if UNITY_EDITOR
+        // In editor: allow mouse or touch to advance
+        if (PointerPressedThisFrame())
         {
-            if (Input.GetMouseButtonDown(0) || TouchPressedThisFrame())
-                OnSubmit(new InputAction.CallbackContext());
+            OnSubmit(new InputAction.CallbackContext());
         }
+#else
+        // In builds: only pointer submit for mobile / touch users
+        if (IsMobileUser() && PointerPressedThisFrame())
+        {
+            OnSubmit(new InputAction.CallbackContext());
+        }
+#endif
     }
 
-    bool TouchPressedThisFrame()
+    bool IsMobileUser()
     {
-        if (Input.touchCount > 0)
+        // Built-in mobile platform detection
+        if (Application.isMobilePlatform || SystemInfo.deviceType == DeviceType.Handheld)
+            return true;
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        // For WebGL builds, if there's a touchscreen device assume mobile
+        if (Touchscreen.current != null)
+            return true;
+#endif
+
+        return false;
+    }
+
+    bool PointerPressedThisFrame()
+    {
+        // First, use EnhancedTouch's active touches (works in editor & devices)
+        if (EnhancedTouchSupport.enabled)
         {
-            var t = Input.GetTouch(0);
-            return t.phase == UnityEngine.TouchPhase.Began;
+            foreach (var touch in Touch.activeTouches)
+            {
+                if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
+                    return true;
+            }
         }
+
+        // Fallback: new Input System Touchscreen
+        if (Touchscreen.current != null &&
+            Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+        {
+            return true;
+        }
+
+        // Fallback: mouse click (editor, desktop, WebGL)
+        if (Mouse.current != null &&
+            Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            return true;
+        }
+
         return false;
     }
 
