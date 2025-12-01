@@ -3,12 +3,15 @@ using UnityEngine.Events;
 
 public class MenuView : MonoBehaviour
 {
-    [Header("Animación")]
+    [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private string openTriggerName = "Open";
     [SerializeField] private string closeTriggerName = "Close";
 
-    [Header("Eventos")]
+    [Header("Behavior")]
+    [SerializeField] private bool deactivateOnClose = true;
+
+    [Header("Events")]
     public UnityEvent onOpenAnimationFinished;
     public UnityEvent onCloseAnimationFinished;
 
@@ -34,7 +37,7 @@ public class MenuView : MonoBehaviour
         }
     }
 
-    public void HideWithAnimation()
+    public void Hide()
     {
         if (animator != null)
         {

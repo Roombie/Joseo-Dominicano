@@ -92,7 +92,7 @@ ParticleSystemRenderer:
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_ShadowBias: 0
-  m_RenderAlignment: 0
+  m_RenderAlignment: 2
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_EnableGPUInstancing: 1
@@ -684,7 +684,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 1
-    maxNumParticles: 7
+    maxNumParticles: 15
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -5452,6 +5452,7 @@ MonoBehaviour:
   minPitch: 0.8
   maxPitch: 1.2
   sprintStartSFX: {fileID: 8300000, guid: 4722d68eb8307b04d878cedcc31f77be, type: 3}
+  simulateMobileInEditor: 1
 --- !u!114 &2415517742074715297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5771,8 +5772,8 @@ MonoBehaviour:
   boostObject: {fileID: 9085454047029687483}
   spriteRenderer: {fileID: 2835015030078645339}
   boostColor: {r: 0, g: 0.09411765, b: 1, a: 1}
-  flashInDuration: 0.15
-  flashOutDuration: 0.15
+  flashInDuration: 0.3
+  flashOutDuration: 0.3
   flashCurve:
     serializedVersion: 2
     m_Curve:

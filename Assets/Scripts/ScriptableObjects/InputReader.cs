@@ -158,7 +158,8 @@ public class InputReader : ScriptableObject, GameInput.IPlayerActions, GameInput
 
     public void OnCancel(InputAction.CallbackContext context)
     {
-        // throw new System.NotImplementedException();
+        if (context.performed)
+            PauseEvent?.Invoke(); 
     }
 
     public void OnNavigate(InputAction.CallbackContext context)

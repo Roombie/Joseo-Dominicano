@@ -88,6 +88,9 @@ public class GameManager : MonoBehaviour
         {
             spawner?.onSpawn.AddListener(AddSpawnedValuable);
         }
+
+        if (_pauseMenuView != null)
+            _pauseMenuView.onCloseAnimationFinished.AddListener(OnPauseMenuClosed);
     }
 
     void Start()
@@ -206,47 +209,101 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _creditsPanel;
     [SerializeField] private bool _pauseWhileInOptions = true;
 
+    [SerializeField] private MenuView _pauseMenuView;
+    [SerializeField] private MenuView _pauseOptionsMenuView;
+    [SerializeField] private MenuView _mainOptionsMenuView;
+    [SerializeField] private MenuView _mainCreditsMenuView;
+
     public void _MainMenu_OpenOptions()
     {
-        if (inShift && !isPaused) _Gameplay_Pause();
+        // En menú principal: no hace falta pausar
+        if (_mainOptionsMenuView != null)
+        {
+            _mainOptionsMenuView.Show();
+        }
+        else if (_optionsPanel)
+        {
+            _optionsPanel.SetActive(true);
+        }
 
-        if (_optionsPanel) _optionsPanel.SetActive(true);
+        GameObject root = _mainOptionsMenuView != null
+            ? _mainOptionsMenuView.gameObject
+            : _optionsPanel;
 
-        foreach (var t in _optionsPanel.GetComponentsInChildren<ToggleSettingHandler>(true))
-            t.RefreshUI();
+        if (root != null)
+        {
+            foreach (var t in root.GetComponentsInChildren<ToggleSettingHandler>(true))
+                t.RefreshUI();
+        }
     }
 
     public void _MainMenu_CloseOptions()
     {
-        if (_optionsPanel) _optionsPanel.SetActive(false);
-
-        if (_pauseWhileInOptions && inShift && isPaused)
-            _Gameplay_Resume();
+        if (_mainOptionsMenuView != null)
+        {
+            _mainOptionsMenuView.Hide();
+        }
+        else if (_optionsPanel)
+        {
+            _optionsPanel.SetActive(false);
+        }
     }
 
     public void _PauseMenu_OpenOptions()
     {
         if (inShift && !isPaused) _Gameplay_Pause();
 
-        if (_optionsPausePanel) _optionsPausePanel.SetActive(true);
+        // Show options:
+        if (_pauseOptionsMenuView != null)
+            _pauseOptionsMenuView.Show();
+        else if (_optionsPausePanel != null)
+            _optionsPausePanel.SetActive(true);
 
-        foreach (var t in _optionsPausePanel.GetComponentsInChildren<ToggleSettingHandler>(true))
-            t.RefreshUI();
+        // Refresh UI toggles from the root of the options menu
+        GameObject root = null;
+        if (_pauseOptionsMenuView != null)
+            root = _pauseOptionsMenuView.gameObject;
+        else
+            root = _optionsPausePanel;
+
+        if (root != null)
+        {
+            foreach (var t in root.GetComponentsInChildren<ToggleSettingHandler>(true))
+                t.RefreshUI();
+        }
     }
 
     public void _PauseMenu_CloseOptions()
     {
-        if (_optionsPausePanel) _optionsPausePanel.SetActive(false);
+        if (_pauseOptionsMenuView != null)
+            _pauseOptionsMenuView.Hide(); // animated close
+        else if (_optionsPausePanel != null)
+            _optionsPausePanel.SetActive(false);
+
     }
 
     public void _MainMenu_OpenCredits()
     {
-        if (_creditsPanel) _creditsPanel.SetActive(true);
+        if (_mainCreditsMenuView != null)
+        {
+            _mainCreditsMenuView.Show();
+        }
+        else if (_creditsPanel)
+        {
+            _creditsPanel.SetActive(true);
+        }
     }
 
     public void _MainMenu_CloseCredits()
     {
-        if (_creditsPanel) _creditsPanel.SetActive(false);
+        if (_mainCreditsMenuView != null)
+        {
+            _mainCreditsMenuView.Hide();
+        }
+        else if (_creditsPanel)
+        {
+            _creditsPanel.SetActive(false);
+        }
     }
     #endregion
 
@@ -518,14 +575,21 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_Pause()
     {
-        if (!inShift) return;
+        if (!inShift || isPaused)
+            return;
 
-        Time.timeScale = 0;
+        isPaused = true;
+
+        Time.timeScale = 0f;  // Animator on pause menu must use Unscaled Time
         AudioManager.Instance?.Play(pauseSFX, SoundCategory.SFX);
-        _pausePanel.SetActive(true);
+
+        if (_pauseMenuView != null)
+            _pauseMenuView.Show();
+        else if (_pausePanel != null)
+            _pausePanel.SetActive(true);
+
         _oxygenManager.PauseOxygen();
         StopDayTimer();
-        isPaused = true;
 
         bool musicOn = PlayerPrefs.GetInt(SettingsKeys.MusicEnabledKey, 1) == 1;
         if (musicOn)
@@ -534,10 +598,30 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_Resume()
     {
-        Time.timeScale = 1;
+        if (!isPaused)
+            return;
+
+        if (_pauseMenuView != null)
+        {
+            _pauseMenuView.Hide();
+        }
+        else
+        {
+            if (_pausePanel != null)
+                _pausePanel.SetActive(false);
+
+            OnPauseMenuClosed();
+        }
+    }
+
+
+    public void OnPauseMenuClosed()
+    {
+        // This is called by pauseMenuView.onCloseAnimationFinished
+        Time.timeScale = 1f;
         AudioManager.Instance?.Play(resumeSFX, SoundCategory.SFX);
-        _pausePanel.SetActive(false);
-        _PauseMenu_CloseOptions();
+
+        _PauseMenu_CloseOptions(); // just in case
         _oxygenManager.ConsumeOxygen();
         RunDayTimer();
         isPaused = false;
@@ -549,23 +633,95 @@ public class GameManager : MonoBehaviour
 
     void OnPause()
     {
-        if (_pauseLocked) return;
+        if (_pauseLocked)
+            return;
 
-        if (isPaused) _Gameplay_Resume();
-        else _Gameplay_Pause();
+        // Si estamos en gameplay, esto funciona como PAUSE/BACK in-game
+        if (inShift)
+        {
+            // No está pausado aún → abrir menú de pausa
+            if (!isPaused)
+            {
+                _Gameplay_Pause();
+                return;
+            }
+
+            // Ya está pausado → ver si las opciones del PAUSE están abiertas
+            bool pauseOptionsOpen = false;
+
+            if (_pauseOptionsMenuView != null)
+                pauseOptionsOpen = _pauseOptionsMenuView.gameObject.activeInHierarchy;
+            else if (_optionsPausePanel != null)
+                pauseOptionsOpen = _optionsPausePanel.activeSelf;
+
+            if (pauseOptionsOpen)
+            {
+                // Primer pulsación mientras estás en opciones de pausa → cerrar SOLO opciones
+                _PauseMenu_CloseOptions();
+                return;
+            }
+
+            // Si no hay opciones de pausa abiertas → cerrar el menú de pausa (con animación)
+            _Gameplay_Resume();
+            return;
+        }
+
+        // Si NO estamos en gameplay, usar el mismo botón como "Back" en el menú principal
+        OnMainMenuBack();
+    }
+
+    public void OnMainMenuBack()
+    {
+        // Don’t run in gameplay or pause
+        if (inShift || isPaused)
+            return;
+
+        // Only handle this if main menu is actually visible
+        if (_testMainMenu == null || !_testMainMenu.activeInHierarchy)
+            return;
+
+        // Close main menu credits if open
+        bool creditsOpen = false;
+        if (_mainCreditsMenuView != null)
+            creditsOpen = _mainCreditsMenuView.gameObject.activeInHierarchy;
+        else if (_creditsPanel != null)
+            creditsOpen = _creditsPanel.activeSelf;
+
+        if (creditsOpen)
+        {
+            _MainMenu_CloseCredits();
+            return;
+        }
+
+        // Close main menu options if open
+        bool optionsOpen = false;
+        if (_mainOptionsMenuView != null)
+            optionsOpen = _mainOptionsMenuView.gameObject.activeInHierarchy;
+        else if (_optionsPanel != null)
+            optionsOpen = _optionsPanel.activeSelf;
+
+        if (optionsOpen)
+        {
+            _MainMenu_CloseOptions();
+            return;
+        }
     }
 
     public void _Gameplay_GoToMenu()
     {
         isPaused = false;
-        _pausePanel.SetActive(false);
         Time.timeScale = 1;
 
-        if (inShift)
-            OnGameplayEnd(); // limpia estado de gameplay
+        if (_pauseMenuView != null)
+            _pauseMenuView.gameObject.SetActive(false);
+        else if (_pausePanel != null)
+            _pausePanel.SetActive(false);
 
-        ResetGame(); // limpia progreso, economía y compras
-        _MainMenu_Display(); // muestra el menú
+        if (inShift)
+            OnGameplayEnd(); // clear gameplay state
+
+        ResetGame();         // clear progress, economy, purchases
+        _MainMenu_Display(); // show main menu
     }
 
     IEnumerator GameplayStartDayDelay()

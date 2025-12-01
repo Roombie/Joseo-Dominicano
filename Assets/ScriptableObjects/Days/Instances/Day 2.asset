@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08be57d2eebb2644199552c1857898b6, type: 3}
   m_Name: Day 2
   m_EditorClassIdentifier: Assembly-CSharp::LevelDayConfig
-  quota: 340
-  duration: 90
+  quota: 250
+  duration: 100
   spawnableObjects:
   - prefab: {fileID: 160163271522881491, guid: 665ad085161ba404eb1d3cdbf3d4505e, type: 3}
     weight: 1
@@ -53,7 +53,7 @@ MonoBehaviour:
     canSpawn: 0
   - prefab: {fileID: 2332355622716903862, guid: 5d06d34a52a1dd44bb84c24bbe3e870a, type: 3}
     weight: 1
-    canSpawn: 1
+    canSpawn: 0
   - prefab: {fileID: 6466122819447697235, guid: c0ff2cbeb8b8c684386ae299eaacd8b4, type: 3}
     weight: 1
     canSpawn: 1
