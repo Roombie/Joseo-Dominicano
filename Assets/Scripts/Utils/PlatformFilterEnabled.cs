@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem; // For Touchscreen
+using UnityEngine.InputSystem; // For Touchscreen (if you ever want to use it again)
 
 [System.Flags]
 public enum PlatformMask
@@ -19,6 +19,14 @@ public class PlatformFilterEnabler : MonoBehaviour
         PlatformMask.Editor |
         PlatformMask.Standalone |
         PlatformMask.WebGL;
+
+    [Tooltip("If true, ALL bits in activeOn must be present in currentMask (AND logic). " +
+             "If false, ANY bit is enough (OR logic, default).")]
+    public bool requireAllFlags = false;
+
+    [Header("Platforms where this should be DISABLED (even if activeOn matches)")]
+    [Tooltip("If any of these bits are present in currentMask, the object will be disabled.")]
+    public PlatformMask excludeOn = PlatformMask.None;
 
     [Header("Targets")]
     [Tooltip("If true, this GameObject will be enabled/disabled.")]
@@ -57,13 +65,11 @@ public class PlatformFilterEnabler : MonoBehaviour
             case RuntimePlatform.WebGLPlayer:
                 currentMask |= PlatformMask.WebGL;
 
-                // Extra: if this WebGL build is running on a touch device (phone/tablet),
-                // also mark it as "Mobile".
+                // If this WebGL build is running on a mobile-like device, also mark it as Mobile.
                 if (IsWebGLMobileLike())
                     currentMask |= PlatformMask.Mobile;
                 break;
-
-            // Ajusta según los consoles que uses
+            
             case RuntimePlatform.PS4:
             case RuntimePlatform.PS5:
             case RuntimePlatform.XboxOne:
@@ -73,8 +79,26 @@ public class PlatformFilterEnabler : MonoBehaviour
                 break;
         }
 
-        // If ANY of the bits of currentMask are enabled in activeOn → allowed
-        return (activeOn & currentMask) != 0;
+        // First, decide if this platform is allowed according to activeOn + requireAllFlags
+        bool allowed;
+        if (requireAllFlags)
+        {
+            // ALL bits in activeOn must be present in currentMask
+            allowed = (currentMask & activeOn) == activeOn;
+        }
+        else
+        {
+            // ANY bit in activeOn is enough
+            allowed = (currentMask & activeOn) != 0;
+        }
+
+        // Then, force-disable if any excluded bits are present
+        if (allowed && (currentMask & excludeOn) != 0)
+        {
+            allowed = false;
+        }
+
+        return allowed;
     }
 
     private void Apply(bool enable)
@@ -92,14 +116,24 @@ public class PlatformFilterEnabler : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns true when running as WebGL on a *touch* device (phone/tablet).
+    /// Returns true when running as WebGL on a *mobile-like* device (phone/tablet).
     /// Used to treat WebGL-on-phone as "Mobile" as well.
     /// </summary>
     private bool IsWebGLMobileLike()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        // New Input System: if there's a Touchscreen, assume it's a mobile-like device
-        return Touchscreen.current != null;
+        // Unity's own mobile detection
+        if (Application.isMobilePlatform)
+            return true;
+
+        if (SystemInfo.deviceType == DeviceType.Handheld)
+            return true;
+
+        // Simple heuristic based on screen size (helps in some edge cases)
+        if (Mathf.Min(Screen.width, Screen.height) < 900)
+            return true;
+
+        return false;
 #else
         return false;
 #endif

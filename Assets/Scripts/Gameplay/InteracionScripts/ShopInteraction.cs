@@ -36,7 +36,7 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
 
     [Header("Extra")]
     [SerializeField] bool pauseGameWhenOpen = true;
-    [SerializeField] bool closeOnTimerEnd = true; // New option to auto-close when timer ends
+    [SerializeField] bool closeOnTimerEnd = true; // Auto-close when timer ends
 
     GameManager gm;
 
@@ -45,6 +45,9 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
     bool isOpening;
     bool isClosing;
     public bool IsShopOpen => isOpen || isOpening || isClosing;
+
+    // Prevents multiple Interact() calls in the same frame (e.g. from button + touch)
+    private int _lastInteractFrame = -1;
 
     void Awake()
     {
@@ -81,6 +84,15 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
 
     public void Interact()
     {
+        // Guard: ignore multiple Interact() calls in the same frame
+        if (_lastInteractFrame == Time.frameCount)
+        {
+            // Optional debug
+            // Debug.Log("[ShopInteraction] Interact() ignored - already processed this frame.");
+            return;
+        }
+        _lastInteractFrame = Time.frameCount;
+
         Debug.Log($"[ShopInteraction] Interact() called - inRange={playerInRange}, inShift={gm?.inShift}");
         
         if (isOpening || isClosing)
@@ -89,10 +101,15 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         if (gm != null && gm.isPaused && !isOpen)
             return;
 
-        if (!isOpen && playerInRange)
+        // Use CanOpenShop() to centralize open conditions
+        if (!isOpen && CanOpenShop())
+        {
             Open();
+        }
         else if (isOpen)
+        {
             Close();
+        }
     }
 
     void Open()
@@ -120,7 +137,12 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         isOpening = true;
 
         if (playerRB) playerRB.linearVelocity = Vector2.zero;
-        if (mover) { mover.ForceStopSprint(); mover.ResetMove(); mover.enabled = false; }
+        if (mover)
+        {
+            mover.ForceStopSprint();
+            mover.ResetMove();
+            mover.enabled = false;
+        }
 
         if (pauseGameWhenOpen && gm != null)
         {
@@ -257,10 +279,10 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
 
         if (spent)
         {
-            // Aplica el efecto del nivel actual y avanza
+            // Apply current level effect and advance
             if (item.ApplyPurchase(mover != null ? mover.gameObject : null))
             {
-                // Actualizar UI de carry space y dinero
+                // Refresh UI (carry space and money)
                 GameManager.Instance.RefreshCarrySpaceUI();
                 GameManager.Instance.UpdateTotalCoinsUI();
 
@@ -282,7 +304,7 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         Close();
     }
 
-    // manually refresh the shop if needed
+    // Manually refresh the shop if needed
     public void RefreshShop()
     {
         if (itemUI != null && itemSO != null)
@@ -291,7 +313,7 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         }
     }
 
-    // check if shop can be opened (useful for UI)
+    // Check if shop can be opened (useful for UI and Interact())
     public bool CanOpenShop()
     {
         return playerInRange && !isOpen && !isOpening && !isClosing && 
