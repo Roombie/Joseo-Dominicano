@@ -1,79 +1,105 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem; // New Input System
 
 public class ShopSpriteTouchOpener : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private ShopInteraction shop;   // objeto que tiene ShopInteraction
-    [SerializeField] private Camera worldCamera;     // normalmente la Main Camera
+    [Header("Target shop logic")]
+    [SerializeField] private ShopInteraction shop;   // Object that has ShopInteraction (collider for PC button logic)
 
-    [Header("Editor")]
-    [SerializeField] private bool allowMouseInEditor = true; // para probar con el mouse
+    [Header("Camera")]
+    [SerializeField] private Camera worldCamera;     // Camera used for screen → world conversion (usually Main Camera)
+
+    [Header("Editor / Debug")]
+    [SerializeField] private bool allowMouseInEditor = true; // Allow mouse clicks in Editor/Standalone
+    [SerializeField] private bool logDebug = false;          // Enable debug logs
+
+    // Collider on THIS object (the clickable shop sprite)
+    private Collider2D tapCollider;
 
     void Awake()
     {
+        // If no camera is assigned, fall back to the main camera
         if (worldCamera == null)
             worldCamera = Camera.main;
+
+        // This script lives on the clickable sprite, so we grab its 2D collider here
+        tapCollider = GetComponent<Collider2D>();
+
+        if (worldCamera == null && logDebug)
+            Debug.LogWarning("[ShopSpriteTouchOpener] No worldCamera assigned and Camera.main is null.");
+
+        if (shop == null && logDebug)
+            Debug.LogWarning("[ShopSpriteTouchOpener] No ShopInteraction reference assigned.");
+
+        if (tapCollider == null && logDebug)
+            Debug.LogWarning("[ShopSpriteTouchOpener] No Collider2D on this GameObject. " +
+                             "This script must be on the clickable shop sprite with a 2D collider.");
     }
 
     void Update()
     {
-        if (shop == null || worldCamera == null)
+        if (shop == null || worldCamera == null || tapCollider == null)
             return;
 
-        // 1) ¿Hubo tap/click este frame?
-        if (!TryGetTapPosition(out Vector2 screenPos))
+        // Check if there was a pointer press this frame (touch on phone, mouse on PC)
+        if (!TryGetPointerDown(out Vector2 screenPos))
             return;
 
-        // 2) Pasar a coordenadas de mundo
-        Vector3 worldPos = worldCamera.ScreenToWorldPoint(
-            new Vector3(screenPos.x, screenPos.y, worldCamera.nearClipPlane));
+        if (logDebug)
+            Debug.Log($"[ShopSpriteTouchOpener] Pointer down at screen position: {screenPos}");
 
-        Vector2 worldPoint2D = new Vector2(worldPos.x, worldPos.y);
+        // Convert screen position to world position
+        Vector3 world = worldCamera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 0f));
+        Vector2 world2D = new Vector2(world.x, world.y);
 
-        // 3) Raycast puntual en 2D
-        Collider2D hit = Physics2D.OverlapPoint(worldPoint2D);
+        // Check if that world position is inside THIS collider
+        bool hitThisCollider = tapCollider.OverlapPoint(world2D);
 
-        // Si no golpeó nada, o no golpeó ESTE sprite, salir
-        if (hit == null)
-            return;
-
-        if (hit.transform != transform && !hit.transform.IsChildOf(transform))
-            return;
-
-        // 4) Aquí hacemos EXACTAMENTE lo mismo que el teclado:
-        Debug.Log("[ShopSpriteTouchOpener] Tap/click sobre la TIENDA → Interact()");
-        shop.Interact();   // Interact ya comprueba playerInRange, isOpen, isPaused, etc.
-    }
-
-    bool TryGetTapPosition(out Vector2 screenPos)
-    {
-        // TOUCH (Android / iOS / WebGL móvil / pantallas táctiles)
-        if (Touchscreen.current != null)
+        if (!hitThisCollider)
         {
-            var t = Touchscreen.current.primaryTouch;
-            if (t.press.wasPressedThisFrame)
-            {
-                screenPos = t.position.ReadValue();
-                return true;
-            }
+            if (logDebug)
+                Debug.Log("[ShopSpriteTouchOpener] Pointer did not hit this shop sprite collider.");
+            return;
         }
 
-        // MOUSE (PC, editor, WebGL escritorio) para pruebas
-        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        if (logDebug)
+            Debug.Log("[ShopSpriteTouchOpener] Shop sprite tapped. Calling shop.Interact().");
+
+        // Call the logic on the other object (the one with ShopInteraction)
+        shop.Interact();
+    }
+
+    /// <summary>
+    /// Returns true if the primary pointer (mouse or touch) was pressed this frame,
+    /// and outputs its screen position in pixels.
+    /// </summary>
+    private bool TryGetPointerDown(out Vector2 screenPos)
+    {
+        screenPos = default;
+
+        // Pointer.current will be:
+        // - Mouse on PC / Editor
+        // - Touchscreen on mobile
+        var pointer = Pointer.current;
+        if (pointer == null)
         {
-#if UNITY_EDITOR
-            if (!allowMouseInEditor)
-            {
-                screenPos = default;
-                return false;
-            }
+            if (logDebug)
+                Debug.Log("[ShopSpriteTouchOpener] Pointer.current is null.");
+            return false;
+        }
+
+#if UNITY_EDITOR || UNITY_STANDALONE
+        // Optional: ignore mouse in Editor/Standalone if you only want touch-based opening
+        if (!allowMouseInEditor && pointer is Mouse)
+            return false;
 #endif
-            screenPos = Mouse.current.position.ReadValue();
+
+        if (pointer.press.wasPressedThisFrame)
+        {
+            screenPos = pointer.position.ReadValue();
             return true;
         }
 
-        screenPos = default;
         return false;
     }
 }

@@ -341,13 +341,9 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         if (Application.isMobilePlatform || SystemInfo.deviceType == DeviceType.Handheld)
             return true;
 
-    #if UNITY_WEBGL && !UNITY_EDITOR
-        if (Touchscreen.current != null)
-            return true;
-    #endif
-
         return false;
     }
+
 
     /// <summary>
     /// Called by GameManager when entering/exiting gameplay.
