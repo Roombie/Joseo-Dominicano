@@ -35,6 +35,18 @@ public class PlatformFilterEnabler : MonoBehaviour
     [Tooltip("Optional extra GameObjects to toggle with the same rule.")]
     public GameObject[] extraTargets;
 
+#if UNITY_EDITOR
+    [Header("Editor Simulation (only in Play Mode)")]
+    [Tooltip("If true, overrides the detected platform mask while running in the Editor.")]
+    public bool simulateInEditor = false;
+
+    [Tooltip("Mask to use when simulateInEditor is true. For example:\n" +
+             "- WebGL                → simulate WebGL PC\n" +
+             "- Mobile               → simulate native mobile\n" +
+             "- WebGL | Mobile       → simulate WebGL opened on a phone")]
+    public PlatformMask editorSimulatedMask = PlatformMask.Standalone;
+#endif
+
     private void Awake()
     {
         bool shouldBeActive = IsCurrentPlatformAllowed();
@@ -46,9 +58,21 @@ public class PlatformFilterEnabler : MonoBehaviour
         PlatformMask currentMask = PlatformMask.None;
 
 #if UNITY_EDITOR
-        currentMask |= PlatformMask.Editor;
-#endif
+        if (simulateInEditor)
+        {
+            // Use the simulated mask in Editor
+            currentMask = editorSimulatedMask | PlatformMask.Editor;
+        }
+        else
+        {
+            // Normal Editor behaviour: just mark Editor + infer runtime group if needed
+            currentMask |= PlatformMask.Editor;
 
+            // (Optional) If you want, you can also try to infer Standalone here,
+            // but normalmente no hace falta para el preview.
+        }
+#else
+        // RUNTIME (no Editor)
         switch (Application.platform)
         {
             case RuntimePlatform.WindowsPlayer:
@@ -65,11 +89,11 @@ public class PlatformFilterEnabler : MonoBehaviour
             case RuntimePlatform.WebGLPlayer:
                 currentMask |= PlatformMask.WebGL;
 
-                // If this WebGL build is running on a mobile-like device, also mark it as Mobile.
+                // If this WebGL build is running on a *real* mobile device, also mark it as Mobile.
                 if (IsWebGLMobileLike())
                     currentMask |= PlatformMask.Mobile;
                 break;
-            
+
             case RuntimePlatform.PS4:
             case RuntimePlatform.PS5:
             case RuntimePlatform.XboxOne:
@@ -78,8 +102,8 @@ public class PlatformFilterEnabler : MonoBehaviour
                 currentMask |= PlatformMask.Console;
                 break;
         }
+#endif
 
-        // First, decide if this platform is allowed according to activeOn + requireAllFlags
         bool allowed;
         if (requireAllFlags)
         {
@@ -92,11 +116,21 @@ public class PlatformFilterEnabler : MonoBehaviour
             allowed = (currentMask & activeOn) != 0;
         }
 
-        // Then, force-disable if any excluded bits are present
+        // Force-disable if any excluded bits are present
         if (allowed && (currentMask & excludeOn) != 0)
         {
             allowed = false;
         }
+
+        Debug.Log(
+            $"[PlatformFilterEnabler] '{name}' " +
+            $"platform={Application.platform}, " +
+            $"mask={currentMask}, activeOn={activeOn}, excludeOn={excludeOn}, requireAllFlags={requireAllFlags}, " +
+#if UNITY_EDITOR
+            $"simulateInEditor={simulateInEditor}, editorSimulatedMask={editorSimulatedMask}, " +
+#endif
+            $"=> allowed={allowed}"
+        );
 
         return allowed;
     }
@@ -116,21 +150,16 @@ public class PlatformFilterEnabler : MonoBehaviour
     }
 
     /// <summary>
-    /// Returns true when running as WebGL on a *mobile-like* device (phone/tablet).
-    /// Used to treat WebGL-on-phone as "Mobile" as well.
+    /// Returns true when running as WebGL on a *mobile* device (phone/tablet).
+    /// Here NO resolution heuristic, just Unity's mobile detection.
     /// </summary>
     private bool IsWebGLMobileLike()
     {
 #if UNITY_WEBGL && !UNITY_EDITOR
-        // Unity's own mobile detection
         if (Application.isMobilePlatform)
             return true;
 
         if (SystemInfo.deviceType == DeviceType.Handheld)
-            return true;
-
-        // Simple heuristic based on screen size (helps in some edge cases)
-        if (Mathf.Min(Screen.width, Screen.height) < 900)
             return true;
 
         return false;
