@@ -185,6 +185,16 @@ MonoBehaviour:
     m_Localized: Last Day
     m_Metadata:
       m_Items: []
+  - m_Id: 12490708024688640
+    m_Localized: 'I need
+
+      $1100 on
+
+      the last
+
+      day'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

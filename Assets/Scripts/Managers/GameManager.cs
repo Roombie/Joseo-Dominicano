@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerWallet _playerWallet; //rafamaster3
     [SerializeField] PlayerCollect _playerCollect;
     public OxygenManager _oxygenManager; //rafamaster3
-    [SerializeField] List<Spawner> _spawners; //rafamaster3-modified
     [SerializeField] UnityEvent _onStart;
 
     void Awake()
@@ -84,11 +83,6 @@ public class GameManager : MonoBehaviour
         input.PauseEvent += OnPause;
         input.EnablePlayer();
 
-        foreach (Spawner spawner in _spawners)
-        {
-            spawner?.onSpawn.AddListener(AddSpawnedValuable);
-        }
-
         if (_pauseMenuView != null)
             _pauseMenuView.onCloseAnimationFinished.AddListener(OnPauseMenuClosed);
     }
@@ -109,11 +103,6 @@ public class GameManager : MonoBehaviour
         // _oxygenManager?.onOxygenDepleted.RemoveListener(_Gameplay_OnPlayerDeath);
 
         input.PauseEvent -= OnPause;
-
-        foreach (Spawner spawner in _spawners)
-        {
-            spawner?.onSpawn.RemoveListener(AddSpawnedValuable);
-        }
 
         if (_playerWallet != null)
             _playerWallet.OnBalanceChanged -= OnWalletChanged;
@@ -742,13 +731,6 @@ public class GameManager : MonoBehaviour
         RunDayTimer();
         _oxygenManager.ResetOxygen();
 
-        foreach (Spawner spawner in _spawners)
-        {
-            if (!spawner.enabled) continue;
-            spawner.currentLevel = _currentDay;
-            spawner.LaunchSpawner();
-        }
-
         _playerSackDebugOutput = "Clear";
         _currentShiftPayment = 0;
 
@@ -775,6 +757,7 @@ public class GameManager : MonoBehaviour
         var so = pickup.Item;
         if (so == null) return;
 
+        // If this is the same rejected item as last time OR a worthless item, ignore
         if ((lastRejectedValuable != null && pickup == lastRejectedValuable) ||
             (so.Worth == 0 && so.PickUpSpace == 0))
         {
@@ -782,6 +765,8 @@ public class GameManager : MonoBehaviour
         }
 
         int freeSpace = _playerSackCarrySpaceLimit - _playerSackCarrySpaceUsed;
+
+        // Enough space → accept item and DESPAWN via pool
         if (so.PickUpSpace <= freeSpace)
         {
             _playerSack.Add(so);
@@ -804,7 +789,7 @@ public class GameManager : MonoBehaviour
                 WhenItemCollectedRoutine = StartCoroutine(playerSackWhenItemCollectedRoutine());
 
                 _playerSackDebugOutput += "(FULL)";
-                lastRejectedValuable = pickup;
+                // No need to set lastRejectedValuable here, the item will despawn
             }
             else
             {
@@ -823,6 +808,7 @@ public class GameManager : MonoBehaviour
                     $"({_playerSackCarrySpaceUsed}/{_playerSackCarrySpaceLimit})";
             }
 
+            // Play pickup SFX
             if (so.PickUpSound != null)
             {
                 float minPitch = so.MinRandomPitch;
@@ -845,10 +831,12 @@ public class GameManager : MonoBehaviour
                 );
             }
 
-            Destroy(pickup.gameObject);
+            // despawn via TrashPickup to pool 
+            pickup.OnCollected();
         }
         else
         {
+            // Not enough space → just show feedback, do NOT despawn
             if (_playerSackCarrySpaceUsed == _playerSackCarrySpaceLimit)
                 _playerSackLabel.text =
                     $"<color=yellow>({_playerSackCarrySpaceUsed}/{_playerSackCarrySpaceLimit})</color>";
@@ -1040,11 +1028,6 @@ public class GameManager : MonoBehaviour
         {
             _playerMovement.ForceStopSprint();
             _playerMovement.SetMobileControlsForGameplay(false);
-        }
-
-        foreach (Spawner spawner in _spawners)
-        {
-            spawner.StopSpawning();
         }
 
         // DestroyAllSpawnedValuables();

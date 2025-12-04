@@ -166,6 +166,10 @@ MonoBehaviour:
     m_Localized: "\xDAltimo d\xEDa"
     m_Metadata:
       m_Items: []
+  - m_Id: 12490708024688640
+    m_Localized: "Necesito\n$1100 en\nel \xFAltimo\nd\xEDa"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
