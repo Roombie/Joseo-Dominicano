@@ -155,6 +155,10 @@ MonoBehaviour:
     m_Key: UI_LASTDAY_TEXT
     m_Metadata:
       m_Items: []
+  - m_Id: 12490708024688640
+    m_Key: UI_SHOP_MCNOTE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

@@ -93,7 +93,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5676113217365036917
 RectTransform:
   m_ObjectHideFlags: 0
@@ -691,13 +691,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7708855432745393769}
+  - component: {fileID: 8720910472540916972}
   m_Layer: 5
   m_Name: Oxygen Meter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7708855432745393769
 RectTransform:
   m_ObjectHideFlags: 0
@@ -717,9 +718,35 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 206, y: 34}
+  m_AnchoredPosition: {x: 206, y: 25}
   m_SizeDelta: {x: 160, y: 30.13301}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8720910472540916972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6259377670357725998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1325f92994f8b045822a1df2f39e592, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  standaloneMask: 3
+  mobileMask: 4
+  webGLMask: 8
+  standaloneConfig:
+    anchorPreset: 0
+    anchoredPosition: {x: 206, y: 25}
+  mobileConfig:
+    anchorPreset: 1
+    anchoredPosition: {x: 100, y: 25}
+  webGLConfig:
+    anchorPreset: 0
+    anchoredPosition: {x: 206, y: 25}
+  simulateInEditor: 1
+  editorSimulatedMask: 2
 --- !u!1 &7817409171995149842
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,8 +797,11 @@ MonoBehaviour:
   maxTotalOxygen: {fileID: 11400000, guid: 836e528f115353f4e878c21eaa58a706, type: 2}
   movingDepletionChange: 0.5
   sprintingDepletionChange: 0.1
-  currentMoveDepletionModifier: 1
   hazardDamage: 10
+  hazardDamageSound: {fileID: 8300000, guid: 223152dade1948249bc4aac475588725, type: 3}
+  loseObjectSound: {fileID: 8300000, guid: 0e7270528b7ded840b747809a0968efd, type: 3}
+  invincibilityDuration: 0.5
+  playerSprite: {fileID: 0}
   oxygenWarningController: {fileID: 0}
   lowOxygenThreshold: 0.3
   normalGradientOffset: -1
