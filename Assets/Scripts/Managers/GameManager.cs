@@ -69,7 +69,10 @@ public class GameManager : MonoBehaviour
 
         _testGameplayScreen.SetActive(false);
         _testHomeScreen.SetActive(false);
-        _testGameOverScreen.SetActive(false);
+
+        if (_drownedVariantRoot != null) _drownedVariantRoot.SetActive(false);
+        if (_quotaVariantRoot != null) _quotaVariantRoot.SetActive(false);
+        if (_victoryRoot != null) _victoryRoot.SetActive(false);
 
         _playerCollect?.onCollect.AddListener(OnValuableCollected);
         // _oxygenManager?.onOxygenDepleted.AddListener(_Gameplay_OnPlayerDeath);
@@ -744,8 +747,10 @@ public class GameManager : MonoBehaviour
 
         _onStartDay?.Invoke();
         
+        input.EnablePlayer();
+
         if (_playerMovement != null)
-            _playerMovement.SetMobileControlsForGameplay(true);
+            _playerMovement.SetMobileControlsForGameplay(true);    
     }
 
     TrashPickup lastRejectedValuable;
@@ -991,7 +996,7 @@ public class GameManager : MonoBehaviour
 
         musicSwitcher?.SetMusicAudible(false, 0.25f);
         OnGameplayEnd();
-        _gameOverDisplay.Set(_gameOverTitleText, _gameOverContextText);
+        ShowEnding(GameEndingType.Drowned);
         _GameOver_Display();
     }
 
@@ -1234,7 +1239,7 @@ public class GameManager : MonoBehaviour
             ResetShopPurchases();
             isInHurry = false;
             musicSwitcher?.SetMusicAudible(false, 0.25f);
-            _gameOverDisplay.Set(_badEndingTitleText, _badEndingContextText);
+            ShowEnding(GameEndingType.NotReachedQuota);
             _GameOver_Display();
             isInHome = false;
             return;
@@ -1250,11 +1255,11 @@ public class GameManager : MonoBehaviour
         if (_testGameplayTotalMoney != null)
             _testGameplayTotalMoney.text = "Ahorrado: $" + _playerWallet.Balance;
 
-        // If last day → GOOD END
+        // If last day, good ending
         if (_currentDay >= _days.days.Count)
         {
             ResetShopPurchases();
-            _gameOverDisplay.Set(_winTitleText, _winContextText);
+            ShowEnding(GameEndingType.GoodEnding);
             _GameOver_Display();
         }
         else
@@ -1267,47 +1272,55 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region Game Over
-    [Header("Game Over")]
-    [SerializeField] GameObject _testGameOverScreen;
-    [SerializeField] string _winTitleText = "Good Ending";
-    [SerializeField] string _winContextText = "Gimme some beer for the man! whooo";
-    [SerializeField] string _gameOverTitleText = "Game Over";
-    [SerializeField] string _gameOverContextText = "You died...";
-    [SerializeField] string _badEndingTitleText = "Bad Ending";
-    [SerializeField] string _badEndingContextText = "Your family starved...";
-    [SerializeField] TMP_Text _gameOverTitle;
-    [SerializeField] TMP_Text _gameOverContext;
-
-    struct GameEndDisplay
+    #region Ending Screens
+    public enum GameEndingType
     {
-        string endingTitle;
-        string endingContext;
+        Drowned,
+        NotReachedQuota,
+        GoodEnding
+    }
 
-        public void SetEndingLabels(TMP_Text title, TMP_Text context)
-        {
-            title.text = endingTitle;
-            context.text = endingContext;
-        }
+    [SerializeField] GameObject _drownedVariantRoot;
+    [SerializeField] GameObject _quotaVariantRoot;
+    [SerializeField] GameObject _victoryRoot;
 
-        public void Set(string title = "Game Over", string context = "")
+    public void ShowEnding(GameEndingType type)
+    {
+        _drownedVariantRoot.SetActive(false);
+        _quotaVariantRoot.SetActive(false);
+        _victoryRoot.SetActive(false);
+
+        switch (type)
         {
-            endingTitle = title;
-            endingContext = context;
+            case GameEndingType.Drowned:
+                _drownedVariantRoot.SetActive(true);
+                break;
+
+            case GameEndingType.NotReachedQuota:
+                _quotaVariantRoot.SetActive(true);
+                break;
+
+            case GameEndingType.GoodEnding:
+                _victoryRoot.SetActive(true);
+                break;
         }
     }
 
-    GameEndDisplay _gameOverDisplay;
-
     public void _GameOver_Display()
     {
-        _gameOverDisplay.SetEndingLabels(_gameOverTitle, _gameOverContext);
-        _testGameOverScreen.SetActive(true);
+        input.EnableUI();
+        input.DisablePlayer();
+        Time.timeScale = 0f;
     }
 
     public void _GameOver_GoToMainMenu()
     {
-        _testGameOverScreen.SetActive(false);
+        Time.timeScale = 1f;
+
+        if (_drownedVariantRoot != null) _drownedVariantRoot.SetActive(false);
+        if (_quotaVariantRoot != null) _quotaVariantRoot.SetActive(false);
+        if (_victoryRoot != null) _victoryRoot.SetActive(false);
+
         musicSwitcher?.SetMusicAudible(true, 0.25f);
         ResetShopPurchases();
         ResetGame();

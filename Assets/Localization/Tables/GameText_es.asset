@@ -170,6 +170,34 @@ MonoBehaviour:
     m_Localized: "Necesito\n$1100 en\nel \xFAltimo\nd\xEDa"
     m_Metadata:
       m_Items: []
+  - m_Id: 13191805299195904
+    m_Localized: "Volver al men\xFA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13191902464442368
+    m_Localized: FIN DEL JUEGO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13192059402715136
+    m_Localized: No lograste salvar a tu madre.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13194769040539648
+    m_Localized: BUEN FINAL
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13195138122514432
+    m_Localized: "Lograste pagar la operaci\xF3n."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13202906120323072
+    m_Localized: FIN DEL JUEGO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13202954811998208
+    m_Localized: Te has ahogado.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
