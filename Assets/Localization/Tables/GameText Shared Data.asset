@@ -159,6 +159,34 @@ MonoBehaviour:
     m_Key: UI_SHOP_MCNOTE
     m_Metadata:
       m_Items: []
+  - m_Id: 13191805299195904
+    m_Key: UI_BUTTON_GOTOMENU
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13191902464442368
+    m_Key: UI_NOTENOUGHQUOTA_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13192059402715136
+    m_Key: UI_NOTENOUGHQUOTA_CONTEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13194769040539648
+    m_Key: UI_GOODENDING_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13195138122514432
+    m_Key: UI_GOODENDING_CONTEXT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13202906120323072
+    m_Key: UI_DROWNED_TITLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13202954811998208
+    m_Key: UI_DROWNED_CONTEXT
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
