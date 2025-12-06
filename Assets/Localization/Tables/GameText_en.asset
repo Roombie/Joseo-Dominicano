@@ -195,6 +195,34 @@ MonoBehaviour:
       day'
     m_Metadata:
       m_Items: []
+  - m_Id: 13191805299195904
+    m_Localized: Go to Menu
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13191902464442368
+    m_Localized: GAME OVER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13192059402715136
+    m_Localized: You couldn't save your mother.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13194769040539648
+    m_Localized: GOOD ENDING
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13195138122514432
+    m_Localized: You managed to pay for the operation.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13202906120323072
+    m_Localized: GAME OVER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 13202954811998208
+    m_Localized: You drowned.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
