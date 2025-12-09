@@ -167,7 +167,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 12490708024688640
-    m_Localized: "Necesito\n$1100 en\nel \xFAltimo\nd\xEDa"
+    m_Localized: "Recordatorio: \ntienes que \njuntar $1,100\npara el \nfin de semana"
     m_Metadata:
       m_Items: []
   - m_Id: 13191805299195904
