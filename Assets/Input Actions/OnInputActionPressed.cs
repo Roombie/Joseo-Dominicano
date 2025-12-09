@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 public class OnInputActionPressed : MonoBehaviour
 {
@@ -97,22 +98,52 @@ public class OnInputActionPressed : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Returns true if there was a pointer press this frame AND it was NOT over UI.
+    /// </summary>
     private bool PointerPressedThisFrame()
     {
+        // Touch (Input System)
         if (Touchscreen.current != null)
         {
             var touch = Touchscreen.current.primaryTouch;
             if (touch.press.wasPressedThisFrame)
-                return true;
+            {
+                if (!IsPointerOverUI())
+                    return true;
+            }
         }
 
+        // Mouse
         if (Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
         {
-            return true;
+            if (!IsPointerOverUI())
+                return true;
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Checks if the current pointer (mouse or first touch) is over a UI element.
+    /// </summary>
+    private bool IsPointerOverUI()
+    {
+        if (EventSystem.current == null)
+            return false;
+
+        // Touch UI check (usamos Input solo para la detección de UI)
+#if UNITY_ANDROID || UNITY_IOS || UNITY_EDITOR
+        if (Input.touchCount > 0)
+        {
+            var touch = Input.GetTouch(0);
+            return EventSystem.current.IsPointerOverGameObject(touch.fingerId);
+        }
+#endif
+
+        // Mouse / default pointer
+        return EventSystem.current.IsPointerOverGameObject();
     }
 
     public void ResetOneShot()

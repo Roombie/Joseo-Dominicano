@@ -186,13 +186,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 12490708024688640
-    m_Localized: 'I need
-
-      $1100 on
-
-      the last
-
-      day'
+    m_Localized: "Reminder:\nYou have to\nraise $1100 \nfor the weekend"
     m_Metadata:
       m_Items: []
   - m_Id: 13191805299195904
