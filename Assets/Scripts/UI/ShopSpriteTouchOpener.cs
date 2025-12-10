@@ -66,7 +66,18 @@ public class ShopSpriteTouchOpener : MonoBehaviour
             Debug.Log("[ShopSpriteTouchOpener] Shop sprite tapped. Calling shop.Interact().");
 
         // Call the logic on the other object (the one with ShopInteraction)
-        shop.Interact();
+        // If tapped sprite
+        if (hitThisCollider)
+        {
+            // Prevent shop interaction when dead or out of shift
+            if (GameManager.Instance != null &&
+                GameManager.Instance.InteractionsLocked)
+            {
+                return;
+            }
+
+            shop.Interact();
+        }
     }
 
     /// <summary>

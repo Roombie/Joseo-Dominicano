@@ -84,6 +84,14 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
 
     public void Interact()
     {
+        if (GameManager.Instance != null &&
+            (!GameManager.Instance.inShift ||
+            GameManager.Instance._isDead ||
+            GameManager.Instance.InteractionsLocked))
+        {
+            return;
+        }
+
         // Guard: ignore multiple Interact() calls in the same frame
         if (_lastInteractFrame == Time.frameCount)
         {

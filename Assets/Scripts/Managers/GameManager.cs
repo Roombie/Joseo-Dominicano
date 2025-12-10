@@ -127,6 +127,7 @@ public class GameManager : MonoBehaviour
         _isDead = false;
         _currentShiftPayment = 0;
         ResetShopPurchases();
+        ResetInteractionLock();
 
         if (_playerMovement != null)
             _playerMovement.ForceStopSprint();
@@ -170,6 +171,30 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"Reseteados {resetCount} items de tienda (compras y niveles)");
     }
+
+    private bool _interactionsLocked = false;
+    public bool InteractionsLocked => _interactionsLocked;
+
+    public void LockInteractionsAndCloseShops()
+    {
+        _interactionsLocked = true;
+
+        // Cerrar todas las shops abiertas
+        var shops = FindObjectsByType<ShopInteraction>(FindObjectsSortMode.None);
+        foreach (var shop in shops)
+        {
+            if (shop != null && shop.IsShopOpen)
+            {
+                shop.Close();
+            }
+        }
+    }
+
+    public void ResetInteractionLock()
+    {
+        _interactionsLocked = false;
+    }
+
 
     #endregion
 
@@ -539,7 +564,8 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_SilentPause()
     {
-        if (!inShift) return;
+        if (!inShift || isPaused || _interactionsLocked)
+            return;
 
         Time.timeScale = 0;
         isPaused = true;
@@ -567,7 +593,7 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_Pause()
     {
-        if (!inShift || isPaused)
+        if (!inShift || isPaused || _interactionsLocked)
             return;
 
         isPaused = true;
@@ -625,7 +651,7 @@ public class GameManager : MonoBehaviour
 
     void OnPause()
     {
-        if (_pauseLocked)
+        if (_pauseLocked || _interactionsLocked)
             return;
 
         // Si estamos en gameplay, esto funciona como PAUSE/BACK in-game
@@ -725,6 +751,7 @@ public class GameManager : MonoBehaviour
     public void _Gameplay_StartDay()
     {
         if (inShift) return;
+        ResetInteractionLock();
 
         inShift = true;
         wasAboveQuota = false;
@@ -750,7 +777,11 @@ public class GameManager : MonoBehaviour
         input.EnablePlayer();
 
         if (_playerMovement != null)
-            _playerMovement.SetMobileControlsForGameplay(true);    
+        {
+            _playerMovement.ResetMove();
+            _playerMovement.ResetSprintState();
+            _playerMovement.SetMobileControlsForGameplay(true);  
+        }
     }
 
     TrashPickup lastRejectedValuable;
@@ -1003,6 +1034,7 @@ public class GameManager : MonoBehaviour
     public void _Gameplay_OnTimeUp()
     {
         if (!inShift) return;
+        LockInteractionsAndCloseShops();
         OnGameplayEnd();
         _onGameplayTimesUp?.Invoke();
         Invoke("_Home_Display", _timesUpDisplayHomeDelay);
@@ -1013,6 +1045,7 @@ public class GameManager : MonoBehaviour
     {
         if (!inShift) return;
         isInHurry = false;
+        LockInteractionsAndCloseShops();
         input.EnableUI();
         input.DisablePlayer();
         StopDayTimer();
@@ -1031,6 +1064,7 @@ public class GameManager : MonoBehaviour
 
         if (_playerMovement != null)
         {
+            _playerMovement.ResetMove();
             _playerMovement.ForceStopSprint();
             _playerMovement.SetMobileControlsForGameplay(false);
         }

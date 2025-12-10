@@ -23,6 +23,13 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (GameManager.Instance != null &&
+            GameManager.Instance.InteractionsLocked)
+        {
+            inRange = false;
+            return;
+        }
+
         if (collision.CompareTag("Player"))
         {
             inRange = true;
@@ -47,6 +54,13 @@ public class PlayerInteract : MonoBehaviour
 
     public void Interact()
     {
+        if (GameManager.Instance != null &&
+            GameManager.Instance.InteractionsLocked)
+        {
+            inRange = false;
+            return;
+        }
+
         if (inRange)
         {
             interact?.Interact();

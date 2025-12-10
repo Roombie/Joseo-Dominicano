@@ -306,25 +306,37 @@ public class PlayerSmoothMovement : OxygenableBehaviour
         // Avisar que dejamos de sprintar
         SetSprintingEvent(false); 
 
-        _onSprintEnd?.Invoke();   // aquí se apaga el boost
+        _onSprintEnd?.Invoke(); // aquí se apaga el boost
     }
 
-    // Para cuando se acaba el turno / se resetea el juego
+    public void ResetSprintState()
+    {
+        // Hard reset sprint flags and speed
+        _isSprinting = false;
+
+        if (currentSpeed == runSpeed)
+            currentSpeed = walkSpeed;
+
+        // Ensure listeners know we are not sprinting anymore
+        SetSprintingEvent(false);
+
+        // Make sure VFX / distortion tied to OnSprintEnd are turned off
+        _onSprintEnd?.Invoke();
+    }
+
+    // Used when the shift ends / game resets
     public void ForceStopSprint()
     {
         if (_isSprinting)
         {
-            // Usa el flujo normal para que dispare evento y UnityEvents
+            // Use the normal flow so it logs and calls OnSprintEnd once
             SprintReleased();
         }
         else
         {
-            // Por si quedó en runSpeed sin flag
-            if (currentSpeed == runSpeed)
-                currentSpeed = walkSpeed;
-
-            // Asegura que el evento quede en "no sprint"
-            SetSprintingEvent(false);
+            // Even if the flag says "not sprinting", make sure
+            // speed and VFX are reset (defensive)
+            ResetSprintState();
         }
     }
 
