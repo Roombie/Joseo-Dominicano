@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Localization;
 using System;
+using UnityEngine.EventSystems;
 
 public class ShopItemUI : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class ShopItemUI : MonoBehaviour
     [Header("Audio Feedback")]
     [SerializeField] AudioClip purchaseSuccessSound;
     [SerializeField] AudioClip purchaseFailSound;
+
+    [Header("Input")]
+    [SerializeField] private InputReader inputReader;
 
     // Events for external systems
     public event Action<ShopItemSO> OnPurchaseAttempt;
@@ -52,6 +56,11 @@ public class ShopItemUI : MonoBehaviour
         {
             purchasedLocalizedString.StringChanged += OnPurchasedStringChanged;
         }
+
+        if (inputReader != null)
+        {
+            inputReader.UISubmitEvent += OnUISubmit;
+        }
     }
 
     void OnDisable()
@@ -60,6 +69,11 @@ public class ShopItemUI : MonoBehaviour
         if (purchasedLocalizedString != null)
         {
             purchasedLocalizedString.StringChanged -= OnPurchasedStringChanged;
+        }
+
+        if (inputReader != null)
+        {
+            inputReader.UISubmitEvent -= OnUISubmit;
         }
     }
 
@@ -103,6 +117,34 @@ public class ShopItemUI : MonoBehaviour
         item = null;
         shop = null;
         isInitialized = false;
+    }
+
+    public Button GetBuyButton()
+    {
+        return buyButton;
+    }
+    
+    private void OnUISubmit()
+    {
+        // No hacemos nada si este item no está listo
+        if (!isInitialized || item == null || shop == null)
+            return;
+
+        // Si no hay botón o no se puede pulsar, nada
+        if (buyButton == null || !buyButton.interactable)
+            return;
+
+        // Necesitamos EventSystem para saber qué está seleccionado
+        if (EventSystem.current == null)
+            return;
+
+        var current = EventSystem.current.currentSelectedGameObject;
+
+        // Solo aceptar el submit si este ítem (o su botón) está seleccionado
+        if (current == buyButton.gameObject || current == gameObject)
+        {
+            OnBuy();
+        }
     }
 
     private void SetPurchasedState()
