@@ -146,6 +146,20 @@ public class GameManager : MonoBehaviour
             if (newBalance < quota)
                 wasAboveQuota = false;
         }
+
+        RefreshAllShopItemsUI();
+    }
+
+    private void RefreshAllShopItemsUI()
+    {
+        var shopItemsUI = FindObjectsByType<ShopItemUI>(FindObjectsSortMode.None);
+        foreach (var ui in shopItemsUI)
+        {
+            if (ui != null && ui.IsValid())
+            {
+                ui.ForceUpdate();
+            }
+        }
     }
 
     private void ResetShopPurchases()

@@ -217,6 +217,18 @@ MonoBehaviour:
     m_Localized: You drowned.
     m_Metadata:
       m_Items: []
+  - m_Id: 15332145544167424
+    m_Localized: 'S
+
+      P
+
+      A
+
+      C
+
+      E'
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

@@ -22,6 +22,11 @@ MonoBehaviour:
     - Locale-en
     - Locale-es
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 253e647c79b8ab0439aa3e8944dd3849
+    m_Address: Assets/Localization/Tables/ControlNames Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3e054839b4025e047b97625bcb220114
     m_Address: ui-credits-button
     m_ReadOnly: 1
