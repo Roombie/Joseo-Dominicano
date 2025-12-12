@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
 using System.Collections;
+using UnityEngine.UI;
 
 public class ShopInteraction : MonoBehaviour, IPlayerInteract
 {
@@ -84,6 +85,14 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
 
     public void Interact()
     {
+        if (GameManager.Instance != null &&
+            (!GameManager.Instance.inShift ||
+            GameManager.Instance._isDead ||
+            GameManager.Instance.InteractionsLocked))
+        {
+            return;
+        }
+
         // Guard: ignore multiple Interact() calls in the same frame
         if (_lastInteractFrame == Time.frameCount)
         {
@@ -155,14 +164,27 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
         if (shopPanel) 
         {
             shopPanel.SetActive(true);
-            // Clear selection to prevent auto-clicking
-            if (EventSystem.current)
-                EventSystem.current.SetSelectedGameObject(null);
+            StartCoroutine(SelectBuyButtonAfterFrame());
         }
 
         AudioManager.Instance.Play(openSound, SoundCategory.SFX);
 
         StartCoroutine(OpenRoutine());
+    }
+
+    private IEnumerator SelectBuyButtonAfterFrame()
+    {
+        yield return null; // Wait a frame
+        
+        if (itemUI != null && EventSystem.current != null)
+        {
+            Button button = itemUI.GetBuyButton();
+            if (button != null)
+            {
+                EventSystem.current.SetSelectedGameObject(button.gameObject);
+                Debug.Log("ShopInteraction: Buy button selected");
+            }
+        }
     }
 
     private IEnumerator OpenRoutine()
@@ -216,7 +238,13 @@ public class ShopInteraction : MonoBehaviour, IPlayerInteract
             gm.DisallowPause(false);
             if (gm.PauseButton != null)
                 gm.PauseButton.SetActive(true);
-        }   
+        } 
+
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+            Debug.Log("ShopInteraction: Selection cleared");
+        } 
 
         isClosing = false;
     }

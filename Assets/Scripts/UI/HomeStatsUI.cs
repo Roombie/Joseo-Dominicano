@@ -163,13 +163,13 @@ public class HomeStatsUI : MonoBehaviour
 
         // Skip by touch / pointer (mobile & WebGL on phone), similar to StoryPager / TimelineSkipTrigger
 #if UNITY_EDITOR
-        if (skipOnAnyTouch && PointerPressedThisFrameNotOverUI())
+        if (skipOnAnyTouch && PointerPressedThisFrame())
         {
             SkipDisplay();
             return;
         }
 #else
-        if (skipOnAnyTouch && IsMobileUser() && PointerPressedThisFrameNotOverUI())
+        if (skipOnAnyTouch && IsMobileUser() && PointerPressedThisFrame())
         {
             SkipDisplay();
             return;
@@ -436,6 +436,29 @@ public class HomeStatsUI : MonoBehaviour
         if (Touchscreen.current != null)
             return true;
 #endif
+
+        return false;
+    }
+
+    bool PointerPressedThisFrame()
+    {
+        // Touch devices
+        if (Touchscreen.current != null)
+        {
+            var touch = Touchscreen.current.primaryTouch;
+            if (touch.press.wasPressedThisFrame)
+            {
+                return true; // no UI filtering
+            }
+        }
+
+    #if UNITY_EDITOR
+        // Mouse fallback
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            return true; // no UI filtering
+        }
+    #endif
 
         return false;
     }

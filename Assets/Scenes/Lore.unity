@@ -855,7 +855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7376e38582ff78740b44c0baddf83990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  targetText: {fileID: 0}
+  targetText: {fileID: 911882734}
   tapToContinue:
     m_TableReference:
       m_TableCollectionName: GUID:8838e1a860fa6104199f73a640b0e443
@@ -875,6 +875,8 @@ MonoBehaviour:
     m_WaitForCompletion: 0
     m_LocalVariables: []
   continueAction: {fileID: 392368643174621059, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  controlNamesTable:
+    m_TableCollectionName: ControlNames
   references:
     version: 2
     RefIds: []

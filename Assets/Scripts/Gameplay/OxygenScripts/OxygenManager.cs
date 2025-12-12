@@ -124,7 +124,7 @@ public class OxygenManager : MonoBehaviour
         if (oxygenWarningController != null)
             oxygenWarningController.gameObject.SetActive(false);
 
-        StopLowOxygenMusic();
+        StopLowOxygenMusicImmediate();
         ClearInvincibility();
     }
 
@@ -301,6 +301,21 @@ public class OxygenManager : MonoBehaviour
 
 
     // Low oxygen warning
+
+    private void StopLowOxygenMusicImmediate()
+    {
+        if (musicFadeCoroutine != null)
+        {
+            StopCoroutine(musicFadeCoroutine);
+            musicFadeCoroutine = null;
+        }
+
+        if (lowOxygenAudioSource != null)
+        {
+            lowOxygenAudioSource.Stop();
+            lowOxygenAudioSource.volume = 0f;
+        }
+    }
 
     private void UpdateLowOxygenWarning()
     {

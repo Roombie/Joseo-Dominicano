@@ -187,6 +187,10 @@ MonoBehaviour:
     m_Key: UI_DROWNED_CONTEXT
     m_Metadata:
       m_Items: []
+  - m_Id: 15332145544167424
+    m_Key: UI_SPACE_TITLE
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

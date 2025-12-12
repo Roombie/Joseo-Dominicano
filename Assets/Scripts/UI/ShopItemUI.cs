@@ -3,6 +3,8 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Localization;
 using System;
+using System.Collections;
+using UnityEngine.EventSystems;
 
 public class ShopItemUI : MonoBehaviour
 {
@@ -13,54 +15,79 @@ public class ShopItemUI : MonoBehaviour
     [Header("Localization")]
     [SerializeField] LocalizedString purchasedLocalizedString;
 
+    [Header("Price Colors")]
+    [SerializeField] private Color affordableNormal = Color.white;
+    [SerializeField] private Color affordablePressed = Color.white;
+
+    [SerializeField] private Color notAffordableNormal = Color.red;
+    [SerializeField] private Color notAffordablePressed = new Color(0.8f, 0f, 0f);
+
+    [Tooltip("Used when the item is MAX (button not interactable).")]
+    [SerializeField] private Color disabledColor = new Color(0.6f, 0.6f, 0.6f, 1f);
+
     [Header("Audio Feedback")]
     [SerializeField] AudioClip purchaseSuccessSound;
     [SerializeField] AudioClip purchaseFailSound;
 
-    // Events for external systems
+    [Header("Input")]
+    [SerializeField] private InputReader inputReader;
+    [SerializeField] private float submitPressedVisualSeconds = 0.08f;
+
+    // External events
     public event Action<ShopItemSO> OnPurchaseAttempt;
     public event Action<ShopItemSO> OnPurchaseSuccess;
     public event Action<ShopItemSO> OnPurchaseFailed;
 
-    ShopItemSO item;
-    ShopInteraction shop;
-    bool isInitialized = false;
+    private ShopItemSO item;
+    private ShopInteraction shop;
+    private bool isInitialized = false;
 
-    void Awake()
+    private bool canAfford;
+    private bool isPointerDown;
+
+    private Coroutine submitPressCoroutine;
+
+    // Layout/TMP stability: avoid forcing text/layout updates every frame.
+    private int _lastPrice = int.MinValue;
+    private int _lastBalance = int.MinValue;
+    private bool _lastCanAfford;
+    private bool _lastTreatAsPressed;
+    private bool _lastDisabled;
+    private bool _hasCachedVisual;
+
+    private void Awake()
     {
-        // Validate critical components
         if (priceLabel == null)
             Debug.LogError("ShopItemUI: PriceLabel reference is missing!", this);
-        
+
         if (buyButton == null)
             Debug.LogError("ShopItemUI: BuyButton reference is missing!", this);
-        
-        // Initialize button state
+
         if (buyButton != null)
-            buyButton.interactable = false;
+            buyButton.interactable = false; // enabled on Setup / RefreshUI
     }
 
-    void OnDestroy() 
+    private void OnDestroy()
     {
         Cleanup();
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
-        // Subscribe to localization changes if needed
         if (purchasedLocalizedString != null)
-        {
             purchasedLocalizedString.StringChanged += OnPurchasedStringChanged;
-        }
+
+        if (inputReader != null)
+            inputReader.UISubmitEvent += OnUISubmit;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
-        // Unsubscribe from localization
         if (purchasedLocalizedString != null)
-        {
             purchasedLocalizedString.StringChanged -= OnPurchasedStringChanged;
-        }
+
+        if (inputReader != null)
+            inputReader.UISubmitEvent -= OnUISubmit;
     }
 
     public void Setup(ShopItemSO item, ShopInteraction shop)
@@ -77,18 +104,14 @@ public class ShopItemUI : MonoBehaviour
             return;
         }
 
-        // Cleanup previous setup
         Cleanup();
 
         this.item = item;
         this.shop = shop;
-        this.isInitialized = true;
+        isInitialized = true;
 
-        // Setup button listener
         if (buyButton != null)
-        {
             buyButton.onClick.AddListener(OnBuy);
-        }
 
         RefreshUI();
     }
@@ -96,47 +119,121 @@ public class ShopItemUI : MonoBehaviour
     public void Cleanup()
     {
         if (buyButton != null)
-        {
             buyButton.onClick.RemoveListener(OnBuy);
-        }
-        
+
         item = null;
         shop = null;
         isInitialized = false;
+        isPointerDown = false;
+
+        _hasCachedVisual = false;
+        _lastPrice = int.MinValue;
+        _lastBalance = int.MinValue;
+        _lastCanAfford = false;
+        _lastTreatAsPressed = false;
+        _lastDisabled = false;
     }
+
+    public Button GetBuyButton() => buyButton;
+
+    // Hook this from EventTrigger, then submit on the button
+    public void OnSubmitEventTrigger(BaseEventData _)
+    {
+        if (!isInitialized || buyButton == null || !buyButton.interactable)
+            return;
+
+        if (submitPressCoroutine != null)
+            StopCoroutine(submitPressCoroutine);
+
+        submitPressCoroutine = StartCoroutine(SubmitPressVisualAndBuy());
+    }
+
+    // Optional path (if InputReader is wired for UI submit)
+    private void OnUISubmit()
+    {
+        if (!isInitialized || item == null || shop == null)
+            return;
+
+        if (buyButton == null || !buyButton.interactable)
+            return;
+
+        if (EventSystem.current == null)
+            return;
+
+        var current = EventSystem.current.currentSelectedGameObject;
+        if (current == null)
+            return;
+
+        bool isOnThisButton =
+            current == buyButton.gameObject ||
+            current.transform.IsChildOf(buyButton.transform);
+
+        if (!isOnThisButton)
+            return;
+
+        if (submitPressCoroutine != null)
+            StopCoroutine(submitPressCoroutine);
+
+        submitPressCoroutine = StartCoroutine(SubmitPressVisualAndBuy());
+    }
+
+    private IEnumerator SubmitPressVisualAndBuy()
+    {
+        SetPressedState(true);
+        UpdatePriceState(force: true);
+
+        float t = 0f;
+        while (t < submitPressedVisualSeconds)
+        {
+            t += Time.unscaledDeltaTime;
+            yield return null;
+        }
+
+        buyButton.onClick.Invoke();
+
+        SetPressedState(false);
+        UpdatePriceState(force: true);
+        submitPressCoroutine = null;
+    }
+
+    public void SetPressedState(bool pressed)
+    {
+        isPointerDown = pressed;
+
+        if (!isInitialized || item == null || shop == null)
+            return;
+
+        UpdatePriceState();
+    }
+
+    // Called from EventTrigger (Pointer Down)
+    public void OnPriceButtonPressed() => SetPressedState(true);
+
+    // Called from EventTrigger (Pointer Up)
+    public void OnPriceButtonReleased() => SetPressedState(false);
 
     private void SetPurchasedState()
     {
         if (buyButton != null)
-        {
             buyButton.interactable = false;
-        }
 
         if (priceLabel != null)
         {
             if (purchasedLocalizedString != null && !purchasedLocalizedString.IsEmpty)
-            {
                 priceLabel.text = purchasedLocalizedString.GetLocalizedString();
-            }
             else
-            {
                 priceLabel.text = "MAX";
-            }
         }
+
+        UpdatePriceState(force: true);
     }
 
     private void SetAvailableState()
     {
         if (buyButton != null)
-        {
             buyButton.interactable = true;
-        }
 
-        if (priceLabel != null && item != null)
-        {
-            int priceToShow = item.CurrentPrice;
-            priceLabel.text = $"${priceToShow}";
-        }
+        UpdatePriceState(force: true);
     }
 
     public void RefreshUI()
@@ -148,24 +245,77 @@ public class ShopItemUI : MonoBehaviour
         }
 
         if (!item.CanPurchase)
-        {
             SetPurchasedState();
-        }
         else
-        {
             SetAvailableState();
+    }
+
+    private void UpdatePriceState(bool force = false)
+    {
+        if (shop == null || item == null || priceLabel == null)
+            return;
+
+        int price = item.CurrentPrice;
+        int balance = shop.Wallet != null ? shop.Wallet.Balance : 0;
+
+        bool afford = balance >= price;
+        bool disabled = (buyButton != null && !buyButton.interactable);
+
+        // Pressed only when actually pressed, and only if not disabled.
+        bool treatAsPressed = (!disabled) && isPointerDown;
+
+        if (!force && _hasCachedVisual &&
+            price == _lastPrice &&
+            balance == _lastBalance &&
+            afford == _lastCanAfford &&
+            treatAsPressed == _lastTreatAsPressed &&
+            disabled == _lastDisabled)
+        {
+            return;
         }
+
+        _hasCachedVisual = true;
+        _lastPrice = price;
+        _lastBalance = balance;
+        _lastCanAfford = afford;
+        _lastTreatAsPressed = treatAsPressed;
+        _lastDisabled = disabled;
+
+        canAfford = afford;
+
+        if (item.CanPurchase)
+            priceLabel.text = $"${price}";
+
+        ApplyPriceColor(afford, treatAsPressed, disabled);
+
+        priceLabel.ForceMeshUpdate();
+    }
+
+    private void ApplyPriceColor(bool afford, bool pressed, bool disabled)
+    {
+        if (priceLabel == null) return;
+
+        if (disabled)
+        {
+            priceLabel.color = disabledColor;
+            return;
+        }
+
+        Color chosenColor;
+        if (!afford)
+            chosenColor = pressed ? notAffordablePressed : notAffordableNormal;
+        else
+            chosenColor = pressed ? affordablePressed : affordableNormal;
+
+        priceLabel.color = chosenColor;
     }
 
     private void OnPurchasedStringChanged(string localizedText)
     {
-        // Refresh UI when localization changes
-        if (isInitialized && item != null && !item.CanPurchase)
+        if (isInitialized && item != null && !item.CanPurchase && priceLabel != null)
         {
-            if (priceLabel != null)
-            {
-                priceLabel.text = localizedText;
-            }
+            priceLabel.text = localizedText;
+            UpdatePriceState(force: true);
         }
     }
 
@@ -191,7 +341,6 @@ public class ShopItemUI : MonoBehaviour
             return;
         }
 
-        // Notify listeners about purchase attempt
         OnPurchaseAttempt?.Invoke(item);
 
         if (!item.CanPurchase)
@@ -204,18 +353,14 @@ public class ShopItemUI : MonoBehaviour
 
         int oldBalance = shop.Wallet != null ? shop.Wallet.Balance : 0;
 
-        // Try to purchase through shop system
         shop.TryBuy(item);
 
-        // Consider purchase successful only if wallet balance changed
         if (shop.Wallet != null && shop.Wallet.Balance != oldBalance)
         {
             Debug.Log("ShopItemUI: Purchase/upgrade successful!");
             PlayPurchaseSound(purchaseSuccessSound);
 
-            // Actualizar inmediatamente el precio / estado
             RefreshUI();
-
             OnPurchaseSuccess?.Invoke(item);
         }
         else
@@ -229,20 +374,18 @@ public class ShopItemUI : MonoBehaviour
     private void PlayPurchaseSound(AudioClip clip)
     {
         if (clip != null)
-        {
             AudioManager.Instance.Play(clip, SoundCategory.SFX);
-        }
     }
 
-    // Public method to force UI update (useful for runtime changes)
-    public void ForceUpdate()
-    {
-        RefreshUI();
-    }
+    public void ForceUpdate() => RefreshUI();
 
-    // Helper method to check if this UI is currently displaying a valid item
-    public bool IsValid()
+    public bool IsValid() => isInitialized && item != null && shop != null;
+
+    private void LateUpdate()
     {
-        return isInitialized && item != null && shop != null;
+        if (!isInitialized || item == null || shop == null || priceLabel == null)
+            return;
+
+        UpdatePriceState();
     }
 }
