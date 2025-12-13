@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe314ac57ac0074d8ab38d8770fdd17, type: 3}
   m_Name: MaxOxygen
   m_EditorClassIdentifier: Assembly-CSharp::FLoatVariable
-  value: 70
+  value: 80

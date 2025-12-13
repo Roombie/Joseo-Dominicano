@@ -167,7 +167,8 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 12490708024688640
-    m_Localized: "Recordatorio: \ntienes que \njuntar $1,100\npara el \nfin de semana"
+    m_Localized: "Recordatorio: \ntienes que \njuntar <color=#FDE478>$1,100</color>\npara
+      el \nfin de semana"
     m_Metadata:
       m_Items: []
   - m_Id: 13191805299195904
@@ -199,19 +200,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 15332145544167424
-    m_Localized: 'E
-
-      S
-
-      P
-
-      A
-
-      C
-
-      I
-
-      O'
+    m_Localized: Pulsa <color=#FEE478>Espacio</color> para comprar
     m_Metadata:
       m_Items: []
   references:

@@ -186,7 +186,14 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 12490708024688640
-    m_Localized: "Reminder:\nYou have to\nraise $1100 \nfor the weekend"
+    m_Localized: 'Reminder:
+
+      You have to
+
+      raise <color=#FDE478>$1100</color>
+
+      for
+      the weekend'
     m_Metadata:
       m_Items: []
   - m_Id: 13191805299195904
@@ -218,15 +225,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 15332145544167424
-    m_Localized: 'S
-
-      P
-
-      A
-
-      C
-
-      E'
+    m_Localized: Press Space to buy
     m_Metadata:
       m_Items: []
   references:
