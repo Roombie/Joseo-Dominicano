@@ -29,11 +29,9 @@ public class ShopItemUI : MonoBehaviour
     [SerializeField] AudioClip purchaseSuccessSound;
     [SerializeField] AudioClip purchaseFailSound;
 
-    [Header("Input")]
-    [SerializeField] private InputReader inputReader;
+    [Header("Submit Visual")]
     [SerializeField] private float submitPressedVisualSeconds = 0.08f;
 
-    // External events
     public event Action<ShopItemSO> OnPurchaseAttempt;
     public event Action<ShopItemSO> OnPurchaseSuccess;
     public event Action<ShopItemSO> OnPurchaseFailed;
@@ -47,7 +45,6 @@ public class ShopItemUI : MonoBehaviour
 
     private Coroutine submitPressCoroutine;
 
-    // Layout/TMP stability: avoid forcing text/layout updates every frame.
     private int _lastPrice = int.MinValue;
     private int _lastBalance = int.MinValue;
     private bool _lastCanAfford;
@@ -64,30 +61,21 @@ public class ShopItemUI : MonoBehaviour
             Debug.LogError("ShopItemUI: BuyButton reference is missing!", this);
 
         if (buyButton != null)
-            buyButton.interactable = false; // enabled on Setup / RefreshUI
+            buyButton.interactable = false;
     }
 
-    private void OnDestroy()
-    {
-        Cleanup();
-    }
+    private void OnDestroy() => Cleanup();
 
     private void OnEnable()
     {
         if (purchasedLocalizedString != null)
             purchasedLocalizedString.StringChanged += OnPurchasedStringChanged;
-
-        if (inputReader != null)
-            inputReader.UISubmitEvent += OnUISubmit;
     }
 
     private void OnDisable()
     {
         if (purchasedLocalizedString != null)
             purchasedLocalizedString.StringChanged -= OnPurchasedStringChanged;
-
-        if (inputReader != null)
-            inputReader.UISubmitEvent -= OnUISubmit;
     }
 
     public void Setup(ShopItemSO item, ShopInteraction shop)
@@ -110,16 +98,16 @@ public class ShopItemUI : MonoBehaviour
         this.shop = shop;
         isInitialized = true;
 
-        if (buyButton != null)
-            buyButton.onClick.AddListener(OnBuy);
-
         RefreshUI();
     }
 
     public void Cleanup()
     {
-        if (buyButton != null)
-            buyButton.onClick.RemoveListener(OnBuy);
+        if (submitPressCoroutine != null)
+        {
+            StopCoroutine(submitPressCoroutine);
+            submitPressCoroutine = null;
+        }
 
         item = null;
         shop = null;
@@ -136,39 +124,18 @@ public class ShopItemUI : MonoBehaviour
 
     public Button GetBuyButton() => buyButton;
 
-    // Hook this from EventTrigger, then submit on the button
-    public void OnSubmitEventTrigger(BaseEventData _)
-    {
-        if (!isInitialized || buyButton == null || !buyButton.interactable)
-            return;
+    // EventTrigger: Submit
+    public void OnSubmitEventTrigger(BaseEventData _) => TryStartSubmit();
 
-        if (submitPressCoroutine != null)
-            StopCoroutine(submitPressCoroutine);
+    // EventTrigger: PointerClick (mouse/touch)
+    public void OnPointerClickEventTrigger(BaseEventData _) => TryStartSubmit();
 
-        submitPressCoroutine = StartCoroutine(SubmitPressVisualAndBuy());
-    }
-
-    // Optional path (if InputReader is wired for UI submit)
-    private void OnUISubmit()
+    private void TryStartSubmit()
     {
         if (!isInitialized || item == null || shop == null)
             return;
 
         if (buyButton == null || !buyButton.interactable)
-            return;
-
-        if (EventSystem.current == null)
-            return;
-
-        var current = EventSystem.current.currentSelectedGameObject;
-        if (current == null)
-            return;
-
-        bool isOnThisButton =
-            current == buyButton.gameObject ||
-            current.transform.IsChildOf(buyButton.transform);
-
-        if (!isOnThisButton)
             return;
 
         if (submitPressCoroutine != null)
@@ -189,7 +156,7 @@ public class ShopItemUI : MonoBehaviour
             yield return null;
         }
 
-        buyButton.onClick.Invoke();
+        OnBuy();
 
         SetPressedState(false);
         UpdatePriceState(force: true);
@@ -206,10 +173,10 @@ public class ShopItemUI : MonoBehaviour
         UpdatePriceState();
     }
 
-    // Called from EventTrigger (Pointer Down)
+    // EventTrigger: PointerDown
     public void OnPriceButtonPressed() => SetPressedState(true);
 
-    // Called from EventTrigger (Pointer Up)
+    // EventTrigger: PointerUp
     public void OnPriceButtonReleased() => SetPressedState(false);
 
     private void SetPurchasedState()
@@ -261,7 +228,6 @@ public class ShopItemUI : MonoBehaviour
         bool afford = balance >= price;
         bool disabled = (buyButton != null && !buyButton.interactable);
 
-        // Pressed only when actually pressed, and only if not disabled.
         bool treatAsPressed = (!disabled) && isPointerDown;
 
         if (!force && _hasCachedVisual &&
@@ -287,7 +253,6 @@ public class ShopItemUI : MonoBehaviour
             priceLabel.text = $"${price}";
 
         ApplyPriceColor(afford, treatAsPressed, disabled);
-
         priceLabel.ForceMeshUpdate();
     }
 
@@ -301,13 +266,9 @@ public class ShopItemUI : MonoBehaviour
             return;
         }
 
-        Color chosenColor;
-        if (!afford)
-            chosenColor = pressed ? notAffordablePressed : notAffordableNormal;
-        else
-            chosenColor = pressed ? affordablePressed : affordableNormal;
-
-        priceLabel.color = chosenColor;
+        priceLabel.color = !afford
+            ? (pressed ? notAffordablePressed : notAffordableNormal)
+            : (pressed ? affordablePressed : affordableNormal);
     }
 
     private void OnPurchasedStringChanged(string localizedText)
@@ -321,31 +282,10 @@ public class ShopItemUI : MonoBehaviour
 
     private void OnBuy()
     {
-        Debug.Log("ShopItemUI: Buy button clicked for item: " + (item != null ? item.name : "null"));
-
-        if (!isInitialized)
-        {
-            Debug.LogWarning("ShopItemUI: Not initialized, cannot purchase");
-            return;
-        }
-
-        if (item == null)
-        {
-            Debug.LogError("ShopItemUI: Item reference is null!");
-            return;
-        }
-
-        if (shop == null)
-        {
-            Debug.LogError("ShopItemUI: Shop reference is null!");
-            return;
-        }
-
         OnPurchaseAttempt?.Invoke(item);
 
         if (!item.CanPurchase)
         {
-            Debug.Log("ShopItemUI: Item cannot be purchased (already purchased or at max level)");
             PlayPurchaseSound(purchaseFailSound);
             OnPurchaseFailed?.Invoke(item);
             return;
@@ -357,15 +297,12 @@ public class ShopItemUI : MonoBehaviour
 
         if (shop.Wallet != null && shop.Wallet.Balance != oldBalance)
         {
-            Debug.Log("ShopItemUI: Purchase/upgrade successful!");
             PlayPurchaseSound(purchaseSuccessSound);
-
             RefreshUI();
             OnPurchaseSuccess?.Invoke(item);
         }
         else
         {
-            Debug.Log("ShopItemUI: Purchase failed - not enough money or other issue");
             PlayPurchaseSound(purchaseFailSound);
             OnPurchaseFailed?.Invoke(item);
         }
