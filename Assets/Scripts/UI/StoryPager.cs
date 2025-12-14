@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.EventSystems;
 using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class StoryPager : MonoBehaviour
@@ -91,12 +92,18 @@ public class StoryPager : MonoBehaviour
         // In editor: allow mouse or touch to advance
         if (PointerPressedThisFrame())
         {
+            if (PointerIsOverUI())
+                return;
+
             OnSubmit(new InputAction.CallbackContext());
         }
 #else
         // In builds: only pointer submit for mobile / touch users
         if (IsMobileUser() && PointerPressedThisFrame())
         {
+            if (PointerIsOverUI())
+                return;
+
             OnSubmit(new InputAction.CallbackContext());
         }
 #endif
@@ -141,6 +148,40 @@ public class StoryPager : MonoBehaviour
             Mouse.current.leftButton.wasPressedThisFrame)
         {
             return true;
+        }
+
+        return false;
+    }
+
+    bool PointerIsOverUI()
+    {
+        if (EventSystem.current == null)
+            return false;
+
+        // Mouse (and also works for some setups in editor)
+        if (EventSystem.current.IsPointerOverGameObject())
+            return true;
+
+        // EnhancedTouch: check touches that began this frame
+        if (EnhancedTouchSupport.enabled)
+        {
+            foreach (var touch in Touch.activeTouches)
+            {
+                if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began &&
+                    EventSystem.current.IsPointerOverGameObject(touch.touchId))
+                {
+                    return true;
+                }
+            }
+        }
+
+        // Touchscreen fallback (mobile)
+        if (Touchscreen.current != null &&
+            Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+        {
+            int id = Touchscreen.current.primaryTouch.touchId.ReadValue();
+            if (EventSystem.current.IsPointerOverGameObject(id))
+                return true;
         }
 
         return false;
