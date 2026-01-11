@@ -1,0 +1,1252 @@
+fileFormatVersion: 2
+guid: b952c545837135444b394f7d30762147
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6921538449355459059
+    second: notEnoughMoney_ending_0
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1120
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f94a0d3c8e3e0060800000000000000
+      internalID: 6921538449355459059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_1
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 1120
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7c2e2f80f9de514db98145483050ca6
+      internalID: -119082877
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_2
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 1120
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c67204a663848644cbb0bc8d89f5470c
+      internalID: -919287298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_3
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 1120
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 910eed98d18c7ee46a440b7b5b439668
+      internalID: 691119475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_4
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 1120
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31172818e09ec4e43b2cf14638f3bb4b
+      internalID: 2025606557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_5
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 1120
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bb1c853d6cb9b9843b6652eeb7c6a139
+      internalID: 1674986149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_6
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 1120
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49e2cedad43128348b8226cca387714f
+      internalID: -1676556525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_7
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 1120
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9402448c3b8aa2a4ea7cf777bb6acced
+      internalID: -18199205
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 896
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5aae41558f5fd6d4bb3454275008225b
+      internalID: -1395845021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_9
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 896
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d466d686c48d9fe4aa9cc3f450850e7c
+      internalID: -577207862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_10
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 896
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7752203e5eb1114f80d88b276b99c5c
+      internalID: -1204638557
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_11
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 896
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be6c2a5f6cceade46b4a31c8df6f97e0
+      internalID: -335607238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_12
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 896
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 15fa6ece9f1a9e445852e3a34f0180b8
+      internalID: -458532567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_13
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 896
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c86b0ab1fbbe0004483ad2a233332220
+      internalID: -193501740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_14
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 896
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ff520b4abb6483d488ff6b6d6f8a6db2
+      internalID: -1738023978
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_15
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 896
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 687a1b54c8ecc5247ac9155e2893606f
+      internalID: 26734555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 672
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4546cd3c0120b674a813452a21dc2cdd
+      internalID: -1743370396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_17
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 672
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb197a7b50f8609498c5f6e31cd4c735
+      internalID: -1392795337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_18
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 672
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 051d3856748a9ce44a941a32a38b4b2e
+      internalID: 1207960761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_19
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 672
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc845d11c97e4ff4f927e26f483496d2
+      internalID: 257593047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_20
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 672
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 579ac937c6e2439488d592f77a87919a
+      internalID: 362500250
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_21
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 672
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4233f227363fd3438a8d1dbc2d5d89f
+      internalID: 1518280026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_22
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 672
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2747d4d588d8f42488ab524379d8247f
+      internalID: 1501867837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_23
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 672
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bb3704a36168984e94b4b646f2640bc
+      internalID: 345560503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 448
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd788043e05d5f24aa53f6e91784434e
+      internalID: -1502830564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_25
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 448
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d832b8506e1650b43a23f0849797b2f6
+      internalID: -1803591463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_26
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 448
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 306817e5fb9088a4ab47e3aa050855cb
+      internalID: -1255982646
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_27
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 448
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 224848d41c00a8d4a9e2a06d1c0c29c1
+      internalID: 1039532448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_28
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 448
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f26d745e7d330df4d906f040dfc5f520
+      internalID: 1174616472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_29
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 448
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 54b75b478cf9b034eabbfe7fd5990fb6
+      internalID: -734299774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_30
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 448
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 769fed45d13a3af4cabe65f98ff80979
+      internalID: -1013082078
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_31
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 448
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f46a96b9ae760b4cad7882347473647
+      internalID: -1504884604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5b4654a31b632b4d9cbce43c83e2d3a
+      internalID: -1074049345
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_33
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 224
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b7fb0e5f06645a84494fb13ec7752c8e
+      internalID: -178673305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_34
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 224
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2cf30b813947f18428973fbf3a94f640
+      internalID: -1422792344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_35
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 224
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27173785abc2bb9458d5de47e89d1bff
+      internalID: -1263954753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_36
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 224
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83c4829c52c0e6e4a8552ed951cd5d8a
+      internalID: 57170466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_37
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 224
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b62930ada18728840bd80979ddfb33d1
+      internalID: 47336464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_38
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 224
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19754a4fe7f1e764099e7660f6309328
+      internalID: 747640964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_39
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 224
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10eafc2c3fa7b474194404b573e4ad94
+      internalID: 1815570748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b6c51ec1097f3494b995c0cbf97c4370
+      internalID: -490776617
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_41
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52913a0e77d84ae43960c1050f8cd2eb
+      internalID: 724108633
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_42
+      rect:
+        serializedVersion: 2
+        x: 832
+        y: 0
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66d01ba1c8a0fc94c840819bf048831d
+      internalID: -1661927887
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_43
+      rect:
+        serializedVersion: 2
+        x: 1248
+        y: 0
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1378eddffce4eb44b8565b8b5f1a2190
+      internalID: -960032648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_44
+      rect:
+        serializedVersion: 2
+        x: 1664
+        y: 0
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a7a7127e7cef8e749a0a825ff669e1bd
+      internalID: -307415529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_45
+      rect:
+        serializedVersion: 2
+        x: 2080
+        y: 0
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ac43e18276b6164d8411b40c1bb7fb7
+      internalID: -1585354597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_46
+      rect:
+        serializedVersion: 2
+        x: 2496
+        y: 0
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3f2da31ff39f66488adca11742f8cd0
+      internalID: 340045615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: notEnoughMoney_ending_47
+      rect:
+        serializedVersion: 2
+        x: 2912
+        y: 0
+        width: 416
+        height: 224
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 068f17ff152f97e44aae4823f08c5527
+      internalID: 948998794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1bc36990d33f705429e995111b2a57eb
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":416.0,"y":224.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+    nameFileIdTable:
+      notEnoughMoney_ending_0: 6921538449355459059
+      notEnoughMoney_ending_1: -119082877
+      notEnoughMoney_ending_10: -1204638557
+      notEnoughMoney_ending_11: -335607238
+      notEnoughMoney_ending_12: -458532567
+      notEnoughMoney_ending_13: -193501740
+      notEnoughMoney_ending_14: -1738023978
+      notEnoughMoney_ending_15: 26734555
+      notEnoughMoney_ending_16: -1743370396
+      notEnoughMoney_ending_17: -1392795337
+      notEnoughMoney_ending_18: 1207960761
+      notEnoughMoney_ending_19: 257593047
+      notEnoughMoney_ending_2: -919287298
+      notEnoughMoney_ending_20: 362500250
+      notEnoughMoney_ending_21: 1518280026
+      notEnoughMoney_ending_22: 1501867837
+      notEnoughMoney_ending_23: 345560503
+      notEnoughMoney_ending_24: -1502830564
+      notEnoughMoney_ending_25: -1803591463
+      notEnoughMoney_ending_26: -1255982646
+      notEnoughMoney_ending_27: 1039532448
+      notEnoughMoney_ending_28: 1174616472
+      notEnoughMoney_ending_29: -734299774
+      notEnoughMoney_ending_3: 691119475
+      notEnoughMoney_ending_30: -1013082078
+      notEnoughMoney_ending_31: -1504884604
+      notEnoughMoney_ending_32: -1074049345
+      notEnoughMoney_ending_33: -178673305
+      notEnoughMoney_ending_34: -1422792344
+      notEnoughMoney_ending_35: -1263954753
+      notEnoughMoney_ending_36: 57170466
+      notEnoughMoney_ending_37: 47336464
+      notEnoughMoney_ending_38: 747640964
+      notEnoughMoney_ending_39: 1815570748
+      notEnoughMoney_ending_4: 2025606557
+      notEnoughMoney_ending_40: -490776617
+      notEnoughMoney_ending_41: 724108633
+      notEnoughMoney_ending_42: -1661927887
+      notEnoughMoney_ending_43: -960032648
+      notEnoughMoney_ending_44: -307415529
+      notEnoughMoney_ending_45: -1585354597
+      notEnoughMoney_ending_46: 340045615
+      notEnoughMoney_ending_47: 948998794
+      notEnoughMoney_ending_5: 1674986149
+      notEnoughMoney_ending_6: -1676556525
+      notEnoughMoney_ending_7: -18199205
+      notEnoughMoney_ending_8: -1395845021
+      notEnoughMoney_ending_9: -577207862
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
