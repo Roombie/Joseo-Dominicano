@@ -41,6 +41,37 @@ public class GameManager : MonoBehaviour
     public OxygenManager _oxygenManager; //rafamaster3
     [SerializeField] UnityEvent _onStart;
 
+    // CHECKPOINT
+
+    [Header("Checkpoint (Session Only)")]
+    [Tooltip("Checkpoint will be captured when this day starts (after _currentDay++ in _Gameplay_StartDay).")]
+    [SerializeField] private int checkpointDay = 3;
+
+    [Tooltip("Assign your GameOver 'Continue' button root(s) here. They will be active only if a checkpoint exists.")]
+    [SerializeField] private List<GameObject> checkpointContinueButtonRoots = new List<GameObject>();
+
+    [Serializable]
+    private struct ShopItemCheckpoint
+    {
+        public ShopItemSO item;
+        public bool isPurchased;
+        public int currentLevel;
+        public bool useLevels;
+    }
+
+    [Serializable]
+    private class CheckpointData
+    {
+        public int resumeDay;
+        public int walletBalance;
+        public int carryCapacity;
+        public List<ShopItemCheckpoint> shopItems = new List<ShopItemCheckpoint>();
+    }
+
+    private CheckpointData _checkpoint;
+
+    // help
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -88,6 +119,8 @@ public class GameManager : MonoBehaviour
 
         if (_pauseMenuView != null)
             _pauseMenuView.onCloseAnimationFinished.AddListener(OnPauseMenuClosed);
+        
+        RefreshCheckpointButtons();
     }
 
     void Start()
@@ -109,6 +142,12 @@ public class GameManager : MonoBehaviour
 
         if (_playerWallet != null)
             _playerWallet.OnBalanceChanged -= OnWalletChanged;
+    }
+
+    private void OnApplicationQuit()
+    {
+        // Requirement: checkpoint must be deleted when exiting the app
+        ClearCheckpoint();
     }
 
     public void ResetGame()
@@ -231,6 +270,7 @@ public class GameManager : MonoBehaviour
 
     public void _MainMenu_QuitGame()
     {
+        ClearCheckpoint();
         Application.Quit();
     }
 
@@ -741,6 +781,8 @@ public class GameManager : MonoBehaviour
 
     public void _Gameplay_GoToMenu()
     {
+        ClearCheckpoint();
+
         isPaused = false;
         Time.timeScale = 1;
 
@@ -770,6 +812,9 @@ public class GameManager : MonoBehaviour
         inShift = true;
         wasAboveQuota = false;
         _currentDay++;
+        
+        TryCaptureCheckpointIfNeeded();
+
         _onDayChange?.Invoke(_days.days[_currentDay - 1]);
         ResetDayTimer();
         RunDayTimer();
@@ -1359,10 +1404,13 @@ public class GameManager : MonoBehaviour
         input.EnableUI();
         input.DisablePlayer();
         Time.timeScale = 0f;
+        RefreshCheckpointButtons();
     }
 
     public void _GameOver_GoToMainMenu()
     {
+        ClearCheckpoint();
+
         Time.timeScale = 1f;
 
         if (_drownedVariantRoot != null) _drownedVariantRoot.SetActive(false);
@@ -1374,5 +1422,173 @@ public class GameManager : MonoBehaviour
         ResetGame();
         _MainMenu_Display();
     }
+    
+    // Checkpoint action
+    public void _GameOver_ContinueFromCheckpoint()
+    {
+        if (_checkpoint == null)
+        {
+            _GameOver_GoToMainMenu();
+            return;
+        }
+
+        // Close ending variants
+        if (_drownedVariantRoot != null) _drownedVariantRoot.SetActive(false);
+        if (_quotaVariantRoot != null) _quotaVariantRoot.SetActive(false);
+        if (_victoryRoot != null) _victoryRoot.SetActive(false);
+
+        // Make sure time is running
+        Time.timeScale = 1f;
+
+        // Ensure input is back to gameplay
+        input.DisableUI();
+        input.EnablePlayer();
+
+        // Re-enable music (death mutes it)
+        musicSwitcher?.SetMusicAudible(true, 0.15f);
+
+        // Defensive: close pause/options if they were open
+        if (_pauseMenuView != null) _pauseMenuView.gameObject.SetActive(false);
+        if (_pausePanel != null) _pausePanel.SetActive(false);
+
+        _PauseMenu_CloseOptions(); // safe call even if not open
+
+        // Reset runtime flags
+        isPaused = false;
+        _isDead = false;
+        isInHome = false;
+        isInHurry = false;
+
+        // Restore snapshot (wallet, carry capacity, shop state)
+        RestoreCheckpoint(_checkpoint);
+
+        // Prepare to start the saved day fresh:
+        // _Gameplay_StartDay does _currentDay++, so set it to resumeDay - 1
+        inShift = false;
+        _currentDay = Mathf.Max(0, _checkpoint.resumeDay - 1);
+
+        // Clear shift runtime variables
+        _playerSack.Clear();
+        _playerCurrentWeight = 0;
+        _playerSackCarrySpaceUsed = 0;
+        _shiftTimeLeft = 0;
+        _currentShiftPayment = 0;
+        wasAboveQuota = false;
+
+        ResetInteractionLock();
+
+        // Restart gameplay
+        _Gameplay_Display();
+        _onHomeGoToNextDay?.Invoke();
+    }
+    
+    // Checkppint Interanals
+    private void TryCaptureCheckpointIfNeeded()
+    {
+        if (_checkpoint != null) return;
+        if (checkpointDay <= 0) return;
+
+        if (_currentDay == checkpointDay)
+        {
+            CaptureCheckpoint();
+        }
+    }
+
+    private void CaptureCheckpoint()
+    {
+        var data = new CheckpointData();
+        data.resumeDay = _currentDay;
+        data.walletBalance = _playerWallet != null ? _playerWallet.Balance : 0;
+        data.carryCapacity = _playerSackCarrySpaceLimit;
+        data.shopItems = new List<ShopItemCheckpoint>();
+
+        // Capture all ShopItemSO states (purchase + levels).
+        var allShopItems = Resources.FindObjectsOfTypeAll<ShopItemSO>();
+        foreach (var item in allShopItems)
+        {
+            if (item == null) continue;
+
+            var st = new ShopItemCheckpoint
+            {
+                item = item,
+                isPurchased = item.isPurchased,
+                currentLevel = item.useLevels ? item.currentLevel : 0,
+                useLevels = item.useLevels
+            };
+
+            data.shopItems.Add(st);
+        }
+
+        _checkpoint = data;
+        RefreshCheckpointButtons();
+        Debug.Log($"[Checkpoint] Captured at Day {_checkpoint.resumeDay}");
+    }
+
+    private void RestoreCheckpoint(CheckpointData data)
+    {
+        if (data == null) return;
+
+        // Restore wallet balance through AddMoney/TrySpend to keep wallet events consistent.
+        if (_playerWallet != null)
+        {
+            int current = _playerWallet.Balance;
+            int target = Mathf.Max(0, data.walletBalance);
+            int diff = target - current;
+
+            if (diff > 0)
+                _playerWallet.AddMoney(diff);
+            else if (diff < 0)
+                _playerWallet.TrySpend(-diff);
+        }
+
+        // Restore carry capacity.
+        _playerSackCarrySpaceLimit = Mathf.Max(1, data.carryCapacity);
+
+        // Restore shop items.
+        foreach (var st in data.shopItems)
+        {
+            if (st.item == null) continue;
+
+            st.item.isPurchased = st.isPurchased;
+
+            if (st.useLevels)
+                st.item.currentLevel = Mathf.Max(0, st.currentLevel);
+            else
+                st.item.currentLevel = 0;
+        }
+
+        // Refresh UI and shop visuals.
+        UpdateTotalCoinsUI();
+        RefreshCarrySpaceUI();
+        RefreshAllShopItemsUI();
+        RefreshCheckpointButtons();
+    }
+
+    private void ClearCheckpoint()
+    {
+        _checkpoint = null;
+        RefreshCheckpointButtons();
+        Debug.Log("[Checkpoint] Cleared.");
+    }
+
+    private void RefreshCheckpointButtons()
+    {
+        bool show = _checkpoint != null;
+
+        if (checkpointContinueButtonRoots == null)
+            return;
+
+        foreach (var go in checkpointContinueButtonRoots)
+        {
+            if (go == null)
+            {
+                Debug.LogWarning("[Checkpoint] Continue root is NULL in list.");
+                continue;
+            }
+
+            go.SetActive(show);
+        }
+    }
+
     #endregion
 }
