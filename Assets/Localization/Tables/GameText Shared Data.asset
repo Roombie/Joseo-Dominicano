@@ -191,6 +191,11 @@ MonoBehaviour:
     m_Key: UI_SPACE_TITLE
     m_Metadata:
       m_Items: []
+  - m_Id: 34575863790829568
+    m_Key: Gameplay/-- UI --/Test UI/TEST DROWNED SCREEN/Start From Day 3 button/Start
+      From Day 3 Text (TMP)
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

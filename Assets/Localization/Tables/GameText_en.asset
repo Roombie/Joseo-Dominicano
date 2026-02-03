@@ -228,6 +228,10 @@ MonoBehaviour:
     m_Localized: Press <color=#FEE478>Space</color> to buy
     m_Metadata:
       m_Items: []
+  - m_Id: 34575863790829568
+    m_Localized: On to Day 3
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

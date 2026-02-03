@@ -184,7 +184,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 13194769040539648
-    m_Localized: BUEN FINAL
+    m_Localized: FINAL BUENO
     m_Metadata:
       m_Items: []
   - m_Id: 13195138122514432
@@ -201,6 +201,10 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 15332145544167424
     m_Localized: Pulsa <color=#FEE478>Espacio</color> para comprar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 34575863790829568
+    m_Localized: "Pal' d\xEDa 3"
     m_Metadata:
       m_Items: []
   references:
