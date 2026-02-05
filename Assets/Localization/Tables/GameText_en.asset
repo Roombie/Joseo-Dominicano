@@ -49,7 +49,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10587003027456
-    m_Localized: Collect useful trash
+    m_Localized: 'Collect useful trash
+
+      and avoid bottles'
     m_Metadata:
       m_Items: []
   - m_Id: 11171240214528

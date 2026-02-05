@@ -442,7 +442,7 @@ TextureImporter:
       name: spr_backgroundParallax_13
       rect:
         serializedVersion: 2
-        x: 5408
+        x: 6240
         y: 0
         width: 416
         height: 736
@@ -464,7 +464,7 @@ TextureImporter:
       name: spr_backgroundParallax_14
       rect:
         serializedVersion: 2
-        x: 5824
+        x: 6656
         y: 0
         width: 416
         height: 736
@@ -486,7 +486,7 @@ TextureImporter:
       name: spr_backgroundParallax_15
       rect:
         serializedVersion: 2
-        x: 6240
+        x: 7072
         y: 0
         width: 416
         height: 736
@@ -508,12 +508,12 @@ TextureImporter:
       name: spr_backgroundParallax_16
       rect:
         serializedVersion: 2
-        x: 6656
+        x: 7488
         y: 633
         width: 416
         height: 103
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -522,6 +522,50 @@ TextureImporter:
       bones: []
       spriteID: f8f0eb464ecc3ae49aa8c49034d27cb7
       internalID: 1493394153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_backgroundParallax_17
+      rect:
+        serializedVersion: 2
+        x: 5408
+        y: 0
+        width: 416
+        height: 736
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 130d0500c2258754ebb30875ed65562d
+      internalID: 2100346905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_backgroundParallax_18
+      rect:
+        serializedVersion: 2
+        x: 5824
+        y: 0
+        width: 416
+        height: 736
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6911723bc5447c448accb217c5823640
+      internalID: -1732703850
       vertices: []
       indices: 
       edges: []
@@ -551,6 +595,8 @@ TextureImporter:
       spr_backgroundParallax_14: -1286705525
       spr_backgroundParallax_15: 17559017
       spr_backgroundParallax_16: 1493394153
+      spr_backgroundParallax_17: 2100346905
+      spr_backgroundParallax_18: -1732703850
       spr_backgroundParallax_2: 5966154406950721002
       spr_backgroundParallax_3: -2199064480652110804
       spr_backgroundParallax_4: 3935376834559018262

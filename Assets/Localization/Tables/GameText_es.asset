@@ -49,7 +49,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 10587003027456
-    m_Localized: "Recoge basura \xFAtil"
+    m_Localized: "Recoge basura \xFAtil\ny evita las botellas"
     m_Metadata:
       m_Items: []
   - m_Id: 11171240214528

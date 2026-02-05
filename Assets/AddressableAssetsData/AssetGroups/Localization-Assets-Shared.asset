@@ -74,6 +74,13 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a90b96674070004f8c86998dc60252a
+    m_Address: oxygenMeter
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    - Locale-es
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 933db0d4d780a554aa48a089f0f915d0
     m_Address: Assets/Localization/Tables/GameAssets Shared Data.asset
     m_ReadOnly: 1

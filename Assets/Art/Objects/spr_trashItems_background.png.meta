@@ -1,19 +1,40 @@
 fileFormatVersion: 2
-guid: 8a90b96674070004f8c86998dc60252a
+guid: cbfd87c4dd9564e418562e44f89f8f3d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1455096403836856330
-    second: image (2)_0
+      213: -840121817123228139
+    second: spr_trashItems_background_0
   - first:
-      213: 616537745857468549
-    second: image (2)_1
+      213: -3474863877366308016
+    second: spr_trashItems_background_1
   - first:
-      213: -5629001499573330436
-    second: image (2)_2
+      213: -3020194000892415576
+    second: spr_trashItems_background_2
   - first:
-      213: 2839647524442722846
-    second: image (2)_3
+      213: 2801072834508614585
+    second: spr_trashItems_background_3
+  - first:
+      213: -6481582882241689115
+    second: spr_trashItems_background_4
+  - first:
+      213: 6117978938860710802
+    second: spr_trashItems_background_5
+  - first:
+      213: -8353511236610498584
+    second: spr_trashItems_background_6
+  - first:
+      213: -714148619090450022
+    second: spr_trashItems_background_7
+  - first:
+      213: 5265449862677734537
+    second: spr_trashItems_background_8
+  - first:
+      213: -6783911931352919444
+    second: spr_trashItems_background_9
+  - first:
+      213: 3973932356407732221
+    second: spr_trashItems_background_10
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -81,7 +102,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -135,13 +156,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: image (2)_1
+      name: spr_trashItems_background_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 10
-        width: 86
-        height: 8
+        x: 68
+        y: 35
+        width: 17
+        height: 10
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 588547430d16e8800800000000000000
-      internalID: 616537745857468549
+      spriteID: 516705298a94754f0800000000000000
+      internalID: -840121817123228139
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: image (2)_3
+      name: spr_trashItems_background_3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 84
-        height: 6
+        x: 51
+        y: 35
+        width: 17
+        height: 10
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,19 +193,63 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e12d9bdd064786720800000000000000
-      internalID: 2839647524442722846
+      spriteID: 9bbe1eaf6e86fd620800000000000000
+      internalID: 2801072834508614585
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: oxygenMeter_0
+      name: spr_trashItems_background_6
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 16
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8efd8920acd521c80800000000000000
+      internalID: -8353511236610498584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_trashItems_background_1
       rect:
         serializedVersion: 2
         x: 0
-        y: 46
-        width: 87
+        y: 19
+        width: 17
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6b039ffe7b5c6047a88d2fea15a78b0
+      internalID: -3474863877366308016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_trashItems_background_2
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 16
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -194,19 +259,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f86e6c5877256a34e8f0397c0167d5f6
-      internalID: -1380153166
+      spriteID: b900feb2fc769ef4c95b281985daeb73
+      internalID: -3020194000892415576
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: oxygenMeter_1
+      name: spr_trashItems_background_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 29
-        width: 87
+        x: 3
+        y: 0
+        width: 11
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -216,8 +281,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0be143aae57d8764b9fa40700d58d754
-      internalID: 1199074745
+      spriteID: 576781f1cb1746349856ed2a215ac0e2
+      internalID: -6481582882241689115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spr_trashItems_background_5
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 16
+        width: 10
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a725bb5d5d687a1449b7b2a29396cc56
+      internalID: 6117978938860710802
       vertices: []
       indices: 
       edges: []
@@ -226,7 +313,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 1ba2ae8d51b259c4b8883a3099424b40
+    spriteID: a43abecff01d1c345a86aee677d989dc
     internalID: 0
     vertices: []
     indices: 
@@ -234,14 +321,21 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      image (2)_0: -1455096403836856330
-      image (2)_1: 616537745857468549
-      image (2)_2: -5629001499573330436
-      image (2)_3: 2839647524442722846
-      oxygenMeter_0: -1380153166
-      oxygenMeter_1: 1199074745
+      spr_trashItems_background_0: -840121817123228139
+      spr_trashItems_background_1: -3474863877366308016
+      spr_trashItems_background_10: 3973932356407732221
+      spr_trashItems_background_2: -3020194000892415576
+      spr_trashItems_background_3: 2801072834508614585
+      spr_trashItems_background_4: -6481582882241689115
+      spr_trashItems_background_5: 6117978938860710802
+      spr_trashItems_background_6: -8353511236610498584
+      spr_trashItems_background_7: -714148619090450022
+      spr_trashItems_background_8: 5265449862677734537
+      spr_trashItems_background_9: -6783911931352919444
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

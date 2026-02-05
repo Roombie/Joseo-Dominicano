@@ -83,6 +83,16 @@ MonoBehaviour:
     m_Key: ShopSprite_Objective
     m_Metadata:
       m_Items: []
+  - m_Id: 35041823010193408
+    m_Key: Gameplay/-- Oxygen --/Oxygen Canvas/Oxygen Meter/OxygenBar/Oxygen Image
+    m_Metadata:
+      m_Items: []
+  - m_Id: 35073852758163456
+    m_Key: 'Gameplay/-- Oxygen --/Oxygen Canvas/Oxygen Meter/OxygenBar/Oxygen Imag
+
+'
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items:
     - rid: 6326244251868594403
@@ -164,6 +174,14 @@ MonoBehaviour:
           - es
           - en
         - m_KeyId: 5217980070625280
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 35041823010193408
+          m_TableCodes:
+          - en
+          - es
+        - m_KeyId: 35073852758163456
           m_TableCodes:
           - en
           - es
