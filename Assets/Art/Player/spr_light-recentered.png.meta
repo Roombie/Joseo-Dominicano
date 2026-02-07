@@ -126,7 +126,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: image 1_0
+      name: light_reCentered
       rect:
         serializedVersion: 2
         x: 0
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      image 1_0: 657193517335828509
+      light_reCentered: 657193517335828509
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

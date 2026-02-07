@@ -71,15 +71,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 7677967699148800
-    m_Localized: '069adda4b33206e428b591c28ae49f26[asset_Tienda_SpriteSheet (1)_3]'
+    m_Localized: '069adda4b33206e428b591c28ae49f26[shop_outline_english]'
     m_Metadata:
       m_Items: []
   - m_Id: 2932694615719936
-    m_Localized: '069adda4b33206e428b591c28ae49f26[asset_Tienda_SpriteSheet (1)_2]'
+    m_Localized: '069adda4b33206e428b591c28ae49f26[shop_english]'
     m_Metadata:
       m_Items: []
   - m_Id: 2932705789345792
-    m_Localized: '069adda4b33206e428b591c28ae49f26[asset_Tienda_SpriteSheet (1)_3]'
+    m_Localized: '069adda4b33206e428b591c28ae49f26[shop_outline_english]'
     m_Metadata:
       m_Items: []
   - m_Id: 5217980070625280
@@ -87,11 +87,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 35041823010193408
-    m_Localized: '8a90b96674070004f8c86998dc60252a[oxygenMeter_1]'
+    m_Localized: '8a90b96674070004f8c86998dc60252a[oxygenMeter_englishImage]'
     m_Metadata:
       m_Items: []
   - m_Id: 35073852758163456
-    m_Localized: '8a90b96674070004f8c86998dc60252a[oxygenMeter_1]'
+    m_Localized: '8a90b96674070004f8c86998dc60252a[oxygenMeter_englishImage]'
     m_Metadata:
       m_Items: []
   references:

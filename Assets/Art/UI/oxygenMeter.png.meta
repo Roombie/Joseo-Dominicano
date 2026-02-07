@@ -135,7 +135,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: image (2)_1
+      name: oxygenMeter_background
       rect:
         serializedVersion: 2
         x: 0
@@ -157,7 +157,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: image (2)_3
+      name: oxygenMeter_fill
       rect:
         serializedVersion: 2
         x: 1
@@ -179,7 +179,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: oxygenMeter_0
+      name: oxygenMeter_spanishImage
       rect:
         serializedVersion: 2
         x: 0
@@ -201,7 +201,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: oxygenMeter_1
+      name: oxygenMeter_englishImage
       rect:
         serializedVersion: 2
         x: 0
@@ -237,11 +237,11 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       image (2)_0: -1455096403836856330
-      image (2)_1: 616537745857468549
       image (2)_2: -5629001499573330436
-      image (2)_3: 2839647524442722846
-      oxygenMeter_0: -1380153166
-      oxygenMeter_1: 1199074745
+      oxygenMeter_background: 616537745857468549
+      oxygenMeter_englishImage: 1199074745
+      oxygenMeter_fill: 2839647524442722846
+      oxygenMeter_spanishImage: -1380153166
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

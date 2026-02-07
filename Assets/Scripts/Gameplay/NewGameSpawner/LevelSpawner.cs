@@ -42,6 +42,9 @@ public class LevelSpawner : MonoBehaviour
     [Tooltip("Número mínimo de objetos que deben mantenerse en pantalla")]
     [SerializeField] private int minObjectsOnScreen = 30;
 
+    [SerializeField] private float backgroundSpeedMultiplier = 0.5f; // slower
+    [SerializeField] private string backgroundTag = "BgTrash";
+
     // Lista de datos filtrada: solo objetos con weight > 0 
     private List<SpawnData> availableSpawnData; 
     private float totalWeight;
@@ -251,75 +254,66 @@ public class LevelSpawner : MonoBehaviour
     /// </param>
     private void SpawnObject(float elapsedTime)
     {
-        // 1. Determinar el lado de spawn (igual que original)
         bool spawnFromLeft = Random.value > 0.5f;
         Collider2D spawnArea = spawnFromLeft ? leftSpawnArea : rightSpawnArea;
-        
+
         if (spawnArea == null)
         {
             Debug.LogWarning("Spawn area is null, cannot spawn object");
             return;
         }
-        
+
+        // Base: dirección en X (según lado)
         float baseDirectionX = spawnFromLeft ? currentDayConfig.moveSpeed : -currentDayConfig.moveSpeed;
 
         Bounds bounds = spawnArea.bounds;
 
-        // 2. Determinar la posición de spawn (igual que original)
         float spawnY = Random.Range(bounds.min.y, bounds.max.y);
         float initialSpawnX = spawnFromLeft ? bounds.min.x : bounds.max.x;
-        
-        // 2.1. Calcular la posición avanzada si hay tiempo transcurrido
-        float finalSpawnX = initialSpawnX + (baseDirectionX * elapsedTime); 
-        
+
+        float finalSpawnX = initialSpawnX + (baseDirectionX * elapsedTime);
+
         Vector3 spawnPosition = new Vector3(finalSpawnX, spawnY, 0);
 
-        // 3. Seleccionar el prefab mediante selección ponderada
         GameObject prefabToSpawn = GetWeightedRandomPrefab();
+        if (prefabToSpawn == null) return;
 
-        if (prefabToSpawn == null)
-        {
-            return;
-        }
-
-        // 4. Instanciar o obtener del pool
         GameObject newObject = null;
         if (ObjectPoolManager.Instance != null)
-        {
             newObject = ObjectPoolManager.Instance.Get(prefabToSpawn, spawnPosition, Quaternion.identity);
-        }
         else
-        {
             newObject = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
-        }
+        
+        float speedMul = newObject.CompareTag(backgroundTag) ? backgroundSpeedMultiplier : 1f;
 
-        // 4.1 Configurar movimiento (igual que original)
+        // 4.1 Configurar movimiento
         OceanObjectMovement movement = newObject.GetComponent<OceanObjectMovement>();
+
+        float randomWiggle = Random.Range(-currentDayConfig.maxVerticalWiggle, currentDayConfig.maxVerticalWiggle);
+
+        // tus "existing values" adaptados a esta clase:
+        float vx = baseDirectionX * speedMul;
+        float vy = randomWiggle * speedMul; // opcional: si quieres que el wiggle sea más suave también
 
         if (movement != null)
         {
-            float randomWiggle = Random.Range(-currentDayConfig.maxVerticalWiggle, currentDayConfig.maxVerticalWiggle);
-            
-            movement.InitializeMovement(baseDirectionX, randomWiggle, currentDayConfig.maxWiggleRate);
-            
-            // Rotar si viene de la derecha
+            movement.InitializeMovement(vx, vy, currentDayConfig.maxWiggleRate);
+
             if (!spawnFromLeft)
-            {
                 newObject.transform.rotation = Quaternion.Euler(0, 180, 0);
-            }
         }
         else
         {
             Rigidbody2D rb = newObject.GetComponent<Rigidbody2D>();
             if (rb != null)
             {
-                float randomWiggle = Random.Range(-currentDayConfig.maxVerticalWiggle, currentDayConfig.maxVerticalWiggle);
-    #if UNITY_6000_0_OR_NEWER
-                rb.linearVelocity = new Vector2(baseDirectionX, randomWiggle);
-    #else
-                rb.velocity = new Vector2(baseDirectionX, randomWiggle);
-    #endif
+#if UNITY_6000_0_OR_NEWER
+                rb.linearVelocity = new Vector2(vx, vy);
+#else
+                rb.velocity = new Vector2(vx, vy);
+#endif
             }
+
             Debug.LogWarning($"El objeto instanciado ({newObject.name}) no tiene el componente 'OceanObjectMovement', no se le pudo aplicar velocidad constante.");
         }
     }

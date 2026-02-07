@@ -147,7 +147,7 @@ TextureImporter:
         x: 0
         y: 0
         width: 50
-        height: 18
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,8 +168,8 @@ TextureImporter:
         serializedVersion: 2
         x: 50
         y: 0
-        width: 50
-        height: 18
+        width: 49
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -188,10 +188,10 @@ TextureImporter:
       name: new-player-swim_2
       rect:
         serializedVersion: 2
-        x: 100
+        x: 99
         y: 0
-        width: 50
-        height: 18
+        width: 52
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,10 +210,10 @@ TextureImporter:
       name: new-player-swim_3
       rect:
         serializedVersion: 2
-        x: 150
+        x: 151
         y: 0
         width: 50
-        height: 18
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -232,10 +232,10 @@ TextureImporter:
       name: new-player-swim_4
       rect:
         serializedVersion: 2
-        x: 200
+        x: 201
         y: 0
-        width: 50
-        height: 18
+        width: 48
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -254,10 +254,10 @@ TextureImporter:
       name: new-player-swim_5
       rect:
         serializedVersion: 2
-        x: 250
+        x: 249
         y: 0
-        width: 50
-        height: 18
+        width: 51
+        height: 20
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

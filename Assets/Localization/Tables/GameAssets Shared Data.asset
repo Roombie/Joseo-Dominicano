@@ -84,13 +84,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 35041823010193408
-    m_Key: Gameplay/-- Oxygen --/Oxygen Canvas/Oxygen Meter/OxygenBar/Oxygen Image
+    m_Key: UI_Oxygen_Bar
     m_Metadata:
       m_Items: []
   - m_Id: 35073852758163456
-    m_Key: 'Gameplay/-- Oxygen --/Oxygen Canvas/Oxygen Meter/OxygenBar/Oxygen Imag
-
-'
+    m_Key: UIInstruction_Oxygen_Bar
     m_Metadata:
       m_Items: []
   m_Metadata:

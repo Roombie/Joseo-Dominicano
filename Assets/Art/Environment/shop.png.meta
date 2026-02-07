@@ -1,13 +1,13 @@
 fileFormatVersion: 2
-guid: ea085cd2146c920418a4ce6da3d44d02
+guid: 069adda4b33206e428b591c28ae49f26
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7056819900482260494
-    second: asset_Tienda_sign_spritesheet (1)_0
+      213: -6831044345573399081
+    second: asset_Tienda_SpriteSheet (1)_0
   - first:
-      213: 759051839672467425
-    second: asset_Tienda_sign_spritesheet (1)_1
+      213: -2955491442032686595
+    second: asset_Tienda_SpriteSheet (1)_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -129,45 +129,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: asset_Tienda_sign_spritesheet (1)_0
+      name: shop_spanish
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 12
-        height: 9
+        y: 48
+        width: 64
+        height: 47
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e0e07249f4cdee160800000000000000
-      internalID: 7056819900482260494
+      spriteID: 7d528213c514331a0800000000000000
+      internalID: -6831044345573399081
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: asset_Tienda_sign_spritesheet (1)_1
+      name: shop_outline_spanish
       rect:
         serializedVersion: 2
-        x: 11
-        y: 0
-        width: 13
-        height: 9
+        x: 64
+        y: 48
+        width: 64
+        height: 47
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1efb8c560a1b88a00800000000000000
-      internalID: 759051839672467425
+      spriteID: df94fec313cfbf6d0800000000000000
+      internalID: -2955491442032686595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shop_english
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a361acfcb0a157540bfa9d743b775456
+      internalID: -700724062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shop_outline_english
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 64
+        height: 47
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26cf6c383d9c27643854028b5c9a8136
+      internalID: -203366437
       vertices: []
       indices: 
       edges: []
@@ -176,7 +220,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c3b6141241d97314096328dacd14b0f4
     internalID: 0
     vertices: []
     indices: 
@@ -186,8 +230,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      asset_Tienda_sign_spritesheet (1)_0: 7056819900482260494
-      asset_Tienda_sign_spritesheet (1)_1: 759051839672467425
+      shop_english: -700724062
+      shop_outline_english: -203366437
+      shop_outline_spanish: -2955491442032686595
+      shop_spanish: -6831044345573399081
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

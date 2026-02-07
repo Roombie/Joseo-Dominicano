@@ -21,6 +21,7 @@ public class LevelDayConfig : ScriptableObject
     [Header("Configuración de Movimiento")]
     [Tooltip("Velocidad horizontal a la que se moverán los objetos.")]
     public float moveSpeed = 3f;
+    public float backgroundObjectMoveSpeed = 1f;
 
     [Tooltip("Un factor de velocidad vertical aleatorio para dar la sensación de movimiento en el agua.")]
     public float maxVerticalWiggle = 0.5f;

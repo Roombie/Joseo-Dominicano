@@ -66,6 +66,30 @@ MonoBehaviour:
   - prefab: {fileID: 209801197627247350, guid: eeeef93e7170ec64888c7b2e76920aa1, type: 3}
     weight: 1
     canSpawn: 1
+  - prefab: {fileID: 209801197627247350, guid: eeeef93e7170ec64888c7b2e76920aa1, type: 3}
+    weight: 1
+    canSpawn: 1
+  - prefab: {fileID: 7076936455646638569, guid: 64b24c40ea349094683837d7b39da006, type: 3}
+    weight: 1
+    canSpawn: 1
+  - prefab: {fileID: 7938431554495725742, guid: 5cab48be747fafc4187f5bce8fe2bc4b, type: 3}
+    weight: 1
+    canSpawn: 1
+  - prefab: {fileID: 817278673677463448, guid: 4c06a813b6c933a4f88dceca430f6c8a, type: 3}
+    weight: 1
+    canSpawn: 1
+  - prefab: {fileID: 2534523919485408050, guid: 4a5d86ae2e4a74e48809ee2edf00359b, type: 3}
+    weight: 1
+    canSpawn: 1
+  - prefab: {fileID: 5492758298425354415, guid: c04745e4b8294a349a427e9e2922ddb2, type: 3}
+    weight: 1
+    canSpawn: 1
+  - prefab: {fileID: 4368484750879807358, guid: c4aa71426dd23dd4196ec98fc8a6702e, type: 3}
+    weight: 1
+    canSpawn: 1
+  - prefab: {fileID: 8247877152863555931, guid: 2919051e9fd698148bf9c876aafa0c9c, type: 3}
+    weight: 1
+    canSpawn: 1
   minSpawnInterval: 0.5
   maxSpawnInterval: 0.82
   moveSpeed: 2
