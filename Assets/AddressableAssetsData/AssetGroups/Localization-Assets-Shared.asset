@@ -15,13 +15,6 @@ MonoBehaviour:
   m_GroupName: Localization-Assets-Shared
   m_GUID: b5e897217ef6b3f4cbf2daca2e1bea99
   m_SerializeEntries:
-  - m_GUID: 069adda4b33206e428b591c28ae49f26
-    m_Address: Shop
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-en
-    - Locale-es
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 253e647c79b8ab0439aa3e8944dd3849
     m_Address: Assets/Localization/Tables/ControlNames Shared Data.asset
     m_ReadOnly: 1

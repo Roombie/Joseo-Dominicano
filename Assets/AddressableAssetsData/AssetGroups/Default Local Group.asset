@@ -14,7 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Default Local Group
   m_GUID: 662d97f5f4400f948bac3e0b08428ec0
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 069adda4b33206e428b591c28ae49f26
+    m_Address: Assets/Art/Environment/shop.png
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Locale
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: dd4de31883e1d2044b61b51c2f95f721, type: 2}
   m_SchemaSet:
