@@ -91,10 +91,6 @@ MonoBehaviour:
     m_Key: UIInstruction_Oxygen_Bar
     m_Metadata:
       m_Items: []
-  - m_Id: 37528555119050752
-    m_Key: Gameplay/-- Generals --/GameManager
-    m_Metadata:
-      m_Items: []
   m_Metadata:
     m_Items:
     - rid: 6326244251868594403

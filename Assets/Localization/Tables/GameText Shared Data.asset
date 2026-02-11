@@ -195,6 +195,10 @@ MonoBehaviour:
     m_Key: UI_GOTOTHIRDDAY_TITLE
     m_Metadata:
       m_Items: []
+  - m_Id: 37615533621641216
+    m_Key: Gameplay/-- Coins --/Coin Canvas/Day Container/Day Title Text (TMP)
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

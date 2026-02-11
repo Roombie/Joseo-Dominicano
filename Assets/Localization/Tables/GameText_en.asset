@@ -234,6 +234,10 @@ MonoBehaviour:
     m_Localized: On to Day 3
     m_Metadata:
       m_Items: []
+  - m_Id: 37615533621641216
+    m_Localized: "D\xEDa"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

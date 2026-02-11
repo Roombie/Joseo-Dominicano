@@ -611,7 +611,7 @@ public class GameManager : MonoBehaviour
         if (!isLastDay && _dayLabel != null)
             _dayLabel.text = $"{displayDay}/{totalDays}";
 
-        if (isLastDay && _dayHUDLabel != null)
+        if (!isLastDay && _dayHUDLabel != null)
             _dayHUDLabel.text = $"{displayDay}";
     }
 

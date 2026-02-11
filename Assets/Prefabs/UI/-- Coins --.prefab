@@ -201,9 +201,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '1
-
-'
+  m_text: 0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4c3b6b41c2248804fb499644e7af704d, type: 2}
   m_sharedMaterial: {fileID: 829369850414107206, guid: 4c3b6b41c2248804fb499644e7af704d, type: 2}
@@ -389,7 +387,7 @@ GameObject:
   - component: {fileID: 1169389531432102813}
   - component: {fileID: 8977097085497308296}
   - component: {fileID: 5418106174856130276}
-  - component: {fileID: 5158422858462407820}
+  - component: {fileID: 5995147072955175542}
   m_Layer: 5
   m_Name: Day Title Text (TMP)
   m_TagString: Untagged
@@ -515,7 +513,7 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5158422858462407820
+--- !u!114 &5995147072955175542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -528,19 +526,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.PropertyVariants.GameObjectLocalizer
   m_TrackedObjects:
-  - rid: 2645970585419513856
+  - rid: 2645970591635996672
   references:
     version: 2
     RefIds:
-    - rid: 2645970585419513856
+    - rid: 2645970591635996672
       type: {class: TrackedUGuiGraphic, ns: UnityEngine.Localization.PropertyVariants.TrackedObjects, asm: Unity.Localization}
       data:
-        m_Target: {fileID: 0}
+        m_Target: {fileID: 5418106174856130276}
         m_TrackedProperties:
           items:
-          - rid: 2645970585419513857
+          - rid: 2645970591635996673
         m_UpdateType: 0
-    - rid: 2645970585419513857
+    - rid: 2645970591635996673
       type: {class: LocalizedStringProperty, ns: UnityEngine.Localization.PropertyVariants.TrackedProperties, asm: Unity.Localization}
       data:
         m_Localized:
