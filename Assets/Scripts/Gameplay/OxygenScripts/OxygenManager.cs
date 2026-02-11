@@ -4,6 +4,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.Audio;
 
 public abstract class OxygenableBehaviour : MonoBehaviour
 {
@@ -49,6 +50,7 @@ public class OxygenManager : MonoBehaviour
 
     [Header("Low Oxygen Music")]
     [SerializeField] private AudioClip lowOxygenMusic;
+    [SerializeField] private AudioMixerGroup lowOxygenMusicMixerGroup;
     [SerializeField] private float musicFadeDuration = 0.5f;
     [SerializeField] private float lowOxygenMusicVolume = 0.8f;
 
@@ -80,6 +82,9 @@ public class OxygenManager : MonoBehaviour
         lowOxygenAudioSource.volume = 0f;
         lowOxygenAudioSource.loop = true;
         lowOxygenAudioSource.playOnAwake = false;
+
+        if (lowOxygenMusicMixerGroup != null)
+            lowOxygenAudioSource.outputAudioMixerGroup = lowOxygenMusicMixerGroup;
 
         ResetOxygen();
         currentDepletionRate = oxygenDepletionRate.value;
