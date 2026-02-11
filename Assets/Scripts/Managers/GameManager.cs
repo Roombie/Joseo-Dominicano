@@ -712,10 +712,32 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance?.SetMuted(SettingType.MusicEnabledKey, false);
     }
 
+    [SerializeField] private float _pauseDebounceSeconds = 0.15f;
+    private Coroutine _pauseDebounceRoutine;
+
+    private void PauseDebounce()
+    {
+        _pauseLocked = true;
+
+        if (_pauseDebounceRoutine != null)
+            StopCoroutine(_pauseDebounceRoutine);
+
+        _pauseDebounceRoutine = StartCoroutine(PauseDebounceRoutine());
+    }
+
+    private IEnumerator PauseDebounceRoutine()
+    {
+        yield return new WaitForSecondsRealtime(_pauseDebounceSeconds);
+        _pauseLocked = false;
+        _pauseDebounceRoutine = null;
+    }
+
     void OnPause()
     {
         if (_pauseLocked || _interactionsLocked)
             return;
+
+        PauseDebounce();
 
         // Si estamos en gameplay, esto funciona como PAUSE/BACK in-game
         if (inShift)

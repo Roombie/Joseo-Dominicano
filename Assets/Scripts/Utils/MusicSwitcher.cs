@@ -148,7 +148,7 @@ public class MusicSwitcher : MonoBehaviour
         float t = 0f;
         while (t < duration)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             float k = Mathf.Clamp01(t / duration);
             for (int i = 0; i < allSources.Length; i++)
             {
