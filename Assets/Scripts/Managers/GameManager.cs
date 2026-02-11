@@ -446,7 +446,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _startDayDelay = 2;
     [SerializeField] TMP_Text _dayLabel;
     [SerializeField] GameObject _dayObject;
+    [SerializeField] TMP_Text _dayHUDLabel;
+    [SerializeField] GameObject _dayHUDObject;
     [SerializeField] GameObject _lastDayObject;
+    [SerializeField] GameObject _lastHUDDayObject;
     [SerializeField] TMP_Text _dayGoalValue;
     [SerializeField] TMP_Text _dayTimerValue;
     [SerializeField] Color _dayGoalInsufficientColor = Color.red;
@@ -602,8 +605,14 @@ public class GameManager : MonoBehaviour
         if (_dayObject != null) _dayObject.SetActive(!isLastDay);
         if (_lastDayObject != null) _lastDayObject.SetActive(isLastDay);
 
+        if (_dayHUDObject != null) _dayHUDObject.SetActive(!isLastDay);
+        if (_lastHUDDayObject != null) _lastHUDDayObject.SetActive(isLastDay);
+
         if (!isLastDay && _dayLabel != null)
             _dayLabel.text = $"{displayDay}/{totalDays}";
+
+        if (isLastDay && _dayHUDLabel != null)
+            _dayHUDLabel.text = $"{displayDay}";
     }
 
     public void _Gameplay_StartDayOnDelay()
@@ -1403,6 +1412,7 @@ public class GameManager : MonoBehaviour
     {
         input.EnableUI();
         input.DisablePlayer();
+        musicSwitcher?.SetMusicAudible(false, 0.25f);
         Time.timeScale = 0f;
         RefreshCheckpointButtons();
     }
