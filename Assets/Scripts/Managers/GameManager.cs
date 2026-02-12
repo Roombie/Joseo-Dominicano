@@ -1229,7 +1229,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetCarryCapacity()
     {
-        _playerSackCarrySpaceLimit = 2;
+        _playerSackCarrySpaceLimit = 3;
         _playerSackCarrySpaceUsed = 0;
         RefreshCarrySpaceUI();
     }
